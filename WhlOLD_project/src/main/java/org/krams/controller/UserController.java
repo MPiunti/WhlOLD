@@ -88,4 +88,11 @@ public class UserController {
 		
 		return service.delete(existingUser);
 	}
+	
+	
+	
+	@RequestMapping(value="/quit", method=RequestMethod.POST)
+	public @ResponseBody Boolean quit() {
+		return service.quit();
+	}
 }

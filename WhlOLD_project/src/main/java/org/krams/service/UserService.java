@@ -69,4 +69,12 @@ public class UserService {
 		userRepository.delete(existingUser);
 		return true;
 	}
+	
+	/**
+	 * quit all the nodes
+	 */
+	public boolean quit() {	
+		userRepository.deleteAll();
+		return true;
+	}
 }

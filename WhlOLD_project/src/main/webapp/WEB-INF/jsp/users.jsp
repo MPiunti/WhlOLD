@@ -4,6 +4,9 @@
 <c:url value="/users/create" var="addUrl"/>
 <c:url value="/users/update" var="editUrl"/>
 <c:url value="/users/delete" var="deleteUrl"/>
+<c:url value="/users/quit" var="quitUrl"/>
+
+<c:url value="/uploader" var="uploadUrl"/>
 
 <html>
 <head>
@@ -20,6 +23,7 @@
 		urlHolder.add = '${addUrl}';
 		urlHolder.edit = '${editUrl}';
 		urlHolder.del = '${deleteUrl}';
+		urlHolder.quit = '${quitUrl}';
 		loadTable();
 		
 		$('#newBtn').click(function() { 
@@ -43,6 +47,10 @@
 			if (hasSelected()) { 
 				submitDeleteRecord();
 			}
+		});
+
+		$('#quitBtn').click(function() {			
+			quitAllRecord();
 		});
 		
 		$('#newForm').submit(function() {
@@ -90,6 +98,7 @@
 		<input type='button' value='Delete' id='deleteBtn' />
 		<input type='button' value='Edit' id='editBtn' />
 		<input type='button' value='Reload' id='reloadBtn' />
+		<input type='button' value='Quit All' id='quitBtn' />
 	</div>
 	
 	<div id='newForm'>
@@ -129,5 +138,7 @@
 		</form>
 	</div>
 	
+	
+	<a href="${uploadUrl}" target="new">UPLOAD CSV</a>
 </body>
 </html>

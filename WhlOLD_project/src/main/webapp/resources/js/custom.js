@@ -62,6 +62,21 @@ function submitDeleteRecord() {
 	);
 }
 
+function quitAllRecord() {
+	
+	$.post( urlHolder.quit, 
+			{ }, 
+		function(response) {
+			if (response == true) {
+				loadTable(urlHolder.records);
+				alert('Success! All the records have been deleted.');
+			} else {
+				alert('Failure! An error has occurred!');
+			}
+		}
+	);
+}
+
 function submitUpdateRecord() {
 	$.post(urlHolder.edit, {
 			username: $('#editUsername').val(),

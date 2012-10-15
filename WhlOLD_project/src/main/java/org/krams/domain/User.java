@@ -24,6 +24,23 @@ public class User {
 	
 	public User() {}
 	
+	public User( String username, String password, String firstName, String lastName, String r) {
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		
+		Role newRole = new Role();
+		int role;
+		try{
+			role = Integer.parseInt(r);
+		}catch(Exception e){
+			role = 2;
+		}
+		newRole.setRole(role);
+		this.role = newRole;
+	}
+	
 	public User(String username, String password, String firstName, String lastName, Role role) {
 		this.username = username;
 		this.password = password;
