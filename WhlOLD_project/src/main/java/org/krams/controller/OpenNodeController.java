@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/opennodes")
+@RequestMapping("/open")
 public class OpenNodeController {
 
 	@Autowired
@@ -28,7 +28,7 @@ public class OpenNodeController {
 	
 	@RequestMapping
 	public String getOpenNodesPage() {
-		return "opennodes";
+		return "open";
 	}
 	
 	@RequestMapping(value="/records")

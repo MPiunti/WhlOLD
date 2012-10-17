@@ -19,11 +19,11 @@ public class OpenNodeService {
 	private OpenNodeRepository openNodeRepository;
 	
 	public OpenNode create(OpenNode openNode) {
-		OpenNode existingNode = openNodeRepository.findByUniqueKey(openNode.getName());
+		//OpenNode existingNode = openNodeRepository.findByUniqueKey(openNode.getName());
 		
-		if (existingNode != null) {
+		/*if (existingNode != null) {
 			throw new RuntimeException("Record already exists!");
-		}
+		}*/
 		
 		//user.getRole().setUser(user);
 		return openNodeRepository.save(openNode);
