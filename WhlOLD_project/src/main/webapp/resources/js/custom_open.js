@@ -4,22 +4,38 @@
 var urlHolder = new Object();
 
 function loadTable() {
-	$.get(urlHolder.records, function(response) {
+	
+	/*$.get(urlHolder.headers, function(response) {
 		
- 		$('#tableOpenData').find('tbody').remove();
- 		
+		$('#headers').remove();
+ 		var row = '<tr>';
+ 		for (var j=0; i<response.openHEaders.length; j++) {
+ 			
+ 			row += '<th>' + response.openHEaders[i] + '</th>';
+ 		}
+ 		row += '</tr>';
+		$('#headers').append(row);
+	});*/
+	
+	
+	$.get(urlHolder.records, function(response) {
+		console.log(response);	
+		$('#tableOpenData').find('tbody').remove();
+
  		for (var i=0; i<response.openNodes.length; i++) {
 			var row = '<tr>';
 			row += '<td><input type="radio" name="index" id="index" value="'+i+'"></td>';
-			row += '<td>' + response.openNodes[i].name + '</td>';
-			row += '<td>' + response.openNodes[i].firstName + '</td>';
-			row += '<td>' + response.openNodes[i].lastName + '</td>';
+			
+			for (var j=0; i<response.openNodes[i].row.length; j++) {
+				row += '<td>' + response.openNodes[i].row[j] + '</td>';
+			}
 			row += '</tr>';
-	 		$('#tableOpenData').append(row);
+			console.log(row);	
+			$('#tableOpenData').append(row);
  		}
  		
  		$('#tableOpenData').data('model', response.openNodes);
-		toggleForms('hide'); ;
+		toggleForms('hide'); 
  	});
 }
 

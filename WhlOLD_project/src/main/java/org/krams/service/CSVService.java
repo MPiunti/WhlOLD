@@ -1,9 +1,13 @@
 package org.krams.service;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 
+import org.krams.domain.OpenNode;
 import org.krams.domain.User;
+import org.krams.repository.OpenNodeRepository;
 import org.krams.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
@@ -20,6 +24,8 @@ public class CSVService {
 	 
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private OpenNodeRepository openNodeRepository;
 	 
     // private Map<Long,User> users = new HashMap<Long, User>();
 	private final int MAX_COLUMN=30;
@@ -51,6 +57,30 @@ public class CSVService {
                                           asDouble(stationsFile, "lng"));
             template.save(station);
             stations.put(station.getStationId(), station);*/
+        }
+    }
+    
+    
+    @Transactional
+    public void importOpenRows(CsvReader csvDocument) throws IOException {
+        // id; firstName; lastName; username; password;
+    	
+    	int OPEN_COLUMN = csvDocument.getHeaders().length;
+    	String[] column  = new String[OPEN_COLUMN];
+    	csvDocument.readHeaders();
+        for(int i=0;i < OPEN_COLUMN; i++){
+        	column[i] = csvDocument.getHeaders()[i];
+        }
+
+        while (csvDocument.readRecord()) {
+        	// TODO:  username is dymanic
+        	OpenNode node = new OpenNode("username@");
+        	LinkedList<String> row = new LinkedList<String>(Arrays.asList(csvDocument.getValues()));
+        	/*for(int i=0;i < OPEN_COLUMN; i++){
+        		 row.add(csvDocument.get(column[i]));
+            }*/		
+        	node.setRow(row);        	
+        	openNodeRepository.save(node);
         }
     }
     

@@ -31,13 +31,23 @@ public class OpenNodeController {
 		return "open";
 	}
 	
-	@RequestMapping(value="/records")
-	public @ResponseBody OpenNodeListDto getOpenNodel() {
+	@RequestMapping(value="/headers")
+	public @ResponseBody OpenNodeListDto getOpenHEaders() {
 		
 		OpenNodeListDto openNodeListDto = new OpenNodeListDto();
 		openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.readAll()));
 		return openNodeListDto;
 	}
+	
+	@RequestMapping(value="/records")
+	public @ResponseBody OpenNodeListDto getOpenNodes() {
+		
+		OpenNodeListDto openNodeListDto = new OpenNodeListDto();
+		openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.readAll()));
+		return openNodeListDto;
+	}
+	
+	
 	
 	@RequestMapping(value="/get")
 	public @ResponseBody OpenNode get(@RequestBody OpenNode node) {
