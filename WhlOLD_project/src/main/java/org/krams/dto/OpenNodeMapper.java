@@ -12,8 +12,9 @@ public class OpenNodeMapper {
 	public static OpenNodeDto map(OpenNode openNode) {
 		OpenNodeDto dto = new OpenNodeDto();
 			dto.setId(openNode.getId());
+			dto.setUnique(openNode.getUnique());
 			dto.setName(openNode.getName());
-
+			dto.setRow(openNode.getRow());
 			return dto;
 	}
 	

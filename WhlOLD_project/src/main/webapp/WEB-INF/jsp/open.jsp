@@ -1,12 +1,13 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 
 <c:url value="/open/records" var="recordsUrl"/>
+<c:url value="/open/headers" var="headersUrl"/>
 <c:url value="/open/create" var="addUrl"/>
 <c:url value="/open/update" var="editUrl"/>
 <c:url value="/open/delete" var="deleteUrl"/>
 <c:url value="/open/quit" var="quitUrl"/>
 
-<c:url value="/open/uploader" var="uploadUrl"/>
+<c:url value="/uploader/open" var="uploadUrl"/>
 
 <html>
 <head>
@@ -19,7 +20,9 @@
 	<script type='text/javascript'>
 	$(function() {
 		// init
+		urlHolder.headers = '${headersUrl}';
 		urlHolder.records = '${recordsUrl}';
+		
 		urlHolder.add = '${addUrl}';
 		urlHolder.edit = '${editUrl}';
 		urlHolder.del = '${deleteUrl}';
@@ -81,10 +84,21 @@
 	<hr/>
 	
 	<table id='tableOpenData'>
+<<<<<<< HEAD
+		<thead></thead>
+		<tbody></tbody>
+=======
 		<caption></caption>
-		<thead> empty
-		</thead>
+		<!-- <thead id="headers"> 
+		</thead>-->
+		<tbody id="data"> 
+		</tbody>
+>>>>>>> refs/remotes/origin/master
 	</table>
+	
+	
+	
+	<!--  -->
 	
 	<div id='controlBar'>
 		<input type='button' value='New' id='newBtn' />

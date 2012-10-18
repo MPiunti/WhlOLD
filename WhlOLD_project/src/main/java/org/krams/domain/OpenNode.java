@@ -3,6 +3,7 @@ package org.krams.domain;
 import java.util.LinkedList;
 
 import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 
 @NodeEntity
@@ -10,13 +11,21 @@ public class OpenNode {
 	
 	@GraphId
 	private Long id;
+	@Indexed
+	private String unique;
 	
 	private String name;
 	
+	@Indexed
+	private int headerLine;
+	
 	private LinkedList<String> row;
 	
-	public OpenNode(String name){
-		this.name=name;
+	
+	public OpenNode(){}
+	
+	public OpenNode(String unique){
+		this.unique= unique+id;
 	}
 
 	/**
@@ -34,6 +43,20 @@ public class OpenNode {
 	}
 
 	/**
+	 * @return the unique
+	 */
+	public String getUnique() {
+		return unique;
+	}
+
+	/**
+	 * @param unique the unique to set
+	 */
+	public void setUnique(String unique) {
+		this.unique = unique;
+	}
+
+	/**
 	 * @return the name
 	 */
 	public String getName() {
@@ -45,6 +68,20 @@ public class OpenNode {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return the headers
+	 */
+	public int getHeaderLine() {
+		return headerLine;
+	}
+
+	/**
+	 * @param headers the headers to set
+	 */
+	public void setHeaderLine(int headers) {
+		this.headerLine = headers;
 	}
 
 	/**

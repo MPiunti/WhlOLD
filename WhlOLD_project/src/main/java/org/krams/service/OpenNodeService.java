@@ -45,6 +45,18 @@ public class OpenNodeService {
 	}
 	
 	
+	
+	public List<OpenNode> findAllbyPropertyValue(String pName, Object obj) {
+		List<OpenNode> openNodes = new ArrayList<OpenNode>();
+		
+		EndResult<OpenNode> results = openNodeRepository.findAllByPropertyValue(pName,obj);
+		for (OpenNode r: results) {
+			openNodes.add(r);
+		}		
+		return openNodes;
+	}
+	
+	
 	/*
 	public User update(User user) {
 		User existingUser = userRepository.findByUsername(user.getUsername());

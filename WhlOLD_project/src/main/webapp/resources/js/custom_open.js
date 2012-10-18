@@ -4,22 +4,66 @@
 var urlHolder = new Object();
 
 function loadTable() {
+	
+<<<<<<< HEAD
+	$.get(urlHolder.headers, function(response) {
+		console.log(response);	
+		$('#tableOpenData').find('thead').children().remove(); 
+ 		var row = '<tr><th></th>';
+ 		for (var j=0; j<response.openNodes[0].row.length; j++) { 			
+ 			row += '<th>' + response.openNodes[0].row[j] + '</th>';
+ 		}
+ 		row += '</tr>';
+ 		console.log(row);
+ 		$('#tableOpenData').find('thead').append(row);
+	});
+	
+	
 	$.get(urlHolder.records, function(response) {
+		//console.log(response);	
+		$('#tableOpenData').find('tbody').children().remove();
+=======
+	/*$.get(urlHolder.headers, function(response) {
 		
- 		$('#tableOpenData').find('tbody').remove();
- 		
+		$('#headers').remove();
+ 		var row = '<tr>';
+ 		for (var j=0; i<response.openHEaders.length; j++) {
+ 			
+ 			row += '<th>' + response.openHEaders[i] + '</th>';
+ 		}
+ 		row += '</tr>';
+		$('#headers').append(row);
+	});*/
+	
+	
+	$.get(urlHolder.records, function(response) {
+		console.log(response);	
+		$('#tableOpenData').find('tbody').remove();
+>>>>>>> refs/remotes/origin/master
+
  		for (var i=0; i<response.openNodes.length; i++) {
 			var row = '<tr>';
 			row += '<td><input type="radio" name="index" id="index" value="'+i+'"></td>';
-			row += '<td>' + response.openNodes[i].name + '</td>';
-			row += '<td>' + response.openNodes[i].firstName + '</td>';
-			row += '<td>' + response.openNodes[i].lastName + '</td>';
+			
+<<<<<<< HEAD
+			for (var j=0; j<response.openNodes[i].row.length; j++) {
+=======
+			for (var j=0; i<response.openNodes[i].row.length; j++) {
+>>>>>>> refs/remotes/origin/master
+				row += '<td>' + response.openNodes[i].row[j] + '</td>';
+			}
 			row += '</tr>';
-	 		$('#tableOpenData').append(row);
+<<<<<<< HEAD
+			//console.log(row);	
+			$('#tableOpenData').find('tbody').append(row);
+=======
+			console.log(row);	
+			$('#tableOpenData').append(row);
+>>>>>>> refs/remotes/origin/master
  		}
  		
  		$('#tableOpenData').data('model', response.openNodes);
-		toggleForms('hide'); ;
+		toggleForms('hide'); 
  	});
 }
 

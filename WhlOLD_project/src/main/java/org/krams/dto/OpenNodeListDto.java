@@ -13,4 +13,9 @@ public class OpenNodeListDto {
 	public void setOpenNodes(List<OpenNodeDto> openNodes) {
 		this.openNodes = openNodes;
 	}
+	
+	public int size() {
+		return openNodes.size();
+	}
+
 }
