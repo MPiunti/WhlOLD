@@ -23,7 +23,7 @@ public class OpenNode {
 	
 	
 	public OpenNode(){}
-	
+
 	public OpenNode(String unique){
 		this.unique= unique+id;
 	}

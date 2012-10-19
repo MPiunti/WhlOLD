@@ -33,6 +33,7 @@ public class OpenNodeController {
 	
 	@RequestMapping(value="/headers")
 
+
 	public @ResponseBody OpenNodeListDto getOpenHEaders() {		
 
 		OpenNodeListDto openNodeListDto = new OpenNodeListDto();
@@ -40,12 +41,12 @@ public class OpenNodeController {
 		return openNodeListDto;
 	}
 
-	
+		
 	@RequestMapping(value="/records")
-	public @ResponseBody OpenNodeListDto getOpenNodes() {		
+	public @ResponseBody OpenNodeListDto getOpenNodes() {
+		
 		OpenNodeListDto openNodeListDto = new OpenNodeListDto();
 		openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.readAll()));
-		System.err.println("openNodeListDto: " + openNodeListDto.size() ); 
 		return openNodeListDto;
 	}
 	

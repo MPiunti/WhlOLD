@@ -106,6 +106,7 @@ public class UploadController {
         for(int i=0;i < csvDocument.getHeaders().length; i++){
         	System.err.println(csvDocument.getHeaders()[i] + ";");
         }*/
+
         service.importOpenRows(csvDocument);
         isr.close();
 	} catch (IOException e) {

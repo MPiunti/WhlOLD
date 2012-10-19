@@ -84,22 +84,11 @@
 	<hr/>
 	
 	<table id='tableOpenData'>
-<<<<<<< HEAD
 		<thead></thead>
 		<tbody></tbody>
-=======
-		<caption></caption>
-		<!-- <thead id="headers"> 
-		</thead>-->
-		<tbody id="data"> 
-		</tbody>
->>>>>>> refs/remotes/origin/master
 	</table>
 	
-	
-	
-	<!--  -->
-	
+
 	<div id='controlBar'>
 		<input type='button' value='New' id='newBtn' />
 		<input type='button' value='Delete' id='deleteBtn' />
