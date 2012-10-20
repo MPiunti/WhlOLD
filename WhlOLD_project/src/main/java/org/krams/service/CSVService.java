@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 
+import org.krams.domain.OpenDocument;
 import org.krams.domain.OpenNode;
 import org.krams.domain.User;
+import org.krams.repository.OpenDocumentRepository;
 import org.krams.repository.OpenNodeRepository;
 import org.krams.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class CSVService {
 	private UserRepository userRepository;
 	@Autowired
 	private OpenNodeRepository openNodeRepository;
+	@Autowired
+	private OpenDocumentRepository openDocumentRepository;
 	 
     // private Map<Long,User> users = new HashMap<Long, User>();
 	private final int MAX_COLUMN=30;
@@ -88,6 +92,16 @@ public class CSVService {
         	node.setRow(row);        	
         	openNodeRepository.save(node);
         }
+    }
+    
+    @Transactional
+    public void importOpenData(CsvReader csvDocument, String doc_name) throws IOException {
+    	
+    	OpenDocument od = new OpenDocument("username@");
+    	od.setName(doc_name);
+    	openDocumentRepository.save(od);
+    	
+        importOpenRows(csvDocument) ;
     }
     
 }

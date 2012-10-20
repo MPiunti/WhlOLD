@@ -32,8 +32,6 @@ public class OpenNodeController {
 	}
 	
 	@RequestMapping(value="/headers")
-
-
 	public @ResponseBody OpenNodeListDto getOpenHEaders() {		
 
 		OpenNodeListDto openNodeListDto = new OpenNodeListDto();

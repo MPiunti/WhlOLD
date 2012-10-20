@@ -116,4 +116,48 @@ public class UploadController {
  
     return model;
   }
+  
+  
+//-----------------------------------------------------------------------------
+  
+  @RequestMapping(value="/home", method = RequestMethod.GET)
+  public String getOpenDataUploadForm(Model model) {
+    model.addAttribute(new UploadItem());
+    return "uploader/data";
+  }  
+  
+  @RequestMapping(value="/data", method = RequestMethod.POST)
+  public ModelAndView uploadOpenDataDocument(UploadItem uploadItem, BindingResult result) {
+    if (result.hasErrors())  {
+      for(ObjectError error : result.getAllErrors()) {
+        System.err.println("Error: " + error.getCode() +  " - " + error.getDefaultMessage());
+      }
+      return new ModelAndView("uploader/data");
+    }
+    
+    ModelAndView model = new ModelAndView("redirect:/home");
+    String  doc_name = uploadItem.getFileData().getOriginalFilename();
+    model.addObject("fname", uploadItem.getName());
+    model.addObject("ofname",  doc_name);
+    model.addObject("ctype", uploadItem.getFileData().getContentType());
+
+    
+    InputStreamReader isr;
+	try {
+		isr = new InputStreamReader(uploadItem.getFileData().getInputStream());
+		CsvReader csvDocument = new CsvReader(isr);
+       /* csvDocument.readHeaders();
+        for(int i=0;i < csvDocument.getHeaders().length; i++){
+        	System.err.println(csvDocument.getHeaders()[i] + ";");
+        }*/
+
+        service.importOpenData(csvDocument, doc_name);
+        isr.close();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} 
+ 
+    return model;
+  }
 }
