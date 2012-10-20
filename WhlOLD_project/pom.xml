@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.krams</groupId>
-  <artifactId>spring-neo4j-tutorial</artifactId>
+  <artifactId>WhlOLD-project</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>spring-neo4j-tutorial Maven Webapp</name>
+  <name>WhlOLD-project Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -285,7 +285,7 @@
   </dependencies>
   
   <build>
-    <finalName>spring-neo4j-tutorial</finalName>
+    <finalName>WhlOLD-project</finalName>
     
     <plugins>
 		<plugin>

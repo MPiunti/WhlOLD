@@ -7,8 +7,13 @@
           <string>META-INF/MANIFEST.MF</string>
           <string>resources/css/style.css</string>
           <string>resources/js/custom.js</string>
+          <string>resources/js/custom_home.js</string>
+          <string>resources/js/custom_open.js</string>
           <string>resources/js/jquery-1.6.4.min.js</string>
           <string>WEB-INF/applicationContext.xml</string>
+          <string>WEB-INF/jsp/home.jsp</string>
+          <string>WEB-INF/jsp/open.jsp</string>
+          <string>WEB-INF/jsp/uploader/open.jsp</string>
           <string>WEB-INF/jsp/uploader/uploadForm.jsp</string>
           <string>WEB-INF/jsp/users.jsp</string>
           <string>WEB-INF/spring-data.xml</string>
@@ -18,20 +23,33 @@
           <string>WEB-INF/web.xml</string>
           <string>WEB-INF/classes/log4j.properties</string>
           <string>WEB-INF/classes/org/krams/aop/TraceInterceptor.class</string>
-          <string>WEB-INF/classes/org/krams/controller/MediatorController.class</string>
+          <string>WEB-INF/classes/org/krams/controller/HomeController.class</string>
+          <string>WEB-INF/classes/org/krams/controller/OpenNodeController.class</string>
           <string>WEB-INF/classes/org/krams/controller/UploadController.class</string>
           <string>WEB-INF/classes/org/krams/controller/UserController.class</string>
+          <string>WEB-INF/classes/org/krams/domain/OpenDocument.class</string>
+          <string>WEB-INF/classes/org/krams/domain/OpenNode.class</string>
           <string>WEB-INF/classes/org/krams/domain/Role.class</string>
           <string>WEB-INF/classes/org/krams/domain/upload/UploadItem.class</string>
           <string>WEB-INF/classes/org/krams/domain/User.class</string>
           <string>WEB-INF/classes/org/krams/domain/UserRoleRelationship.class</string>
+          <string>WEB-INF/classes/org/krams/dto/OpenDocumentDto.class</string>
+          <string>WEB-INF/classes/org/krams/dto/OpenDocumentListDto.class</string>
+          <string>WEB-INF/classes/org/krams/dto/OpenDocumentMapper.class</string>
+          <string>WEB-INF/classes/org/krams/dto/OpenNodeDto.class</string>
+          <string>WEB-INF/classes/org/krams/dto/OpenNodeListDto.class</string>
+          <string>WEB-INF/classes/org/krams/dto/OpenNodeMapper.class</string>
           <string>WEB-INF/classes/org/krams/dto/UserDto.class</string>
           <string>WEB-INF/classes/org/krams/dto/UserListDto.class</string>
           <string>WEB-INF/classes/org/krams/dto/UserMapper.class</string>
+          <string>WEB-INF/classes/org/krams/repository/OpenDocumentRepository.class</string>
+          <string>WEB-INF/classes/org/krams/repository/OpenNodeRepository.class</string>
           <string>WEB-INF/classes/org/krams/repository/RoleRepository.class</string>
           <string>WEB-INF/classes/org/krams/repository/UserRepository.class</string>
           <string>WEB-INF/classes/org/krams/service/CSVService.class</string>
           <string>WEB-INF/classes/org/krams/service/InitNeo4jService.class</string>
+          <string>WEB-INF/classes/org/krams/service/OpenDocumentService.class</string>
+          <string>WEB-INF/classes/org/krams/service/OpenNodeService.class</string>
           <string>WEB-INF/classes/org/krams/service/UserService.class</string>
           <string>WEB-INF/lib/spring-core-3.1.0.RELEASE.jar</string>
           <string>WEB-INF/lib/spring-asm-3.1.0.RELEASE.jar</string>

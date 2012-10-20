@@ -20,10 +20,10 @@ public class HomeController {
 
 	@RequestMapping
 	public String getHomePage() {
-		return "redirect:/home";
+		return "home";
 	}
 	
-	@RequestMapping(value="home/records")
+	@RequestMapping(value="/home/records")
 	public @ResponseBody OpenDocumentListDto getOpenDocuments() {
 		
 		OpenDocumentListDto openDocListDto = new OpenDocumentListDto();
