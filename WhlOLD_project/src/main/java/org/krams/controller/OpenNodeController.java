@@ -13,11 +13,13 @@ import org.krams.service.OpenNodeService;
 import org.krams.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/open")
@@ -26,9 +28,12 @@ public class OpenNodeController {
 	@Autowired
 	private OpenNodeService service;
 	
-	@RequestMapping
-	public String getOpenNodesPage() {
-		return "open";
+	@RequestMapping(value="/{docname}")
+	public ModelAndView getOpenNodesPage(@PathVariable("docname") String doc_name) {
+		ModelAndView mav = new ModelAndView("open");
+		mav.addObject("doc_name", doc_name);
+
+		return mav;
 	}
 	
 	@RequestMapping(value="/headers")
@@ -40,11 +45,11 @@ public class OpenNodeController {
 	}
 
 		
-	@RequestMapping(value="/records")
-	public @ResponseBody OpenNodeListDto getOpenNodes() {
+	@RequestMapping(value="/records/{docname}")
+	public @ResponseBody OpenNodeListDto getOpenNodes(@PathVariable("docname") String doc_name) {
 		
 		OpenNodeListDto openNodeListDto = new OpenNodeListDto();
-		openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.readAll()));
+		openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.findAllbyPropertyValue("name", doc_name)));
 		return openNodeListDto;
 	}
 	
@@ -107,6 +112,7 @@ public class OpenNodeController {
 	
 	@RequestMapping(value="/quit", method=RequestMethod.POST)
 	public @ResponseBody Boolean quit() {
+		System.err.println("size: " + service.readAll().size());
 		return service.quit();
 	}
 }

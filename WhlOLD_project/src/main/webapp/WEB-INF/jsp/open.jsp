@@ -1,6 +1,8 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 
-<c:url value="/open/records" var="recordsUrl"/>
+
+<c:url value="/open/${doc_name}" var="opendataUrl"/>
+<c:url value="/open/records/${doc_name}" var="recordsUrl"/>
 <c:url value="/open/headers" var="headersUrl"/>
 <c:url value="/open/create" var="addUrl"/>
 <c:url value="/open/update" var="editUrl"/>
@@ -20,8 +22,9 @@
 	<script type='text/javascript'>
 	$(function() {
 		// init
+		urlHolder.opendata = '${opendataUrl}';
 		urlHolder.headers = '${headersUrl}';
-		urlHolder.records = '${recordsUrl}';
+		urlHolder.records = '${recordsUrl}';		
 		
 		urlHolder.add = '${addUrl}';
 		urlHolder.edit = '${editUrl}';

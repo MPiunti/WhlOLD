@@ -120,7 +120,7 @@ public class UploadController {
   
 //-----------------------------------------------------------------------------
   
-  @RequestMapping(value="/home", method = RequestMethod.GET)
+  @RequestMapping(value="/data", method = RequestMethod.GET)
   public String getOpenDataUploadForm(Model model) {
     model.addAttribute(new UploadItem());
     return "uploader/data";
@@ -135,10 +135,10 @@ public class UploadController {
       return new ModelAndView("uploader/data");
     }
     
-    ModelAndView model = new ModelAndView("redirect:/home");
-    String  doc_name = uploadItem.getFileData().getOriginalFilename();
-    model.addObject("fname", uploadItem.getName());
-    model.addObject("ofname",  doc_name);
+    ModelAndView model = new ModelAndView("redirect:/");
+    String  doc_name = uploadItem.getName();
+    model.addObject("fname", doc_name );
+    model.addObject("ofname",  uploadItem.getFileData().getOriginalFilename());
     model.addObject("ctype", uploadItem.getFileData().getContentType());
 
     

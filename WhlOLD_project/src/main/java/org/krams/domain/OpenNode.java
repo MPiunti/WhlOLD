@@ -13,7 +13,7 @@ public class OpenNode {
 	private Long id;
 	@Indexed
 	private String unique;
-	
+	@Indexed
 	private String name;
 	
 	@Indexed
