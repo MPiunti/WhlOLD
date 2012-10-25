@@ -17,6 +17,7 @@
 	<neo4j.kernel.version>1.6</neo4j.kernel.version>
 	<neo4j.cypher.version>1.6</neo4j.cypher.version>
 	<neo4j.cypher.dsl.version>1.6</neo4j.cypher.dsl.version>
+	<neo4j.rest.version>2.0.2.RELEASE</neo4j.rest.version>
 	
     <hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
     <scala.library.version>2.9.0-1</scala.library.version>
@@ -237,6 +238,13 @@
 	    <artifactId>neo4j-cypher-dsl</artifactId>
 	    <version>${neo4j.cypher.dsl.version}</version>
 	</dependency>
+	
+	<dependency>
+		<groupId>org.springframework.data</groupId>
+		<artifactId>spring-data-neo4j-rest</artifactId>
+		<version>${neo4j.rest.version}</version>
+	</dependency>
+            
 	
 	<dependency>
 	    <groupId>org.scala-lang</groupId>

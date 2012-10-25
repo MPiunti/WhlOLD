@@ -97,13 +97,13 @@ public class CSVService {
     
     
     @Transactional
-    public void importOpenData(CsvReader csvDocument, String doc_name) throws IOException {
+    public void importOpenData(CsvReader csvDocument, String doc_name, Integer status) throws IOException {
     	// 1) Import Document
     	OpenDocument od = new OpenDocument();
     	// set indexed name of this document
     	od.setUser_id(1L);
     	od.setName(doc_name);
-    	od.setVisible(0);
+    	od.setVisible(status);
     	openDocumentRepository.save(od);
     	
     	// 2) Import Open Data Content
@@ -131,7 +131,8 @@ public class CSVService {
         	/*for(int i=0;i < OPEN_COLUMN; i++){
         		 row.add(csvDocument.get(column[i]));
             }*/		
-        	node.setRow(row);        	
+        	node.setRow(row);  
+        	node.setHeaderLine(0);
         	openNodeRepository.save(node);
         }
     }

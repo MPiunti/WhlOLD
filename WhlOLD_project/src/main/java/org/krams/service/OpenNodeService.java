@@ -56,6 +56,35 @@ public class OpenNodeService {
 		return openNodes;
 	}
 	
+	public List<OpenNode> findAllHeaders(String docName) {
+		List<OpenNode> openNodes = new ArrayList<OpenNode>();
+		
+		//String query = "START n=node:nodes(name = \""+docName+"\") WHERE (n.headerLine = 0) RETURN n";
+		String query = "START n=node:nodes(name:"+docName+") WHERE (n.headerLine = 1) RETURN n";
+
+		EndResult<OpenNode> results = openNodeRepository.findAllByQuery("n",query); 
+		for (OpenNode r: results) { 
+			openNodes.add(r);
+		}		
+		
+		System.err.println(" headers found: " + openNodes.size() );
+		return openNodes;
+	}
+	
+	public List<OpenNode> findAllRecords(String docName) {
+		List<OpenNode> openNodes = new ArrayList<OpenNode>();
+		
+		//String query = "START n=node:nodes(name = \""+docName+"\") WHERE (n.headerLine = 0) RETURN n";
+		String query = "START n=node:nodes(name:"+docName+") WHERE (n.headerLine = 0) RETURN n";
+
+		EndResult<OpenNode> results = openNodeRepository.findAllByQuery("n",query); 
+		for (OpenNode r: results) { 
+			openNodes.add(r);
+		}		
+		
+		System.err.println(" data  found: " + openNodes.size() + " records" );
+		return openNodes;
+	}
 	
 	/*
 	public User update(User user) {

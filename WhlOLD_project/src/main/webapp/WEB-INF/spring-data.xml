@@ -26,7 +26,14 @@
 	<!-- Activate Spring Data Neo4j repository support -->
 	<neo4j:repositories base-package="org.krams"/>
 
-  	<neo4j:config storeDirectory="target/temp.db"/>
+  	<!-- <neo4j:config storeDirectory="target/temp.db"/>
+  	<neo4j:config storeDirectory="target/temp.db"/> -->
+  	
+  	<neo4j:config graphDatabaseService="graphDatabaseService"/>
+	<bean id="graphDatabaseService" 
+		class="org.springframework.data.neo4j.rest.SpringRestGraphDatabase">
+	  <constructor-arg index="0" value="http://localhost:7474/db/data" />
+	</bean>
   	
   	<!-- Service for initializing Neo4j with sample data. Currently disabled
 	due to an unconfirmed bug

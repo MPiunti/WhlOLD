@@ -36,11 +36,11 @@ public class OpenNodeController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/headers")
-	public @ResponseBody OpenNodeListDto getOpenHEaders() {		
+	@RequestMapping(value="/headers/{docname}")
+	public @ResponseBody OpenNodeListDto getOpenHEaders(@PathVariable("docname") String doc_name) {		
 
 		OpenNodeListDto openNodeListDto = new OpenNodeListDto();
-		openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.findAllbyPropertyValue("headerLine", 1)));
+		openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.findAllHeaders(doc_name)));
 		return openNodeListDto;
 	}
 
@@ -49,7 +49,7 @@ public class OpenNodeController {
 	public @ResponseBody OpenNodeListDto getOpenNodes(@PathVariable("docname") String doc_name) {
 		
 		OpenNodeListDto openNodeListDto = new OpenNodeListDto();
-		openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.findAllbyPropertyValue("name", doc_name)));
+		openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.findAllRecords(doc_name)));
 		return openNodeListDto;
 	}
 	

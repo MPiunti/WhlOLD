@@ -5,6 +5,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 public class UploadItem
 {
   private String fileName;
+  private int status;
   private CommonsMultipartFile fileData;
  
   public String getName()
@@ -17,7 +18,21 @@ public class UploadItem
     this.fileName = name;
   }
  
-  public CommonsMultipartFile getFileData()
+  /**
+ * @return the status
+ */
+public int getStatus() {
+	return status;
+}
+
+/**
+ * @param status the status to set
+ */
+public void setStatus(int status) {
+	this.status = status;
+}
+
+public CommonsMultipartFile getFileData()
   {
     return fileData;
   }

@@ -136,11 +136,6 @@ public class UploadController {
     }
     
     ModelAndView model = new ModelAndView("redirect:/");
-    String  doc_name = uploadItem.getName();
-    model.addObject("fname", doc_name );
-    model.addObject("ofname",  uploadItem.getFileData().getOriginalFilename());
-    model.addObject("ctype", uploadItem.getFileData().getContentType());
-
     
     InputStreamReader isr;
 	try {
@@ -150,8 +145,8 @@ public class UploadController {
         for(int i=0;i < csvDocument.getHeaders().length; i++){
         	System.err.println(csvDocument.getHeaders()[i] + ";");
         }*/
-
-        service.importOpenData(csvDocument, doc_name);
+        String doc_name = uploadItem.getName().replace(" ", "_");
+        service.importOpenData(csvDocument, doc_name, uploadItem.getStatus() );
         isr.close();
 	} catch (IOException e) {
 		// TODO Auto-generated catch block

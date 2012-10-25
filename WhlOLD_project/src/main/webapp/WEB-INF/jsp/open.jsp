@@ -1,9 +1,9 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
-
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 
 <c:url value="/open/${doc_name}" var="opendataUrl"/>
 <c:url value="/open/records/${doc_name}" var="recordsUrl"/>
-<c:url value="/open/headers" var="headersUrl"/>
+<c:url value="/open/headers/${doc_name}" var="headersUrl"/>
 <c:url value="/open/create" var="addUrl"/>
 <c:url value="/open/update" var="editUrl"/>
 <c:url value="/open/delete" var="deleteUrl"/>
@@ -137,7 +137,9 @@
 		</form>
 	</div>
 	
-	
-	<a href="${uploadUrl}" target="new">UPLOAD CSV</a>
+	<br/>
+	<br/>
+	<s:url value="/" var="url"/>
+    <a href="${url}">Home Dashboard</a>
 </body>
 </html>
