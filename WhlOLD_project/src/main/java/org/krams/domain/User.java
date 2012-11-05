@@ -1,110 +1,146 @@
 package org.krams.domain;
-
-import org.springframework.data.neo4j.annotation.Fetch;
-import org.springframework.data.neo4j.annotation.GraphId;
-import org.springframework.data.neo4j.annotation.Indexed;
-import org.springframework.data.neo4j.annotation.NodeEntity;
-import org.springframework.data.neo4j.annotation.RelatedTo;
+import org.springframework.data.neo4j.annotation.*;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+import org.springframework.security.core.GrantedAuthority;
 
 @NodeEntity
 public class User {
-	
-	@GraphId
-	private Long id;
-	
-	private String firstName;
-	private String lastName;
-	
-	@Indexed
-	private String username;
-	private String password;
-	
-	@Fetch @RelatedTo(type = "HAS_ROLE")
-	private Role role;
-	
-	public User() {}
-	
-	public User( String username, String password, String firstName, String lastName, String r) {
-		this.username = username;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		
-		Role newRole = new Role();
-		int role;
-		try{
-			role = Integer.parseInt(r);
-		}catch(Exception e){
-			role = 2;
-		}
-		newRole.setRole(role);
-		this.role = newRole;
+    @GraphId Long nodeId;
+
+    private static final String SALT = "minimolino";
+
+    @Indexed
+    String login;
+    String name;
+    String password;
+    String info;
+    private Roles[] roles;
+
+    public User() {
+    }
+
+    public User(String login, String name, String password, Roles... roles) {
+        this.login = login;
+        this.name = name;
+        this.password = encode(password);
+        this.roles = roles;
+    }
+
+    private String encode(String password) {
+        return new Md5PasswordEncoder().encodePassword(password, SALT);
+    }
+
+  
+
+    @Override
+    public String toString() {
+        return String.format("%s (%s)", name, login);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+
+    public Roles[] getRole() {
+        return roles;
+    }
+
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+	public String getInfo() {
+		return info;
 	}
-	
-	public User(String username, String password, String firstName, String lastName, Role role) {
-		this.username = username;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.role = role;
+	public void setInfo(String info) {
+		this.info = info;
 	}
-	
-	public User(String username, String firstName, String lastName, Role role) {
-		this.username = username;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.role = role;
+    public void updatePassword(String old, String newPass1, String newPass2) {
+        if (!password.equals(encode(old))) throw new IllegalArgumentException("Existing Password invalid");
+        if (!newPass1.equals(newPass2)) throw new IllegalArgumentException("New Passwords don't match");
+        this.password = encode(newPass1);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public enum Roles implements GrantedAuthority {
+        ROLE_USER, ROLE_ADMIN;
+
+        @Override
+        public String getAuthority() {
+            return name();
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+        if (nodeId == null) return super.equals(o);
+        return nodeId.equals(user.nodeId);
+
+    }
+
+    public Long getId() {
+        return nodeId;
+    }
+
+    /**
+	 * @return the nodeId
+	 */
+	public Long getNodeId() {
+		return nodeId;
 	}
 
-	public User(String username) {
-		this.username = username;
-	}
-	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	/**
+	 * @param nodeId the nodeId to set
+	 */
+	public void setNodeId(Long nodeId) {
+		this.nodeId = nodeId;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	/**
+	 * @return the roles
+	 */
+	public Roles[] getRoles() {
+		return roles;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(Roles[] roles) {
+		this.roles = roles;
 	}
 
-	public String getLastName() {
-		return lastName;
+	/**
+	 * @param login the login to set
+	 */
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
+	/**
+	 * @param password the password to set
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	public Role getRole() {
-		return role;
-	}
+	@Override
+    public int hashCode() {
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
+        return nodeId != null ? nodeId.hashCode() : super.hashCode();
+    }
 }

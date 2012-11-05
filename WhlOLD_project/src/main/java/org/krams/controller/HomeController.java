@@ -8,23 +8,25 @@ import org.krams.service.OpenDocumentService;
 import org.krams.service.OpenNodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/home")
 public class HomeController {
 	
 	@Autowired
 	private OpenDocumentService service;
-
-	@RequestMapping
-	public String getHomePage() {
+	
+	@RequestMapping(value="/{login}")
+	public String getHomePage(@PathVariable(value = "login") String login) {
 		return "home";
 	}
-	
-	@RequestMapping(value="/home/records")
+
+	@RequestMapping(value="/records")
 	public @ResponseBody OpenDocumentListDto getOpenDocuments() {
 		
 		OpenDocumentListDto openDocListDto = new OpenDocumentListDto();
@@ -33,9 +35,11 @@ public class HomeController {
 	}
 	
 
-	@RequestMapping(value="/home/quit", method=RequestMethod.POST)
+	@RequestMapping(value="/quit", method=RequestMethod.POST)
 	public @ResponseBody Boolean quit() {
 		System.err.println("size: " + service.readAll().size());
 		return service.quit();
 	}
+	
+
 }

@@ -18,7 +18,7 @@ public class UserService {
 	@Autowired
 	private RoleRepository roleRepository;
 	
-	public User create(User user) {
+	/*public User create(User user) {
 		User existingUser = userRepository.findByUsername(user.getUsername());
 		
 		if (existingUser != null) {
@@ -68,7 +68,7 @@ public class UserService {
 		
 		userRepository.delete(existingUser);
 		return true;
-	}
+	}*/
 	
 	/**
 	 * quit all the nodes

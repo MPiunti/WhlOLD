@@ -13,7 +13,7 @@ public class InitNeo4jService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public void init() {
+	/*public void init() {
 		if (userRepository.findByUsername("john") != null) {
 			userRepository.delete(userRepository.findByUsername("john"));
 		}
@@ -44,5 +44,5 @@ public class InitNeo4jService {
 		userRepository.save(jane);
 		
 		userRepository.findByUsername("john").getRole().getRole();
-	}
+	}*/
 }

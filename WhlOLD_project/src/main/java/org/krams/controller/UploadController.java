@@ -30,43 +30,7 @@ public class UploadController {
     return "uploader/uploadForm";
   }
  
-  @RequestMapping(method = RequestMethod.POST)
-  public ModelAndView upload(UploadItem uploadItem, BindingResult result) {
-    if (result.hasErrors())  {
-      for(ObjectError error : result.getAllErrors()) {
-        System.err.println("Error: " + error.getCode() +  " - " + error.getDefaultMessage());
-      }
-      return new ModelAndView("uploader/uploadForm");
-    }
-    
-    ModelAndView model = new ModelAndView("redirect:/users");
-    model.addObject("fname", uploadItem.getName());
-    model.addObject("ofname", uploadItem.getFileData().getOriginalFilename());
-    model.addObject("ctype", uploadItem.getFileData().getContentType());
-    
-    // Some kind of file pre-processing...
-    System.err.println("-------------------------------------------");
-    System.err.println("Test upload: name:" + uploadItem.getName());
-    System.err.println("Test upload: original Name:" + uploadItem.getFileData().getOriginalFilename());
-    System.err.println("Test upload: content-type:" + uploadItem.getFileData().getContentType());
-    System.err.println("-------------------------------------------");
-    
-    InputStreamReader isr;
-	try {
-		isr = new InputStreamReader(uploadItem.getFileData().getInputStream());
-		CsvReader csvDocument = new CsvReader(isr);
-        csvDocument.readHeaders();
-        for(int i=0;i < csvDocument.getHeaders().length; i++){
-        	System.err.println(csvDocument.getHeaders()[i] + ";");
-        }
-        service.importRows(csvDocument);
-        isr.close();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} 
-    return model;
-  }
+ 
   
   //-----------------------------------------------------------------------------
   
@@ -135,7 +99,7 @@ public class UploadController {
       return new ModelAndView("uploader/data");
     }
     
-    ModelAndView model = new ModelAndView("redirect:/");
+    ModelAndView model = new ModelAndView("redirect:/home/u");
     
     InputStreamReader isr;
 	try {

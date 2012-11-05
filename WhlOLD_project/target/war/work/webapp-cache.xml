@@ -10,8 +10,10 @@
           <string>resources/js/custom_home.js</string>
           <string>resources/js/custom_open.js</string>
           <string>resources/js/jquery-1.6.4.min.js</string>
+          <string>WEB-INF/applicationContext-security.xml</string>
           <string>WEB-INF/applicationContext.xml</string>
           <string>WEB-INF/jsp/home.jsp</string>
+          <string>WEB-INF/jsp/login.jsp</string>
           <string>WEB-INF/jsp/open.jsp</string>
           <string>WEB-INF/jsp/uploader/data.jsp</string>
           <string>WEB-INF/jsp/uploader/open.jsp</string>
@@ -21,16 +23,20 @@
           <string>WEB-INF/spring.properties</string>
           <string>WEB-INF/trace-context.xml</string>
           <string>WEB-INF/web.xml</string>
+          <string>WEB-INF/classes/eu/reply/whitehall/opendata/security/OpenUserDetails.class</string>
+          <string>WEB-INF/classes/eu/reply/whitehall/opendata/security/OpenUserDetailsService.class</string>
           <string>WEB-INF/classes/log4j.properties</string>
           <string>WEB-INF/classes/org/krams/aop/TraceInterceptor.class</string>
+          <string>WEB-INF/classes/org/krams/controller/BaseController.class</string>
           <string>WEB-INF/classes/org/krams/controller/HomeController.class</string>
           <string>WEB-INF/classes/org/krams/controller/OpenNodeController.class</string>
           <string>WEB-INF/classes/org/krams/controller/UploadController.class</string>
-          <string>WEB-INF/classes/org/krams/controller/UserController.class</string>
+          <string>WEB-INF/classes/org/krams/controller/UserController.java.old</string>
           <string>WEB-INF/classes/org/krams/domain/OpenDocument.class</string>
           <string>WEB-INF/classes/org/krams/domain/OpenNode.class</string>
           <string>WEB-INF/classes/org/krams/domain/Role.class</string>
           <string>WEB-INF/classes/org/krams/domain/upload/UploadItem.class</string>
+          <string>WEB-INF/classes/org/krams/domain/User$Roles.class</string>
           <string>WEB-INF/classes/org/krams/domain/User.class</string>
           <string>WEB-INF/classes/org/krams/domain/UserRoleRelationship.class</string>
           <string>WEB-INF/classes/org/krams/dto/OpenDocumentDto.class</string>
@@ -46,6 +52,7 @@
           <string>WEB-INF/classes/org/krams/repository/OpenNodeRepository.class</string>
           <string>WEB-INF/classes/org/krams/repository/RoleRepository.class</string>
           <string>WEB-INF/classes/org/krams/repository/UserRepository.class</string>
+          <string>WEB-INF/classes/org/krams/repository/UserRepositoryImpl.class</string>
           <string>WEB-INF/classes/org/krams/service/CSVService.class</string>
           <string>WEB-INF/classes/org/krams/service/InitNeo4jService.class</string>
           <string>WEB-INF/classes/org/krams/service/OpenDocumentService.class</string>
@@ -67,6 +74,10 @@
           <string>WEB-INF/lib/spring-oxm-3.1.0.RELEASE.jar</string>
           <string>WEB-INF/lib/commons-lang-2.5.jar</string>
           <string>WEB-INF/lib/spring-aspects-3.1.0.RELEASE.jar</string>
+          <string>WEB-INF/lib/spring-security-web-3.1.0.RELEASE.jar</string>
+          <string>WEB-INF/lib/spring-security-core-3.1.0.RELEASE.jar</string>
+          <string>WEB-INF/lib/spring-security-crypto-3.1.0.RELEASE.jar</string>
+          <string>WEB-INF/lib/spring-security-config-3.1.0.RELEASE.jar</string>
           <string>WEB-INF/lib/aspectjrt-1.6.10.jar</string>
           <string>WEB-INF/lib/aspectjweaver-1.6.10.jar</string>
           <string>WEB-INF/lib/cglib-nodep-2.2.jar</string>
@@ -198,6 +209,30 @@
         <optional>false</optional>
       </dependency>
       <targetFileName>spring-aspects-3.1.0.RELEASE.jar</targetFileName>
+    </org.apache.maven.plugin.war.util.DependencyInfo>
+    <org.apache.maven.plugin.war.util.DependencyInfo>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <version>3.1.0.RELEASE</version>
+        <type>jar</type>
+        <scope>compile</scope>
+        <exclusions/>
+        <optional>false</optional>
+      </dependency>
+      <targetFileName>spring-security-web-3.1.0.RELEASE.jar</targetFileName>
+    </org.apache.maven.plugin.war.util.DependencyInfo>
+    <org.apache.maven.plugin.war.util.DependencyInfo>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-config</artifactId>
+        <version>3.1.0.RELEASE</version>
+        <type>jar</type>
+        <scope>compile</scope>
+        <exclusions/>
+        <optional>false</optional>
+      </dependency>
+      <targetFileName>spring-security-config-3.1.0.RELEASE.jar</targetFileName>
     </org.apache.maven.plugin.war.util.DependencyInfo>
     <org.apache.maven.plugin.war.util.DependencyInfo>
       <dependency>
