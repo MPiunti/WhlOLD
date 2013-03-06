@@ -1,5 +1,6 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <c:url value="/open/${doc_name}" var="opendataUrl"/>
 <c:url value="/open/records/${doc_name}" var="recordsUrl"/>
@@ -139,7 +140,13 @@
 	
 	<br/>
 	<br/>
-	<s:url value="/home" var="url"/>
+	<sec:authentication property="principal" var="login"/>
+	<s:url value="/home/${login}" var="url"/>
     <a href="${url}">Home Dashboard</a>
+    
+    <br />
+	<br />
+	<c:url value="/auth/logout" var="logoutUrl"/>
+	<a href="${logoutUrl}" target="new">Log OUT</a>
 </body>
 </html>

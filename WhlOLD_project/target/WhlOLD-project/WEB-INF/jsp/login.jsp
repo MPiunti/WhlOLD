@@ -1,8 +1,3 @@
-<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
-
-<c:url value="/home/" var="homeUrl"/>
-
-
 <%@ page import="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
@@ -19,9 +14,13 @@ pageEncoding="UTF-8"%>
 	<body>
 
 		<h1>Login</h1>
-		<div class="error">${error}</div>
+		<div class="error"><font color="red">${error}</font></div>
+		
+		<c:url value="/home/" var="homeUrl"/>
+		<c:url value="/j_spring_security_check" var="loginUrl"/>
+		<c:url value="/auth/register" var="registerUrl"/>
 
-		<form action="/j_spring_security_check" method="post" >
+		<form action="${loginUrl}" method="post" >
 	      <p>
 	        <label for="j_username">Login:</label>
 	        <input id="j_username" name="j_username" type="text"
@@ -38,9 +37,15 @@ pageEncoding="UTF-8"%>
 	    </form>
     
 	    <br/>
-	    <a href="/auth/registerpage">Register</a>
-	
+	    <br/>
+	    <br/>
+	    
+	    <a href="${registerUrl}">Register</a><br/>	
 			
+		<br/>
+	    <br/>
+	    <br/>
+	    
 		<a href="${homeUrl}" target="new">GO YOUR HOME</a>
 </body>
 </html>

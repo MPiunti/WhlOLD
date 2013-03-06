@@ -6,6 +6,8 @@
 
 
 <c:url value="/uploader/data" var="uploadUrl"/>
+<c:url value="/auth/logout" var="logoutUrl"/>
+
 
 <html>
 <head>
@@ -72,8 +74,12 @@
 		<input type='button' value='Quit All' id='quitBtn' />
 	</div>
 
-
-	
+    <br />
+	<br />
 	<a href="${uploadUrl}" target="new">UPLOAD NEW DOCUMENT</a>
+	<br />
+	<br />
+	<a href="${logoutUrl}" target="new">Log OUT</a>
+	
 </body>
 </html>
