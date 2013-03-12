@@ -24,7 +24,7 @@
 	<context:property-placeholder properties-ref="deployProperties" />
 
 	<!-- Activate Spring Data Neo4j repository support -->
-	<neo4j:repositories base-package="org.krams"/>
+	<neo4j:repositories base-package="eu.reply.whitehall"/>
 
   	<!-- <neo4j:config storeDirectory="target/temp.db"/>
   	<neo4j:config storeDirectory="target/temp.db"/> -->
@@ -37,5 +37,5 @@
   	
   	<!-- Service for initializing Neo4j with sample data. Currently disabled
 	due to an unconfirmed bug
-	<bean id="initNeo4jService" class="org.krams.service.InitNeo4jService" init-method="init"/> -->
+	<bean id="initNeo4jService" class="eu.reply.whitehall.service.InitNeo4jService" init-method="init"/> -->
 </beans>

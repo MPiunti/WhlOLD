@@ -36,6 +36,6 @@
     </security:authentication-manager>
     
     <!-- Custom User Service and Repo 
-	<bean id="userRepository" class="org.krams.repository.UserRepositoryImpl" /> -->
+	<bean id="userRepository" class="eu.reply.whitehall.repository.UserRepositoryImpl" /> -->
 
 </beans>

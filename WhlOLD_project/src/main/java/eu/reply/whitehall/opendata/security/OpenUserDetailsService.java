@@ -1,11 +1,12 @@
 package eu.reply.whitehall.opendata.security;
 
 
-import org.krams.domain.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
+
+import eu.reply.whitehall.domain.User;
 
 
 public interface OpenUserDetailsService extends UserDetailsService {

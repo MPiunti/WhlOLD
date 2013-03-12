@@ -1,11 +1,12 @@
 package eu.reply.whitehall.opendata.security;
 
 
-import org.krams.domain.User;
 
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import eu.reply.whitehall.domain.User;
 
 import java.util.Arrays;
 import java.util.Collection;
