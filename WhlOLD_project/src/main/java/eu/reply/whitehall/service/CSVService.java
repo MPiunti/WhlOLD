@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.kernel.AbstractGraphDatabase;
+import org.neo4j.rest.graphdb.RestGraphDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.neo4j.core.GraphDatabase;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +21,6 @@ import eu.reply.whitehall.domain.nodes.User;
 import eu.reply.whitehall.domain.relationships.DocumentNodeRelationship;
 import eu.reply.whitehall.repository.OpenDocumentRepository;
 import eu.reply.whitehall.repository.OpenNodeRepository;
-import eu.reply.whitehall.repository.UserRepository;
 
 @Service
 public class CSVService {
@@ -26,15 +28,13 @@ public class CSVService {
 	@Autowired 
 	private Neo4jTemplate template;
 	 
-	@Autowired
-	private UserRepository userRepository;
+	/*@Autowired
+	private UserRepository userRepository;*/
 	@Autowired
 	private OpenNodeRepository openNodeRepository;
 	@Autowired
 	private OpenDocumentRepository openDocumentRepository;
 	 
-    // private Map<Long,User> users = new HashMap<Long, User>();
-	private final int MAX_COLUMN=30;
   
     @Transactional
     public void importOpenRows(CsvReader csvDocument, OpenDocument openDocument) throws IOException {
@@ -56,6 +56,7 @@ public class CSVService {
     	/* Store Relationship */
         DocumentNodeRelationship drRel = 
         		template.createRelationshipBetween(openDocument,node,DocumentNodeRelationship.class, "INCLUDES",false);
+        template.save(drRel);
 
     	// CONTENT
         while (csvDocument.readRecord()) {
@@ -68,20 +69,14 @@ public class CSVService {
         	node.setRow(row);        	
         	openNodeRepository.save(node);        	
         	template.createRelationshipBetween(openDocument,node,DocumentNodeRelationship.class, "INCLUDES",false);
+        	template.save(drRel);
         }
     }
     
     
     
     @Transactional
-    public void importOpenData(CsvReader csvDocument, String doc_name, Integer status) throws IOException {
-    	// 1) Import Document
-    	OpenDocument od = new OpenDocument();
-    	// set indexed name of this document
-    	//od.setUser_id(1L);
-    	od.setName(doc_name);
-    	od.setVisible(status);
-    	openDocumentRepository.save(od);
+    public void importOpenData(CsvReader csvDocument, OpenDocument openDocument, User user) throws IOException {
     	
     	// 2) Import Open Data Content
         // HEADRERS
@@ -92,18 +87,23 @@ public class CSVService {
         for(int i=0;i < OPEN_COLUMN; i++){
         	column[i] = csvDocument.getHeaders()[i];
         }
-        OpenNode node = new OpenNode("username@");
+        OpenNode node = new OpenNode(user.getLogin()+"@");
     	LinkedList<String> row = new LinkedList<String>(Arrays.asList(column));	
     	node.setRow(row);
     	node.setHeaderLine(1);
-    	node.setName(doc_name);
+    	node.setName(openDocument.getName());
     	openNodeRepository.save(node);
+    	
+    	/* Store Relationship */
+        DocumentNodeRelationship drRel = 
+        		template.createRelationshipBetween(openDocument,node,DocumentNodeRelationship.class, "INCLUDES",false);
+        //template.save(drRel);
 
     	// CONTENT
         while (csvDocument.readRecord()) {
         	// TODO:  username is dymanic
-        	node = new OpenNode("username@");
-        	node.setName(doc_name);
+        	node = new OpenNode(user.getLogin()+"@");
+        	node.setName(openDocument.getName());
         	row = new LinkedList<String>(Arrays.asList(csvDocument.getValues()));
         	/*for(int i=0;i < OPEN_COLUMN; i++){
         		 row.add(csvDocument.get(column[i]));
@@ -111,7 +111,18 @@ public class CSVService {
         	node.setRow(row);  
         	node.setHeaderLine(0);
         	openNodeRepository.save(node);
+        	
+        	/* Store Relationship */
+        	template.createRelationshipBetween(openDocument,node,DocumentNodeRelationship.class, "INCLUDES",false);
         }
+    }
+    
+    
+    //@Transactional
+    public void cleanDb() {
+    	AbstractGraphDatabase  gs = ((AbstractGraphDatabase)template.getGraphDatabaseService()); 
+    	Neo4jDatabaseCleaner cleaner = new Neo4jDatabaseCleaner(gs);
+    	cleaner.cleanDb();
     }
     
 }

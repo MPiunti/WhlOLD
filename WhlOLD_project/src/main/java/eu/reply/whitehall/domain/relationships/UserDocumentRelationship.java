@@ -1,6 +1,8 @@
 package eu.reply.whitehall.domain.relationships;
 
 import org.springframework.data.neo4j.annotation.EndNode;
+import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.RelationshipEntity;
 import org.springframework.data.neo4j.annotation.StartNode;
 
@@ -10,12 +12,23 @@ import eu.reply.whitehall.domain.nodes.User;
 @RelationshipEntity(type="OWNS")
 public class UserDocumentRelationship {
 	
+	@GraphId
+	Long id;
+	
 	@StartNode User user;
 	@EndNode OpenDocument openDocument;
 	String ownership;
 	
 	public UserDocumentRelationship(){}
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public User getUser() {
 		return user;
 	}

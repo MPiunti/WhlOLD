@@ -14,6 +14,7 @@ public class OpenNode {
 	
 	@GraphId
 	private Long id;
+	
 	@Indexed
 	private String unique;
 	@Indexed
@@ -102,6 +103,14 @@ public class OpenNode {
 	 */
 	public void setRow(LinkedList<String> row) {
 		this.row = row;
+	}
+
+	public Set<OpenDocument> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(Set<OpenDocument> documents) {
+		this.documents = documents;
 	}
 
 }

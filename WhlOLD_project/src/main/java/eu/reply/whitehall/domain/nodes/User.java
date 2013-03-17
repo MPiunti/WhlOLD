@@ -8,7 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 
 @NodeEntity
 public class User {
-    @GraphId Long nodeId;
+    @GraphId 
+    Long nodeId;
 
     private static final String SALT = "minimolino";
 
@@ -149,4 +150,12 @@ public class User {
 
         return nodeId != null ? nodeId.hashCode() : super.hashCode();
     }
+
+	public Set<OpenDocument> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(Set<OpenDocument> documents) {
+		this.documents = documents;
+	}
 }

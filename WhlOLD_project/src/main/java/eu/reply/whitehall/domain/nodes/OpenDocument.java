@@ -12,8 +12,25 @@ import org.springframework.data.neo4j.annotation.RelatedTo;
 @NodeEntity
 public class OpenDocument {
 	
+	public Set<User> getOwners() {
+		return owners;
+	}
+
+	public void setOwners(Set<User> owners) {
+		this.owners = owners;
+	}
+
+	public Set<OpenNode> getNodes() {
+		return nodes;
+	}
+
+	public void setNodes(Set<OpenNode> nodes) {
+		this.nodes = nodes;
+	}
+
 	@GraphId
 	private Long id;
+	
 	@Indexed
 	private String name;	
 	
