@@ -16,9 +16,9 @@ import com.csvreader.CsvReader;
 
 import eu.reply.whitehall.domain.nodes.OpenDocument;
 import eu.reply.whitehall.domain.upload.UploadItem;
+import eu.reply.whitehall.repository.UserRepository;
 import eu.reply.whitehall.service.CSVService;
 import eu.reply.whitehall.service.OpenDocumentService;
-import eu.reply.whitehall.service.UserService;
  
  
 @Controller
@@ -32,7 +32,7 @@ public class UploadController {
   private OpenDocumentService openDocService; 
   
   @Autowired
-  private UserService userService;
+  private UserRepository userRepo;
   
   
 	
@@ -67,7 +67,7 @@ public class UploadController {
     model.addObject("ctype", uploadItem.getFileData().getContentType());
 
     OpenDocument openDocument = new OpenDocument(uploadItem.getName());
-    openDocService.create(openDocument, userService.getUserFromSession());
+    openDocService.create(openDocument, userRepo.getUserFromSession());
     
     /* Some kind of file pre-processing...
     System.err.println("-------------------------------------------");

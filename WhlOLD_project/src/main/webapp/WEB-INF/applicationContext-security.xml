@@ -28,14 +28,12 @@
     </security:http>
 
     <security:authentication-manager>
-        <security:authentication-provider user-service-ref="userRepository">
+        <security:authentication-provider user-service-ref="userService">
             <security:password-encoder hash="md5">
                 <security:salt-source system-wide="minimolino"/>
             </security:password-encoder>
         </security:authentication-provider>
     </security:authentication-manager>
-    
-    <!-- Custom User Service and Repo 
-	<bean id="userRepository" class="eu.reply.whitehall.repository.UserRepositoryImpl" /> -->
+
 
 </beans>

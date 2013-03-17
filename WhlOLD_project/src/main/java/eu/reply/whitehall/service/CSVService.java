@@ -14,11 +14,9 @@ import com.csvreader.CsvReader;
 
 import eu.reply.whitehall.domain.nodes.OpenDocument;
 import eu.reply.whitehall.domain.nodes.OpenNode;
-import eu.reply.whitehall.domain.nodes.User;
 import eu.reply.whitehall.domain.relationships.DocumentNodeRelationship;
 import eu.reply.whitehall.repository.OpenDocumentRepository;
 import eu.reply.whitehall.repository.OpenNodeRepository;
-import eu.reply.whitehall.repository.UserRepository;
 
 @Service
 public class CSVService {
@@ -26,15 +24,13 @@ public class CSVService {
 	@Autowired 
 	private Neo4jTemplate template;
 	 
-	@Autowired
-	private UserRepository userRepository;
+	/*@Autowired
+	private UserRepository userRepository;*/
 	@Autowired
 	private OpenNodeRepository openNodeRepository;
 	@Autowired
 	private OpenDocumentRepository openDocumentRepository;
 	 
-    // private Map<Long,User> users = new HashMap<Long, User>();
-	private final int MAX_COLUMN=30;
   
     @Transactional
     public void importOpenRows(CsvReader csvDocument, OpenDocument openDocument) throws IOException {
@@ -56,6 +52,7 @@ public class CSVService {
     	/* Store Relationship */
         DocumentNodeRelationship drRel = 
         		template.createRelationshipBetween(openDocument,node,DocumentNodeRelationship.class, "INCLUDES",false);
+        template.save(drRel);
 
     	// CONTENT
         while (csvDocument.readRecord()) {
@@ -68,6 +65,7 @@ public class CSVService {
         	node.setRow(row);        	
         	openNodeRepository.save(node);        	
         	template.createRelationshipBetween(openDocument,node,DocumentNodeRelationship.class, "INCLUDES",false);
+        	template.save(drRel);
         }
     }
     

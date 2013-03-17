@@ -9,13 +9,10 @@ import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 
 import eu.reply.whitehall.domain.nodes.OpenDocument;
-import eu.reply.whitehall.domain.nodes.OpenNode;
 import eu.reply.whitehall.domain.nodes.User;
 import eu.reply.whitehall.domain.relationships.UserDocumentRelationship;
 import eu.reply.whitehall.repository.OpenDocumentRepository;
-import eu.reply.whitehall.repository.OpenNodeRepository;
-import eu.reply.whitehall.repository.RoleRepository;
-import eu.reply.whitehall.repository.UserRepository;
+
 
 @Service
 public class OpenDocumentService {
@@ -59,7 +56,8 @@ public class OpenDocumentService {
 			throw new RuntimeException("Record already exists!");
 		}		
 		OpenDocument od = openDocumentRepository.save(openDocument);		
-        template.createRelationshipBetween(user, openDocument, UserDocumentRelationship.class, "OWNS", false);		
+        UserDocumentRelationship t = template.createRelationshipBetween(user, openDocument, UserDocumentRelationship.class, "OWNS", false);	
+        template.save(t);
 		return od;
 	}
 	
