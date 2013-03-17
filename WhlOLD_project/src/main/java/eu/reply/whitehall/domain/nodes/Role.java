@@ -1,4 +1,4 @@
-package eu.reply.whitehall.domain;
+package eu.reply.whitehall.domain.nodes;
 
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;

@@ -1,8 +1,13 @@
-package eu.reply.whitehall.domain;
+package eu.reply.whitehall.domain.nodes;
 
+import java.util.Set;
+
+import org.neo4j.graphdb.Direction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedTo;
 
 @NodeEntity
 public class OpenDocument {
@@ -11,8 +16,13 @@ public class OpenDocument {
 	private Long id;
 	@Indexed
 	private String name;	
-	@Indexed
-	private Long user_id;
+	
+
+	@RelatedTo(type = "OWNS", direction = Direction.INCOMING)
+    Set<User> owners;
+
+	@RelatedTo(type = "INCLUDES", direction = Direction.OUTGOING)
+    Set<OpenNode> nodes;
 	
 	@Indexed
 	private int visible;	 // 0 is not visible, 1 is visible
@@ -53,19 +63,6 @@ public class OpenDocument {
 		this.name = name;
 	}
 
-	/**
-	 * @return the user_id
-	 */
-	public Long getUser_id() {
-		return user_id;
-	}
-
-	/**
-	 * @param user_id the user_id to set
-	 */
-	public void setUser_id(Long user_id) {
-		this.user_id = user_id;
-	}
 
 	/**
 	 * @return the visible

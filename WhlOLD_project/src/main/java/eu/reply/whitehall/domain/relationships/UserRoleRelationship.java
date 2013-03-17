@@ -1,8 +1,11 @@
-package eu.reply.whitehall.domain;
+package eu.reply.whitehall.domain.relationships;
 
 import org.springframework.data.neo4j.annotation.EndNode;
 import org.springframework.data.neo4j.annotation.RelationshipEntity;
 import org.springframework.data.neo4j.annotation.StartNode;
+
+import eu.reply.whitehall.domain.nodes.Role;
+import eu.reply.whitehall.domain.nodes.User;
 
 @RelationshipEntity(type = "HAS_ROLE")
 public class UserRoleRelationship {

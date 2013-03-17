@@ -6,7 +6,7 @@ package eu.reply.whitehall.opendata.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import eu.reply.whitehall.domain.User;
+import eu.reply.whitehall.domain.nodes.User;
 
 import java.util.Arrays;
 import java.util.Collection;

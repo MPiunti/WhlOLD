@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import eu.reply.whitehall.domain.OpenNode;
-import eu.reply.whitehall.domain.User;
+import eu.reply.whitehall.domain.nodes.OpenNode;
+import eu.reply.whitehall.domain.nodes.User;
 import eu.reply.whitehall.dto.UserDto;
 
 public class OpenNodeMapper {

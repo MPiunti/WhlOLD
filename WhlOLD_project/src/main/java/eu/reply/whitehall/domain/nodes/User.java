@@ -1,4 +1,7 @@
-package eu.reply.whitehall.domain;
+package eu.reply.whitehall.domain.nodes;
+import java.util.Set;
+
+import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.*;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +18,9 @@ public class User {
     String password;
     String info;
     private Roles[] roles;
+    
+	@RelatedTo(type = "OWNS", direction = Direction.OUTGOING)
+    Set<OpenDocument> documents;
 
     public User() {
     }

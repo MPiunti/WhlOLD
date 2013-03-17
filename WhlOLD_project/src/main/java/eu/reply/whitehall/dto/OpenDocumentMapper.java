@@ -3,7 +3,7 @@ package eu.reply.whitehall.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.reply.whitehall.domain.OpenDocument;
+import eu.reply.whitehall.domain.nodes.OpenDocument;
 
 
 public class OpenDocumentMapper {
@@ -12,7 +12,7 @@ public class OpenDocumentMapper {
 		OpenDocumentDto dto = new OpenDocumentDto();
 			dto.setId(openDoc.getId());			
 			dto.setName(openDoc.getName());
-			dto.setUser_id(openDoc.getUser_id());
+			//dto.setUser_id(openDoc.getUser_id());
 			dto.setVisible(openDoc.getVisible());
 			return dto;
 	}

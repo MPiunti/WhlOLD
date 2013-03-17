@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import eu.reply.whitehall.domain.User;
+import eu.reply.whitehall.domain.nodes.User;
 import eu.reply.whitehall.dto.UserDto;
 
 public class UserMapper {

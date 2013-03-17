@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
-import eu.reply.whitehall.domain.User;
+import eu.reply.whitehall.domain.nodes.User;
 
 
 public interface OpenUserDetailsService extends UserDetailsService {

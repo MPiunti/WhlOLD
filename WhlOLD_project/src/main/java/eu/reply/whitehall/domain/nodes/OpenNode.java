@@ -1,10 +1,13 @@
-package eu.reply.whitehall.domain;
+package eu.reply.whitehall.domain.nodes;
 
 import java.util.LinkedList;
+import java.util.Set;
 
+import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedTo;
 
 @NodeEntity
 public class OpenNode {
@@ -20,6 +23,9 @@ public class OpenNode {
 	private int headerLine;
 	
 	private LinkedList<String> row;
+	
+	@RelatedTo(type = "INCUDES", direction = Direction.INCOMING)
+    Set<OpenDocument> documents;
 	
 	
 	public OpenNode(){}

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import eu.reply.whitehall.domain.OpenNode;
+import eu.reply.whitehall.domain.nodes.OpenNode;
 import eu.reply.whitehall.dto.OpenNodeDto;
 import eu.reply.whitehall.dto.OpenNodeListDto;
 import eu.reply.whitehall.dto.OpenNodeMapper;
@@ -59,53 +59,13 @@ public class OpenNodeController {
 
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public @ResponseBody OpenNodeDto create(
-			@RequestParam String name /*,
-			@RequestParam String password,
-			@RequestParam String firstName,
-			@RequestParam String lastName,
-			@RequestParam Integer role*/) {
+			@RequestParam String name ) {
 		
 		OpenNode newNode = new OpenNode(name);
-		/*newNode.setName(name);
-		newUser.setPassword(password);
-		newUser.setFirstName(firstName);
-		newUser.setLastName(lastName);
-		newUser.setRole(newRole);*/
-		
 		return OpenNodeMapper.map(service.create(newNode));
 	} 
 	
-	/*
-	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public @ResponseBody UserDto update(
-			@RequestParam String username,
-			@RequestParam String firstName,
-			@RequestParam String lastName,
-			@RequestParam Integer role) {
 
-		Role existingRole = new Role();
-		existingRole.setRole(role);
-		
-		User existingUser = new User();
-		existingUser.setUsername(username);
-		existingUser.setFirstName(firstName);
-		existingUser.setLastName(lastName);
-		existingUser.setRole(existingRole);
-		
-		return UserMapper.map(service.update(existingUser));
-	}
-	
-	@RequestMapping(value="/delete", method=RequestMethod.POST)
-	public @ResponseBody Boolean delete(
-			@RequestParam String username) {
-
-		User existingUser = new User();
-		existingUser.setUsername(username);
-		
-		return service.delete(existingUser);
-	}*/
-	
-	
 	
 	@RequestMapping(value="/quit", method=RequestMethod.POST)
 	public @ResponseBody Boolean quit() {

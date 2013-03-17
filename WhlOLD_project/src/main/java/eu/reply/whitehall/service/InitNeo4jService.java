@@ -2,8 +2,8 @@ package eu.reply.whitehall.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import eu.reply.whitehall.domain.Role;
-import eu.reply.whitehall.domain.User;
+import eu.reply.whitehall.domain.nodes.Role;
+import eu.reply.whitehall.domain.nodes.User;
 import eu.reply.whitehall.repository.UserRepository;
 
 /**

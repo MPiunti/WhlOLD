@@ -14,8 +14,11 @@ import org.springframework.validation.ObjectError;
 
 import com.csvreader.CsvReader;
 
+import eu.reply.whitehall.domain.nodes.OpenDocument;
 import eu.reply.whitehall.domain.upload.UploadItem;
 import eu.reply.whitehall.service.CSVService;
+import eu.reply.whitehall.service.OpenDocumentService;
+import eu.reply.whitehall.service.UserService;
  
  
 @Controller
@@ -23,7 +26,15 @@ import eu.reply.whitehall.service.CSVService;
 public class UploadController {
 	
   @Autowired
-  private CSVService service;
+  private CSVService csvService;
+  
+  @Autowired
+  private OpenDocumentService openDocService; 
+  
+  @Autowired
+  private UserService userService;
+  
+  
 	
   @RequestMapping(method = RequestMethod.GET)
   public String getUploadForm(Model model) {
@@ -55,6 +66,9 @@ public class UploadController {
     model.addObject("ofname", uploadItem.getFileData().getOriginalFilename());
     model.addObject("ctype", uploadItem.getFileData().getContentType());
 
+    OpenDocument openDocument = new OpenDocument(uploadItem.getName());
+    openDocService.create(openDocument, userService.getUserFromSession());
+    
     /* Some kind of file pre-processing...
     System.err.println("-------------------------------------------");
     System.err.println("Test upload: name:" + uploadItem.getName());
@@ -66,13 +80,13 @@ public class UploadController {
     InputStreamReader isr;
 	try {
 		isr = new InputStreamReader(uploadItem.getFileData().getInputStream());
-		CsvReader csvDocument = new CsvReader(isr);
+		CsvReader csvReader = new CsvReader(isr);
        /* csvDocument.readHeaders();
         for(int i=0;i < csvDocument.getHeaders().length; i++){
         	System.err.println(csvDocument.getHeaders()[i] + ";");
         }*/
 
-        service.importOpenRows(csvDocument);
+        csvService.importOpenRows(csvReader,openDocument);
         isr.close();
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
@@ -111,7 +125,7 @@ public class UploadController {
         	System.err.println(csvDocument.getHeaders()[i] + ";");
         }*/
         String doc_name = uploadItem.getName().replace(" ", "_");
-        service.importOpenData(csvDocument, doc_name, uploadItem.getStatus() );
+        csvService.importOpenData(csvDocument, doc_name, uploadItem.getStatus() );
         isr.close();
 	} catch (IOException e) {
 		// TODO Auto-generated catch block

@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.stereotype.Service;
 
-import eu.reply.whitehall.domain.OpenNode;
-import eu.reply.whitehall.domain.User;
+import eu.reply.whitehall.domain.nodes.OpenNode;
+import eu.reply.whitehall.domain.nodes.User;
 import eu.reply.whitehall.repository.OpenNodeRepository;
 import eu.reply.whitehall.repository.RoleRepository;
 import eu.reply.whitehall.repository.UserRepository;
