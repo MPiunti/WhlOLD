@@ -57,7 +57,8 @@ public class OpenDocumentService {
 		}		
 		OpenDocument od = openDocumentRepository.save(openDocument);		
         UserDocumentRelationship t = template.createRelationshipBetween(user, openDocument, UserDocumentRelationship.class, "OWNS", false);	
-        //template.save(t);
+        template.save(t);
+
 		return od;
 	}
 	
