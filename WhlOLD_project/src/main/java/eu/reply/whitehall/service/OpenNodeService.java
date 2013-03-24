@@ -45,8 +45,12 @@ public class OpenNodeService {
 		return openNodes;
 	}
 	
-	
-	
+	/**
+	 * 
+	 * @param pName
+	 * @param obj
+	 * @return
+	 */	
 	public List<OpenNode> findAllbyPropertyValue(String pName, Object obj) {
 		List<OpenNode> openNodes = new ArrayList<OpenNode>();
 		
@@ -57,6 +61,11 @@ public class OpenNodeService {
 		return openNodes;
 	}
 	
+	/**
+	 * 
+	 * @param docName
+	 * @return
+	 */
 	public List<OpenNode> findAllHeaders(String docName) {
 		List<OpenNode> openNodes = new ArrayList<OpenNode>();
 		
@@ -66,12 +75,16 @@ public class OpenNodeService {
 		EndResult<OpenNode> results = openNodeRepository.findAllByQuery("n",query); 
 		for (OpenNode r: results) { 
 			openNodes.add(r);
-		}		
-		
+		}				
 		System.err.println(" headers found: " + openNodes.size() );
 		return openNodes;
 	}
 	
+	/**
+	 * 
+	 * @param docName
+	 * @return
+	 */
 	public List<OpenNode> findAllRecords(String docName) {
 		List<OpenNode> openNodes = new ArrayList<OpenNode>();
 		
@@ -81,8 +94,7 @@ public class OpenNodeService {
 		EndResult<OpenNode> results = openNodeRepository.findAllByQuery("n",query); 
 		for (OpenNode r: results) { 
 			openNodes.add(r);
-		}		
-		
+		}				
 		System.err.println(" data  found: " + openNodes.size() + " records" );
 		return openNodes;
 	}

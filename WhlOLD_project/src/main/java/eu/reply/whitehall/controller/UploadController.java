@@ -42,7 +42,7 @@ public class UploadController {
  
  
   
-  //-----------------------------------------------------------------------------
+  /*-----------------------------------------------------------------------------
   
   @RequestMapping(value="/open", method = RequestMethod.GET)
   public String getOpenUploadForm(Model model) {
@@ -67,22 +67,22 @@ public class UploadController {
     OpenDocument openDocument = new OpenDocument(uploadItem.getName());
     openDocService.create(openDocument, userRepo.getUserFromSession());
     
-    /* Some kind of file pre-processing...
+     Some kind of file pre-processing...
     System.err.println("-------------------------------------------");
     System.err.println("Test upload: name:" + uploadItem.getName());
     System.err.println("Test upload: original Name:" + uploadItem.getFileData().getOriginalFilename());
     System.err.println("Test upload: content-type:" + uploadItem.getFileData().getContentType());
     System.err.println("-------------------------------------------");
-    */
+
     
     InputStreamReader isr;
 	try {
 		isr = new InputStreamReader(uploadItem.getFileData().getInputStream());
 		CsvReader csvReader = new CsvReader(isr);
-        /* csvDocument.readHeaders();
-        for(int i=0;i < csvDocument.getHeaders().length; i++){
+        // csvDocument.readHeaders();
+       // for(int i=0;i < csvDocument.getHeaders().length; i++){
         	System.err.println(csvDocument.getHeaders()[i] + ";");
-        }*/
+       // }
         csvService.importOpenRows(csvReader,openDocument);
         isr.close();
 	} catch (IOException e) {
@@ -91,7 +91,7 @@ public class UploadController {
  
     return model;
   }
-  
+  */
   
 //------------------- Upload Open Data Document -----------------------------
   

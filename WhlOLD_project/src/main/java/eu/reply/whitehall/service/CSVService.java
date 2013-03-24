@@ -35,8 +35,8 @@ public class CSVService {
 	@Autowired
 	private OpenDocumentRepository openDocumentRepository;
 	 
-  
-    @Transactional
+
+    /*@Transactional
     public void importOpenRows(CsvReader csvDocument, OpenDocument openDocument) throws IOException {
     	
         // HEADRERS
@@ -47,13 +47,13 @@ public class CSVService {
         for(int i=0;i < OPEN_COLUMN; i++){
         	columns[i] = csvDocument.getHeaders()[i];
         }
-        OpenNode node = new OpenNode("username@");
+        OpenNode node = new OpenNode("username@"+openDocument.getName()+"_"+openDocument.getId());
     	LinkedList<String> row = new LinkedList<String>(Arrays.asList(columns));	
     	node.setRow(row);
     	node.setHeaderLine(1);
     	openNodeRepository.save(node);
     	
-    	/* Store Relationship */
+    	// Store Relationship 
         DocumentNodeRelationship drRel = 
         		template.createRelationshipBetween(openDocument,node,DocumentNodeRelationship.class, "INCLUDES",false);
         template.save(drRel);
@@ -61,17 +61,17 @@ public class CSVService {
     	// CONTENT
         while (csvDocument.readRecord()) {
         	// TODO:  username is dymanic
-        	node = new OpenNode("username@");
+        	node = new OpenNode("username@"+openDocument.getName()+"_"+openDocument.getId());
         	row = new LinkedList<String>(Arrays.asList(csvDocument.getValues()));
-        	/*for(int i=0;i < OPEN_COLUMN; i++){
-        		 row.add(csvDocument.get(column[i]));
-            }*/		
+        	//for(int i=0;i < OPEN_COLUMN; i++){
+        	//	 row.add(csvDocument.get(column[i]));
+            }//	
         	node.setRow(row);        	
         	openNodeRepository.save(node);        	
         	template.createRelationshipBetween(openDocument,node,DocumentNodeRelationship.class, "INCLUDES",false);
         	template.save(drRel);
         }
-    }
+    }*/
     
     
     
@@ -87,7 +87,7 @@ public class CSVService {
         for(int i=0;i < OPEN_COLUMN; i++){
         	column[i] = csvDocument.getHeaders()[i];
         }
-        OpenNode node = new OpenNode(user.getLogin()+"@");
+        OpenNode node = new OpenNode(user.getLogin()+"@"+openDocument.getName()+"_"+openDocument.getId());
     	LinkedList<String> row = new LinkedList<String>(Arrays.asList(column));	
     	node.setRow(row);
     	node.setHeaderLine(1);
@@ -97,12 +97,12 @@ public class CSVService {
     	/* Store Relationship */
         DocumentNodeRelationship drRel = 
         		template.createRelationshipBetween(openDocument,node,DocumentNodeRelationship.class, "INCLUDES",false);
-        //template.save(drRel);
+        template.save(drRel);
 
     	// CONTENT
         while (csvDocument.readRecord()) {
         	// TODO:  username is dymanic
-        	node = new OpenNode(user.getLogin()+"@");
+        	node = new OpenNode(user.getLogin()+"@"+openDocument.getName()+"_"+openDocument.getId());
         	node.setName(openDocument.getName());
         	row = new LinkedList<String>(Arrays.asList(csvDocument.getValues()));
         	/*for(int i=0;i < OPEN_COLUMN; i++){
@@ -114,6 +114,7 @@ public class CSVService {
         	
         	/* Store Relationship */
         	template.createRelationshipBetween(openDocument,node,DocumentNodeRelationship.class, "INCLUDES",false);
+        	template.save(drRel);
         }
     }
     

@@ -12,6 +12,7 @@ public class User {
     Long nodeId;
 
     private static final String SALT = "minimolino";
+	private String type = "USER";	
 
     @Indexed
     String login;
@@ -157,5 +158,13 @@ public class User {
 
 	public void setDocuments(Set<OpenDocument> documents) {
 		this.documents = documents;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }

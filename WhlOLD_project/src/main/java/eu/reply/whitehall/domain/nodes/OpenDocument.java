@@ -12,28 +12,13 @@ import org.springframework.data.neo4j.annotation.RelatedTo;
 @NodeEntity
 public class OpenDocument {
 	
-	public Set<User> getOwners() {
-		return owners;
-	}
-
-	public void setOwners(Set<User> owners) {
-		this.owners = owners;
-	}
-
-	public Set<OpenNode> getNodes() {
-		return nodes;
-	}
-
-	public void setNodes(Set<OpenNode> nodes) {
-		this.nodes = nodes;
-	}
-
 	@GraphId
 	private Long id;
-	
+		
 	@Indexed
 	private String name;	
 	
+	private String type = "OPEN_DOCUMENT";
 
 	@RelatedTo(type = "OWNS", direction = Direction.INCOMING)
     Set<User> owners;
@@ -81,6 +66,14 @@ public class OpenDocument {
 	}
 
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	/**
 	 * @return the visible
 	 */
@@ -93,6 +86,22 @@ public class OpenDocument {
 	 */
 	public void setVisible(int visible) {
 		this.visible = visible;
+	}
+	
+	public Set<User> getOwners() {
+		return owners;
+	}
+
+	public void setOwners(Set<User> owners) {
+		this.owners = owners;
+	}
+
+	public Set<OpenNode> getNodes() {
+		return nodes;
+	}
+
+	public void setNodes(Set<OpenNode> nodes) {
+		this.nodes = nodes;
 	}
 
 	
