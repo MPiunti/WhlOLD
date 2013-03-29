@@ -31,6 +31,8 @@
 		urlHolder.edit = '${editUrl}';
 		urlHolder.del = '${deleteUrl}';
 		urlHolder.quit = '${quitUrl}';
+		
+		// fill-it!
 		loadTable();
 		
 		$('#newBtn').click(function() { 

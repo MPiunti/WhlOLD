@@ -19,7 +19,7 @@ function loadTable() {
 			  row += '<td>Public</td>';
 			else
 				row += '<td>Private</td>';
-			row += '<td><a href="'+urlHolder.opendata+'/'+response.openDocuments[i].name+'">link</a></td>';
+			row += '<td><a href="'+urlHolder.opendata+'/?name='+response.openDocuments[i].name+'&id='+response.openDocuments[i].id+'&unique='+response.openDocuments[i].unique+'">link</a></td>';
 			row += '</tr>';
 
 			//console.log(row);	

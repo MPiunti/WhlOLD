@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import eu.reply.whitehall.domain.nodes.OpenDocument;
 import eu.reply.whitehall.domain.nodes.OpenNode;
 import eu.reply.whitehall.dto.OpenNodeDto;
 import eu.reply.whitehall.dto.OpenNodeListDto;
@@ -25,28 +26,29 @@ public class OpenNodeController {
 	@Autowired
 	private OpenNodeService service;
 	
-	@RequestMapping(value="/{docname}")
-	public ModelAndView getOpenNodesPage(@PathVariable("docname") String doc_name) {
+	@RequestMapping(value="/")
+	public ModelAndView getOpenNodesPage(OpenDocument doc) {
 		ModelAndView mav = new ModelAndView("open");
-		mav.addObject("doc_name", doc_name);
-
+		mav.addObject("doc", doc);
 		return mav;
 	}
 	
-	@RequestMapping(value="/headers/{docname}")
-	public @ResponseBody OpenNodeListDto getOpenHEaders(@PathVariable("docname") String doc_name) {		
+	@RequestMapping(value="/headers/{doc}")
+	public @ResponseBody OpenNodeListDto getOpenHeaders(@PathVariable("doc") String doc_uk) {		
 
 		OpenNodeListDto openNodeListDto = new OpenNodeListDto();
-		openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.findAllHeaders(doc_name)));
+		//openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.findAllHeaders(doc_name)));
+		openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.getHeaders(doc_uk)));
 		return openNodeListDto;
 	}
 
 		
-	@RequestMapping(value="/records/{docname}")
-	public @ResponseBody OpenNodeListDto getOpenNodes(@PathVariable("docname") String doc_name) {
+	@RequestMapping(value="/records/{doc}")
+	public @ResponseBody OpenNodeListDto getOpenNodes(@PathVariable("doc") String doc_uk) {
 		
 		OpenNodeListDto openNodeListDto = new OpenNodeListDto();
-		openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.findAllRecords(doc_name)));
+		//openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.findAllRecords(doc_name)));
+		openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.getRecords(doc_uk)));
 		return openNodeListDto;
 	}
 	

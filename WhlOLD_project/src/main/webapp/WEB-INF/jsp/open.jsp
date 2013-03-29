@@ -2,9 +2,9 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<c:url value="/open/${doc_name}" var="opendataUrl"/>
-<c:url value="/open/records/${doc_name}" var="recordsUrl"/>
-<c:url value="/open/headers/${doc_name}" var="headersUrl"/>
+<c:url value="/open/${doc.name}" var="opendataUrl"/>
+<c:url value="/open/records/${doc.name}" var="recordsUrl"/>
+<c:url value="/open/headers/${doc.name}" var="headersUrl"/>
 <c:url value="/open/create" var="addUrl"/>
 <c:url value="/open/update" var="editUrl"/>
 <c:url value="/open/delete" var="deleteUrl"/>

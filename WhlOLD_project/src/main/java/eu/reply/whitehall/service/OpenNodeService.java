@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.stereotype.Service;
 
+import eu.reply.whitehall.domain.nodes.OpenDocument;
 import eu.reply.whitehall.domain.nodes.OpenNode;
 import eu.reply.whitehall.domain.nodes.User;
 import eu.reply.whitehall.repository.OpenNodeRepository;
@@ -61,6 +62,29 @@ public class OpenNodeService {
 		return openNodes;
 	}
 	
+	public List<OpenNode> getHeaders(String doc_uk) {
+		List<OpenNode> openNodes = new ArrayList<OpenNode>();
+		Iterable<OpenNode> results = openNodeRepository.getHeaders(doc_uk);
+		for (OpenNode r: results) { 
+			openNodes.add(r);
+		}				
+		System.err.println("HEADERS found: " + openNodes.size() );
+		return openNodes;
+	}
+	
+	public List<OpenNode> getRecords(String doc_uk) {
+		List<OpenNode> openNodes = new ArrayList<OpenNode>();
+		Iterable<OpenNode> results = openNodeRepository.getRecords(doc_uk);
+		for (OpenNode r: results) { 
+			openNodes.add(r);
+		}				
+		System.err.println("CONTENTS found: " + openNodes.size() );
+		return openNodes;
+	}
+	
+	
+	// ####################### Alternative Solution: InBound Queries #################################################
+	
 	/**
 	 * 
 	 * @param docName
@@ -70,13 +94,14 @@ public class OpenNodeService {
 		List<OpenNode> openNodes = new ArrayList<OpenNode>();
 		
 		//String query = "START n=node:nodes(name = \""+docName+"\") WHERE (n.headerLine = 0) RETURN n";
-		String query = "START n=node:nodes(name:"+docName+") WHERE (n.headerLine = 1) RETURN n";
+		//String query = "START n=node:nodes(name:"+docName+") WHERE (n.headerLine = 1) RETURN n";
+		String query = "START n=node:OpenDocument(name={0}) MATCH (n)-[:INCLUDES]->(x)  WHERE x.headerLine = 1 RETURN x";
 
-		EndResult<OpenNode> results = openNodeRepository.findAllByQuery("n",query); 
+		EndResult<OpenNode> results = openNodeRepository.findAllByQuery(docName,query); 
 		for (OpenNode r: results) { 
 			openNodes.add(r);
 		}				
-		System.err.println(" headers found: " + openNodes.size() );
+		System.err.println("QUERY:" +query+"\n headers found: " + openNodes.size() );
 		return openNodes;
 	}
 	
@@ -89,13 +114,14 @@ public class OpenNodeService {
 		List<OpenNode> openNodes = new ArrayList<OpenNode>();
 		
 		//String query = "START n=node:nodes(name = \""+docName+"\") WHERE (n.headerLine = 0) RETURN n";
-		String query = "START n=node:nodes(name:"+docName+") WHERE (n.headerLine = 0) RETURN n";
+		//String query = "START n=node:nodes(name:"+docName+") WHERE (n.headerLine = 0) RETURN n";
+		String query = "START n=node:OpenDocument(name={0}) MATCH (n)-[:INCLUDES]->(x)  WHERE x.headerLine = 0 RETURN x";
 
-		EndResult<OpenNode> results = openNodeRepository.findAllByQuery("n",query); 
+		EndResult<OpenNode> results = openNodeRepository.findAllByQuery(docName,query); 
 		for (OpenNode r: results) { 
 			openNodes.add(r);
 		}				
-		System.err.println(" data  found: " + openNodes.size() + " records" );
+		System.err.println("QUERY:" +query+"\n data  found: " + openNodes.size() + " records" );
 		return openNodes;
 	}
 	
