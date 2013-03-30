@@ -10,7 +10,8 @@ import eu.reply.whitehall.domain.nodes.User;
 
 
 public interface OpenUserDetailsService extends UserDetailsService {
-    @Override
+    
+	@Override
     OpenUserDetails loadUserByUsername(String login) throws UsernameNotFoundException, DataAccessException;
 
     User getUserFromSession();

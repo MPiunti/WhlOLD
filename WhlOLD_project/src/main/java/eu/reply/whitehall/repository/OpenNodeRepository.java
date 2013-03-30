@@ -9,7 +9,7 @@ import eu.reply.whitehall.domain.nodes.OpenNode;
 public interface OpenNodeRepository extends GraphRepository<OpenNode>  {
 	
 	//OpenNode findByUniqueKey(String uniqueKey);
-	
+		
 	 @Query("START n=node:OpenDocument(name={0}) MATCH (n)-[:INCLUDES]->(x)  WHERE x.headerLine = 1 RETURN x")
 	 Iterable<OpenNode> getHeaders(String doc_uk);
 	

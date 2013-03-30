@@ -1,6 +1,6 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 
-<c:url value="/home/records" var="recordsUrl"/>
+<c:url value="/home/documents" var="documentsUrl"/>
 <c:url value="/home/quit" var="quitUrl"/>
 <c:url value="/open" var="opendataUrl"/>
 
@@ -20,7 +20,7 @@
 	<script type='text/javascript'>
 	$(function() {
 		urlHolder.add = '${addUrl}';
-		urlHolder.records = '${recordsUrl}';
+		urlHolder.documents = '${documentsUrl}';
 		urlHolder.quit = '${quitUrl}';
 		urlHolder.opendata = '${opendataUrl}';
 

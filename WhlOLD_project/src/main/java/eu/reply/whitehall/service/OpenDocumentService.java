@@ -12,6 +12,7 @@ import eu.reply.whitehall.domain.nodes.OpenDocument;
 import eu.reply.whitehall.domain.nodes.User;
 import eu.reply.whitehall.domain.relationships.UserDocumentRelationship;
 import eu.reply.whitehall.repository.OpenDocumentRepository;
+import eu.reply.whitehall.repository.UserRepository;
 
 
 @Service
@@ -19,12 +20,28 @@ public class OpenDocumentService {
 	
 	@Autowired 
 	private Neo4jTemplate template;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	@Autowired
 	private OpenDocumentRepository openDocumentRepository;
 
 	
-	public List<OpenDocument> readAll() {
+	public List<OpenDocument> findByUser() {
+		List<OpenDocument> openDocuments = new ArrayList<OpenDocument>();
+		
+		Iterable<OpenDocument> results = openDocumentRepository.findByOwnersLogin(userRepository.getUserFromSession().getLogin());
+		for (OpenDocument r: results) {
+			System.out.println("result retrieved doc_: " + r.getName() );
+			openDocuments.add(r);
+		}
+		
+		return openDocuments;
+    }
+	
+	
+	/*public List<OpenDocument> readAll() {
 		List<OpenDocument> openDocuments = new ArrayList<OpenDocument>();
 		
 		EndResult<OpenDocument> results = openDocumentRepository.findAll();
@@ -34,7 +51,7 @@ public class OpenDocumentService {
 		}
 		
 		return openDocuments;
-	}
+	}*/
 	
 	
 	

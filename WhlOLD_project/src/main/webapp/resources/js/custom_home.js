@@ -6,10 +6,9 @@ var urlHolder = new Object();
 function loadTable() {
 
 
-	$.get(urlHolder.records, function(response) {
+	$.get(urlHolder.documents, function(response) {
 		console.log(response);	
 		$('#tableOpenDataList').find('tbody').children().remove();
-
 
  		for (var i=0; i<response.openDocuments.length; i++) {
 			var row = '<tr>';
