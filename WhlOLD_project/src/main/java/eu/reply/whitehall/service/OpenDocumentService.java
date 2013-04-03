@@ -8,6 +8,7 @@ import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 
+import eu.reply.whitehall.client.dbpedia.DBpediaLookUpClient;
 import eu.reply.whitehall.domain.nodes.OpenDocument;
 import eu.reply.whitehall.domain.nodes.User;
 import eu.reply.whitehall.domain.relationships.UserDocumentRelationship;
@@ -25,7 +26,10 @@ public class OpenDocumentService {
 	private UserRepository userRepository;
 
 	@Autowired
-	private OpenDocumentRepository openDocumentRepository;
+	private OpenDocumentRepository openDocumentRepository;	
+	
+	@Autowired
+	private DBpediaLookUpClient dbPediaLookUpClient;
 
 	
 	public List<OpenDocument> findByUser() {
@@ -75,6 +79,8 @@ public class OpenDocumentService {
 		OpenDocument od = openDocumentRepository.save(openDocument);		
         UserDocumentRelationship t = template.createRelationshipBetween(user, openDocument, UserDocumentRelationship.class, "OWNS", false);	
         template.save(t);
+        
+        System.out.println(" ++++++++++"+getDBPediaLookUp("Sandro_Botticelli")+"+++++++++++++");
 
 		return od;
 	}
@@ -86,5 +92,11 @@ public class OpenDocumentService {
 	public boolean quit() {	
 		openDocumentRepository.deleteAll();
 		return true;
+	}
+	
+	
+	
+	public String getDBPediaLookUp(String keyword){
+		return dbPediaLookUpClient.linkDbPedia(keyword);
 	}
 }

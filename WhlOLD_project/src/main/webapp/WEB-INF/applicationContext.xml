@@ -41,4 +41,9 @@
         <property name="maxUploadSize" value="500000"/>
     </bean>
         
+    <bean id="dbPediaLookUpClient" class="eu.reply.whitehall.client.dbpedia.DBpediaLookUpClient" />
+
+    
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
+    
 </beans>

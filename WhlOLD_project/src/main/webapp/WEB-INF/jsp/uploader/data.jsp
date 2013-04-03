@@ -27,7 +27,7 @@
                    <form:label for="status" path="status">Stato</form:label><br/>
                    <form:select path="status">
 						<option value="">Seleziona Stato</option>
-						<option value="0">Visibile</option>
+						<option value="0" selected>Visibile</option>
 						<option value="1">Privato</option>
 				   </form:select>
                 </p> 

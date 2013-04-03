@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.stereotype.Service;
 
+import eu.reply.whitehall.client.dbpedia.DBpediaLookUpClient;
 import eu.reply.whitehall.domain.nodes.OpenDocument;
 import eu.reply.whitehall.domain.nodes.OpenNode;
 import eu.reply.whitehall.domain.nodes.User;
@@ -19,6 +20,9 @@ public class OpenNodeService {
 
 	@Autowired
 	private OpenNodeRepository openNodeRepository;
+	
+	@Autowired
+	private DBpediaLookUpClient dbPediaLookUpClient;
 	
 	public OpenNode create(OpenNode openNode) {
 		//OpenNode existingNode = openNodeRepository.findByUniqueKey(openNode.getName());
@@ -158,5 +162,11 @@ public class OpenNodeService {
 	public boolean quit() {	
 		openNodeRepository.deleteAll();
 		return true;
+	}
+	
+	
+	
+	public String getDBPediaLookUp(String keyword){
+		return dbPediaLookUpClient.linkDbPedia(keyword);
 	}
 }
