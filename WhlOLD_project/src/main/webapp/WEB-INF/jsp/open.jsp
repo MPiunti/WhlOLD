@@ -5,6 +5,8 @@
 <c:url value="/open/${doc.name}" var="opendataUrl"/>
 <c:url value="/open/records/${doc.name}" var="recordsUrl"/>
 <c:url value="/open/headers/${doc.name}" var="headersUrl"/>
+<c:url value="/enrich/geo/${doc.name}" var="geoUrl"/>
+<c:url value="/enrich/dbpedia/${doc.name}" var="dbpediaUrl"/>
 <c:url value="/open/create" var="addUrl"/>
 <c:url value="/open/update" var="editUrl"/>
 <c:url value="/open/delete" var="deleteUrl"/>
@@ -25,7 +27,9 @@
 		// init
 		urlHolder.opendata = '${opendataUrl}';
 		urlHolder.headers = '${headersUrl}';
-		urlHolder.records = '${recordsUrl}';		
+		urlHolder.records = '${recordsUrl}';	
+		urlHolder.geo = '${geoUrl}';	
+		urlHolder.dbpedia = '${dbpediaUrl}';	
 		
 		urlHolder.add = '${addUrl}';
 		urlHolder.edit = '${editUrl}';
@@ -81,6 +85,14 @@
 			toggleForms('hide'); 
 			toggleCrudButtons('show');
 		});
+		
+		$('#geoBtn').click(function() {			
+			geo();
+		});
+		
+		$('#dbpediaBtn').click(function() {			
+			dbpedia();
+		});
 	});
 	</script>
 </head>
@@ -96,10 +108,13 @@
 	
 
 	<div id='controlBar'>
-		<input type='button' value='New' id='newBtn' />
-		<input type='button' value='Delete' id='deleteBtn' />
+		<!-- <input type='button' value='New' id='newBtn' />
 		<input type='button' value='Edit' id='editBtn' />
-		<input type='button' value='Reload' id='reloadBtn' />
+		<input type='button' value='Reload' id='reloadBtn' />-->
+		
+		<input type='button' value='Geo' id='geoBtn' />
+		<input type='button' value='DbPedia' id='dbpediaBtn' />
+		<input type='button' value='Delete' id='deleteBtn' />		
 		<input type='button' value='Quit All' id='quitBtn' />
 	</div>
 	

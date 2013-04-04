@@ -107,9 +107,9 @@ function submitUpdateRecord() {
 				loadTable();
 				toggleForms('hide'); ;
 				toggleCrudButtons('show');
-				alert('Success! Record has been edited.');
+				alert('Success! Record has been edited.'+response);
 			} else {
-				alert('Failure! An error has occurred!');
+				alert('Failure! An error has occurred!'+response);
 			}
 		}
 	);
@@ -178,4 +178,17 @@ function toggleCrudButtons(id) {
 		$('#deleteBtn').attr('disabled', 'disabled');
 		$('#reloadBtn').attr('disabled', 'disabled');
 	}
+}
+
+
+function geo() {
+	$.get(urlHolder.geo, function(response) {
+		console.log(response);	
+	});
+}
+
+function dbpedia() {
+	$.get(urlHolder.dbpedia, function(response) {
+		console.log(response);	
+	});
 }

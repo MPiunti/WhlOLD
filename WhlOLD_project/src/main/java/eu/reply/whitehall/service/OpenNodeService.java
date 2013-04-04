@@ -8,12 +8,10 @@ import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.stereotype.Service;
 
 import eu.reply.whitehall.client.dbpedia.DBpediaLookUpClient;
-import eu.reply.whitehall.domain.nodes.OpenDocument;
+import eu.reply.whitehall.client.geocode.GoogleGeoCodeClient;
 import eu.reply.whitehall.domain.nodes.OpenNode;
-import eu.reply.whitehall.domain.nodes.User;
 import eu.reply.whitehall.repository.OpenNodeRepository;
-import eu.reply.whitehall.repository.RoleRepository;
-import eu.reply.whitehall.repository.UserRepository;
+
 
 @Service
 public class OpenNodeService {
@@ -23,6 +21,8 @@ public class OpenNodeService {
 	
 	@Autowired
 	private DBpediaLookUpClient dbPediaLookUpClient;
+	@Autowired
+	private GoogleGeoCodeClient googleGeoCodeClient;
 	
 	public OpenNode create(OpenNode openNode) {
 		//OpenNode existingNode = openNodeRepository.findByUniqueKey(openNode.getName());
@@ -166,7 +166,25 @@ public class OpenNodeService {
 	
 	
 	
-	public String getDBPediaLookUp(String keyword){
-		return dbPediaLookUpClient.linkDbPedia(keyword);
+	public String getDBPediaLookUp(String doc_uk){
+		//return dbPediaLookUpClient.linkDbPedia(keyword);
+		String ret="",key="";
+		List<OpenNode> records = getRecords(doc_uk);
+		for(OpenNode node:records){
+			key=node.getRow().get(0); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
+			ret +="\n"+ dbPediaLookUpClient.linkDbPedia(key.replace(" ", "+"));
+		}
+		return ret;
+	}
+	
+	
+	public String getGeoCode( String doc_uk){
+		String ret="",address="";
+		List<OpenNode> records = getRecords(doc_uk);
+		for(OpenNode node:records){
+			address=node.getRow().get(0); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
+			ret +="\n"+ googleGeoCodeClient.geoCode(address.replace(" ", "+"));
+		}
+		return ret;
 	}
 }
