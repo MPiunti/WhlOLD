@@ -9,11 +9,39 @@ pageEncoding="UTF-8"%>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel='stylesheet' type='text/css' media='screen' href='<c:url value="/resources/css/style.css"/>'/>
+		<!-- Bootstrap -->
+		<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet" media="screen">
+		<!-- Bootstrap -->
+	    <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
+	    <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
+		<script type='text/javascript' src='<c:url value="/resources/js/custom_home.js"/>'></script>
 		<title>Login</title>
 	</head>
 	<body>
 	
-		<h1>Register as a New User</h1>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+	      <div class="navbar-inner">
+	        <div class="container">
+	          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="brand" href="#">Open Linked Data</a>
+	          <div class="nav-collapse collapse">
+	            <ul class="nav">
+	              <li><a href="<c:url value="/home/u"/>">Home</a></li>
+	            </ul>
+	          </div><!--/.nav-collapse -->
+	        </div>
+	      </div>
+	    </div>
+	    
+	    <br/>
+	    <br/>
+	
+		<h2>Register as a New User</h2>
 		<div class="error">${error}</div>
 		
 		<c:url value="/home/" var="homeUrl"/>
@@ -32,12 +60,7 @@ pageEncoding="UTF-8"%>
 	        <label for="j_password">Password:</label>
 	        <input id="j_password" name="j_password" type="password" />
 	      </p>
-	      <input  type="submit" value="Register"/>
-	    </form>
-	    
-	    <br/>
-	    <br/>
-	    <br/>	    
-		<a href="${homeUrl}" target="new">GO YOUR HOME</a>
+	      <input  type="submit" value="Register" class="btn btn-primary" />
+	    </form>		
 	</body>
 </html>

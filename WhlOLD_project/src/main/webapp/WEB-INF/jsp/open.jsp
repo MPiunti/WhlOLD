@@ -13,11 +13,16 @@
 <c:url value="/open/quit" var="quitUrl"/>
 
 <c:url value="/uploader/open" var="uploadUrl"/>
+<c:url value="/auth/logout" var="logoutUrl"/>
 
 <html>
 <head>
 	<link rel='stylesheet' type='text/css' media='screen' href='<c:url value="/resources/css/style.css"/>'/>
-	<script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
+	<!-- Bootstrap -->
+	<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet" media="screen">
+	<!-- Bootstrap -->
+    <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
+    <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/custom_open.js"/>'></script>
 
 	<title>Open Data Records</title>
@@ -98,10 +103,32 @@
 </head>
 
 <body>
-	<h1 id='banner'>Open Data Records</h1>
-	<hr/>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">Open Linked Data</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="<c:url value="/home/u"/>">Home</a></li>
+              <li><a href="${uploadUrl}">Upload Data</a></li>
+              <li><a href="${logoutUrl}">Logout</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+	<br/>
+	<br/>
+
+	<h2>Open Data Records</h2>
 	
-	<table id='tableOpenData'>
+	
+	<table id='tableOpenData' class="table">
 		<thead></thead>
 		<tbody></tbody>
 	</table>
@@ -112,10 +139,10 @@
 		<input type='button' value='Edit' id='editBtn' />
 		<input type='button' value='Reload' id='reloadBtn' />-->
 		
-		<input type='button' value='Geo' id='geoBtn' />
-		<input type='button' value='DbPedia' id='dbpediaBtn' />
-		<input type='button' value='Delete' id='deleteBtn' />		
-		<input type='button' value='Quit All' id='quitBtn' />
+		<input type='button' value='Geo' id='geoBtn' class="btn btn-primary"/>
+		<input type='button' value='DbPedia' id='dbpediaBtn' class="btn btn-primary" />
+		<input type='button' value='Delete' id='deleteBtn' class="btn btn-primary"/>		
+		<input type='button' value='Quit All' id='quitBtn' class="btn btn-primary"/>
 	</div>
 	
 	<div id='newForm'>
@@ -154,16 +181,6 @@
 			<input type='submit' value='Submit'/>
 		</form>
 	</div>
-	
-	<br/>
-	<br/>
-	<sec:authentication property="principal" var="login"/>
-	<s:url value="/home/${login}" var="url"/>
-    <a href="${url}">Home Dashboard</a>
-    
-    <br />
-	<br />
-	<c:url value="/auth/logout" var="logoutUrl"/>
-	<a href="${logoutUrl}" target="new">Log OUT</a>
+
 </body>
 </html>

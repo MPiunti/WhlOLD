@@ -80,7 +80,7 @@ public class OpenDocumentService {
         UserDocumentRelationship t = template.createRelationshipBetween(user, openDocument, UserDocumentRelationship.class, "OWNS", false);	
         template.save(t);
         
-        System.out.println(" ++++++++++"+getDBPediaLookUp("Sandro_Botticelli")+"+++++++++++++");
+        //System.out.println(" ++++++++++"+getDBPediaLookUp("Sandro_Botticelli")+"+++++++++++++");
 
 		return od;
 	}

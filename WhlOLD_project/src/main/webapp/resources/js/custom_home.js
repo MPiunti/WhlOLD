@@ -12,7 +12,7 @@ function loadTable() {
 
  		for (var i=0; i<response.openDocuments.length; i++) {
 			var row = '<tr>';
-			row += '<td><input type="radio" name="index" id="index" value="'+i+'"></td>';
+			//row += '<td><input type="radio" name="index" id="index" value="'+i+'"></td>';
 			row += '<td>' + response.openDocuments[i].name + '</td>';
 			if(response.openDocuments[i].visible === 0)
 			  row += '<td>Public</td>';
