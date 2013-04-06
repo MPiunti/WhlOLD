@@ -42,8 +42,7 @@ public class OpenDocumentService {
 		}
 		
 		return openDocuments;
-    }
-	
+    }	
 	
 	/*public List<OpenDocument> readAll() {
 		List<OpenDocument> openDocuments = new ArrayList<OpenDocument>();
@@ -55,9 +54,7 @@ public class OpenDocumentService {
 		}
 		
 		return openDocuments;
-	}*/
-	
-	
+	}*/		
 	
 	public List<OpenDocument> findAllbyPropertyValue(String pName, Object obj) {
 		List<OpenDocument> openDocuments = new ArrayList<OpenDocument>();

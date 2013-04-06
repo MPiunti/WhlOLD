@@ -16,7 +16,7 @@ public class DBpediaLookUpClient {
 		Map<String, String> vars = new HashMap<String, String>();
 		vars.put("queryStr", key);
 		String result = restTemplate.getForObject("http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryString={queryStr}&MaxHits=1", String.class, vars);
-		                                          //"http://lookup.dbpedia.org/api/search.asmx/PrefixSearch?QueryClass=&MaxHits=5&QueryString={queryStr}&MaxHits=1"
+		                          //"http://lookup.dbpedia.org/api/search.asmx/PrefixSearch?QueryClass=&MaxHits=5&QueryString={queryStr}&MaxHits=1"
 		return result;
 	}
 

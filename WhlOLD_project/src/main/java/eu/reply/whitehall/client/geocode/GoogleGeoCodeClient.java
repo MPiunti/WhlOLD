@@ -39,10 +39,16 @@ public class GoogleGeoCodeClient {
 			
 			XPathFactory xFactory = XPathFactory.newInstance();
 			XPath xpath = xFactory.newXPath();
-			XPathExpression expr = xpath.compile("geometry");
+			XPathExpression expr = xpath.compile("//geometry/location/lat");
 			NodeList nodes = (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < nodes.getLength(); i++) {
-			    System.out.println(nodes.item(i).getNodeValue()); 
+			    System.out.println("."+i+"++++Retrieved lat:" + nodes.item(i).getTextContent()); 
+			    //System.out.println("."+i+"++++Retrieved long:" + nodes.item(i).getNextSibling().getTextContent()); 
+			}
+			expr = xpath.compile("//geometry/location/lng");
+			nodes = (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodes.getLength(); i++) {
+			    System.out.println("+++++Retrieved long:" + nodes.item(i).getTextContent()); 
 			}
 		}catch(Exception e){
 			e.printStackTrace();
