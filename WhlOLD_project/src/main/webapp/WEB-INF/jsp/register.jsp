@@ -12,6 +12,7 @@ pageEncoding="UTF-8"%>
 		<link rel='stylesheet' type='text/css' media='screen' href='<c:url value="/resources/css/style.css"/>'/>
 		<!-- Bootstrap -->
 		<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet" media="screen">
+
 		<!-- Bootstrap -->
 	    <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
 	    <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
@@ -61,6 +62,8 @@ pageEncoding="UTF-8"%>
 	        <input id="j_password" name="j_password" type="password" />
 	      </p>
 	      <input  type="submit" value="Register" class="btn btn-primary" />
+
 	    </form>		
+
 	</body>
 </html>

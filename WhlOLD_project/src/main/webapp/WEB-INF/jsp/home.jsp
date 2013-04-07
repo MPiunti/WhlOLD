@@ -5,6 +5,7 @@
 <c:url value="/open" var="opendataUrl"/>
 
 
+<c:url value="/home/u" var="homeUrl"/>
 <c:url value="/uploader/data" var="uploadUrl"/>
 <c:url value="/auth/logout" var="logoutUrl"/>
 
@@ -14,6 +15,7 @@
 	<link rel='stylesheet' type='text/css' media='screen' href='<c:url value="/resources/css/style.css"/>'/>
 	<!-- Bootstrap -->
 	<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet" media="screen">
+
 	<!-- Bootstrap -->
     <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
     <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
@@ -70,10 +72,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">Open Linked Data</a>
+          <a class="brand" href="${homeUrl}">Open Linked Data</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="<c:url value="/home/u"/>">Home</a></li>
+              <li class="active"><a href="${homeUrl}">Home</a></li>
               <li><a href="${uploadUrl}">Upload Data</a></li>
               <li><a href="${logoutUrl}">Logout</a></li>
             </ul>
@@ -104,8 +106,6 @@
 	<br />
 
 	</div>
-	
 
-	
 </body>
 </html>

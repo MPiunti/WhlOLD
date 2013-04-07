@@ -12,7 +12,8 @@
 <c:url value="/open/delete" var="deleteUrl"/>
 <c:url value="/open/quit" var="quitUrl"/>
 
-<c:url value="/uploader/open" var="uploadUrl"/>
+<c:url value="/home/u" var="homeUrl"/>
+<c:url value="/uploader/data" var="uploadUrl"/>
 <c:url value="/auth/logout" var="logoutUrl"/>
 
 <html>
@@ -20,6 +21,7 @@
 	<link rel='stylesheet' type='text/css' media='screen' href='<c:url value="/resources/css/style.css"/>'/>
 	<!-- Bootstrap -->
 	<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet" media="screen">
+
 	<!-- Bootstrap -->
     <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
     <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
@@ -103,6 +105,7 @@
 </head>
 
 <body>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -111,10 +114,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">Open Linked Data</a>
+          <a class="brand" href="${homeUrl}">Open Linked Data</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li><a href="<c:url value="/home/u"/>">Home</a></li>
+              <li><a href="${homeUrl}">Home</a></li>
               <li><a href="${uploadUrl}">Upload Data</a></li>
               <li><a href="${logoutUrl}">Logout</a></li>
             </ul>
@@ -126,8 +129,7 @@
 	<br/>
 
 	<h2>Open Data Records</h2>
-	
-	
+
 	<table id='tableOpenData' class="table">
 		<thead></thead>
 		<tbody></tbody>
@@ -181,6 +183,5 @@
 			<input type='submit' value='Submit'/>
 		</form>
 	</div>
-
 </body>
 </html>

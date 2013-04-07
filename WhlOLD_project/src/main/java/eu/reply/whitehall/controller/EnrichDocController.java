@@ -17,7 +17,7 @@ public class EnrichDocController {
 	@RequestMapping(value="/geo/{doc}")
 	public void geoLocate(@PathVariable("doc") String doc_uk) {
 		String geo = service.getGeoCode(doc_uk);
-		//System.out.println(geo);
+		System.out.println(geo);
 	}
 	
 	@RequestMapping(value="/dbpedia/{doc}")
