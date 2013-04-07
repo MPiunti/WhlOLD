@@ -18,6 +18,10 @@
         <title>Open Data - Upload</title>
     </head>
     <body>    	
+    	<c:url value="/home/u" var="homeUrl"/>
+    	<c:url value="/uploader/data" var="uploadUrl"/>
+    	<c:url value="/auth/logout" var="logoutUrl"/>    
+    
     	<div class="navbar navbar-inverse navbar-fixed-top">
 	      <div class="navbar-inner">
 	        <div class="container">
@@ -26,10 +30,10 @@
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	          </button>
-	          <a class="brand" href="#">Open Linked Data</a>
+	          <a class="brand" href="${homeUrl}">Open Linked Data</a>
 	          <div class="nav-collapse collapse">
 	            <ul class="nav">
-	              <li><a href="<c:url value="/home/u"/>">Home</a></li>
+	              <li><a href="${homeUrl}">Home</a></li>
 	              <li class="active"><a href="${uploadUrl}">Upload Data</a></li>
 	              <li><a href="${logoutUrl}">Logout</a></li>
 	            </ul>
@@ -45,31 +49,25 @@
            <h2>Upload Document:</h2>
         </div>
     
-        <form:form modelAttribute="uploadItem" method="post" enctype="multipart/form-data">
+        <form:form modelAttribute="uploadItem" method="post" enctype="multipart/form-data" >
             <fieldset>
                 <legend>Upload Fields</legend>
  
-                <p>
-                    <form:label for="name" path="name">Name</form:label><br/>
-                    <form:input path="name"/>
-                </p>
-                <p>
-                   <form:label for="status" path="status">Stato</form:label><br/>
+       
+                   <form:label for="name" path="name">Name</form:label>
+                   <form:input path="name" placeholder="Docuement Name"/>
+
+                   <form:label for="status" path="status">State</form:label>
                    <form:select path="status">
-						<option value="">Seleziona Stato</option>
-						<option value="0" selected>Visibile</option>
-						<option value="1">Privato</option>
+						<option value="">Select state</option>
+						<option value="0" selected>Visible</option>
+						<option value="1">Private</option>
 				   </form:select>
-                </p> 
-                <p>
-                    <form:label for="fileData" path="fileData">File</form:label><br/>
-                    <form:input path="fileData" type="file"/>
-                </p>
- 
-                <p>
-                    <input type="submit" value="Load Document" class="btn btn-primary btn-large"/>
-                </p>
- 
+        
+                   <form:label for="fileData" path="fileData">File</form:label>
+                   <form:input path="fileData" type="file"/>
+
+                   <input type="submit" value="Load Document" class="btn btn-primary btn-large"/>
             </fieldset>
         </form:form>
         <!-- Bootstrap -->

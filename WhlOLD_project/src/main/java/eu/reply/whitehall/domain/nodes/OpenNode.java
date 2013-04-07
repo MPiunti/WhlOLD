@@ -15,7 +15,7 @@ public class OpenNode {
 	@GraphId
 	private Long id;
 	
-	@Indexed
+	@Indexed(indexName = "unique") 
 	private String unique;
 	
 	@Indexed
@@ -31,11 +31,18 @@ public class OpenNode {
 	@RelatedTo(type = "INCUDES", direction = Direction.INCOMING)
     Set<OpenDocument> documents;
 	
+	@RelatedTo(type = "LOCATED", direction = Direction.OUTGOING)
+    Set<Venue> venues;
+	
+	@RelatedTo(type = "DBP_LINKED", direction = Direction.OUTGOING)
+    Set<DBPediaLink> dBPediaLinks;
+
+	
 	
 	public OpenNode(){}
 
 	public OpenNode(String unique){
-		this.unique= unique+id;
+		this.unique= unique;
 	}
 
 	/**
@@ -122,6 +129,22 @@ public class OpenNode {
 
 	public void setDocuments(Set<OpenDocument> documents) {
 		this.documents = documents;
+	}
+
+	public Set<Venue> getVenues() {
+		return venues;
+	}
+
+	public void setVenues(Set<Venue> venues) {
+		this.venues = venues;
+	}
+
+	public Set<DBPediaLink> getdBPediaLinks() {
+		return dBPediaLinks;
+	}
+
+	public void setdBPediaLinks(Set<DBPediaLink> dBPediaLinks) {
+		this.dBPediaLinks = dBPediaLinks;
 	}
 
 }

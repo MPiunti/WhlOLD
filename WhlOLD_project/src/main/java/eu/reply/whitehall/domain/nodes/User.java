@@ -14,8 +14,9 @@ public class User {
     private static final String SALT = "minimolino";
 	private String type = "USER";	
 
-    @Indexed
+    @Indexed(indexName = "username") 
     String login;
+    
     String name;
     String password;
     String info;

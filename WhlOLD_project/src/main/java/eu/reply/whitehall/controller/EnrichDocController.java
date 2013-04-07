@@ -16,14 +16,14 @@ public class EnrichDocController {
 	
 	@RequestMapping(value="/geo/{doc}")
 	public void geoLocate(@PathVariable("doc") String doc_uk) {
-		String geo = service.getGeoCode(doc_uk);
-		System.out.println(geo);
+		service.getGeoCode(doc_uk);
+		//System.out.println(geo);
 	}
 	
 	@RequestMapping(value="/dbpedia/{doc}")
 	public void linkDBPedia(@PathVariable("doc") String doc_uk) {
-		String dbpedia = service.getDBPediaLookUp(doc_uk);
-		System.out.println(dbpedia);
+		service.getDBPediaLookUp(doc_uk);
+		//System.out.println(dbpedia);
 	}
 
 }

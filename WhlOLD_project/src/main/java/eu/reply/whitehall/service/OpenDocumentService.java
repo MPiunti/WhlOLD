@@ -96,7 +96,7 @@ public class OpenDocumentService {
 	
 	
 	
-	public String getDBPediaLookUp(String keyword){
+	/*public String getDBPediaLookUp(String keyword){
 		return dbPediaLookUpClient.linkDbPedia(keyword);
-	}
+	}*/
 }

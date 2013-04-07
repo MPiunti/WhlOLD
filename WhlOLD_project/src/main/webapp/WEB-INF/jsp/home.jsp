@@ -85,11 +85,17 @@
     </div>
 
 	<div class="container">
-	<br/><br/>
+	<br/>
+	<br/>
 	<h2>Open Data Dashboard</h2>
 
+	<c:if test="${success!=null}">
+		<span class="label label-success">Your document <c:out value="${success}"/> has been loaded correctly</span>
+	</c:if>
+	<br/>
+	<br/>	
 	
-	<table id='tableOpenDataList' class="table">
+	<table id='tableOpenDataList' class="table table table-hover">
 		<thead></thead>
 		<tbody></tbody>
 	</table>

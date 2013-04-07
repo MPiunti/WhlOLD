@@ -2,27 +2,47 @@ package eu.reply.whitehall.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
+import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 
 import eu.reply.whitehall.client.dbpedia.DBpediaLookUpClient;
 import eu.reply.whitehall.client.geocode.GoogleGeoCodeClient;
+import eu.reply.whitehall.domain.nodes.DBPediaLink;
 import eu.reply.whitehall.domain.nodes.OpenNode;
+import eu.reply.whitehall.domain.nodes.Venue;
+import eu.reply.whitehall.domain.relationships.DocumentNodeRelationship;
+import eu.reply.whitehall.domain.relationships.NodeDBPediaLinkRelationship;
+import eu.reply.whitehall.domain.relationships.NodeVenueRelationship;
 import eu.reply.whitehall.repository.OpenNodeRepository;
-
+import eu.reply.whitehall.repository.VenueRepository;
+import eu.reply.whitehall.repository.DBPediaLinkRepository;
 
 @Service
 public class OpenNodeService {
+	
+	@Autowired 
+	private Neo4jTemplate template;
 
 	@Autowired
 	private OpenNodeRepository openNodeRepository;
 	
 	@Autowired
+	private VenueRepository venueRepository;
+	
+	@Autowired
+	private DBPediaLinkRepository dBPediaLinkRepository;
+	
+	
+	@Autowired
 	private DBpediaLookUpClient dbPediaLookUpClient;
 	@Autowired
 	private GoogleGeoCodeClient googleGeoCodeClient;
+	
+	
 	
 	public OpenNode create(OpenNode openNode) {
 		//OpenNode existingNode = openNodeRepository.findByUniqueKey(openNode.getName());
@@ -165,26 +185,55 @@ public class OpenNodeService {
 	}
 	
 	
-	
-	public String getDBPediaLookUp(String doc_uk){
-		//return dbPediaLookUpClient.linkDbPedia(keyword);
-		String ret="",key="";
+	/**
+	 * Enrich Nodes with Goegraphic Coordinates
+	 * @param doc_uk
+	 * @return
+	 */
+	public void getDBPediaLookUp(String doc_uk){
+
+		Map<String,String> ret; String key="";
 		List<OpenNode> records = getRecords(doc_uk);
 		for(OpenNode node:records){
 			key=node.getRow().get(0); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
-			ret +="\n"+ dbPediaLookUpClient.linkDbPedia(key.replace(" ", "+"));
+			try{
+				key=node.getRow().get(0); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
+				ret = dbPediaLookUpClient.linkDbPedia(key.replace(" ", "+"));
+				
+				
+				DBPediaLink dBLink = new DBPediaLink(ret.get("URI"));	
+				dBLink.setDescription(ret.get("DESCR"));
+				dBPediaLinkRepository.save(dBLink);
+				
+				/* Store Relationship */
+	        	template.createRelationshipBetween(node, dBLink, NodeDBPediaLinkRelationship.class, "DBP_LINKED",false);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
-		return ret;
 	}
 	
-	
-	public String getGeoCode( String doc_uk){
-		String ret="",address="";
+	/**
+	 * Enrich Nodes with Goegraphic Coordinates
+	 * @param doc_uk
+	 * @return
+	 */
+	public void getGeoCode( String doc_uk){
+		Map<String,String> ret; 
+		String address="";
 		List<OpenNode> records = getRecords(doc_uk);
 		for(OpenNode node:records){
-			address=node.getRow().get(0); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
-			ret +="\n"+ googleGeoCodeClient.geoCode(address.replace(" ", "+"));
+			try{
+				address=node.getRow().get(0); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
+				ret = googleGeoCodeClient.geoCode(address.replace(" ", "+"));
+				Venue venue = new Venue(new Float(ret.get("LON")), new Float(ret.get("LAT")));			
+				venueRepository.save(venue);
+				
+				/* Store Relationship */
+	        	template.createRelationshipBetween(node,venue, NodeVenueRelationship.class, "LOCATED",false);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
-		return ret;
 	}
 }

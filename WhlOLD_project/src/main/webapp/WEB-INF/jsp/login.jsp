@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
 	</head>
 	
 	<body>
-	<c:url value="/home/u" var="homeUrl"/>
+		<c:url value="/auth/register" var="registerUrl"/>
 
 		<div class="navbar navbar-inverse navbar-fixed-top">
 	      <div class="navbar-inner">
@@ -30,10 +30,10 @@ pageEncoding="UTF-8"%>
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	          </button>
-	          <a class="brand" href="${homeUrl}">Open Linked Data</a>
+	          <a class="brand" href="#">Open Linked Data</a>
 	          <div class="nav-collapse collapse">
 	            <ul class="nav">
-	              <li><a href="${homeUrl}">Home</a></li>
+	              <li><a href="${registerUrl}">Register</a></li>
 	            </ul>
 	          </div><!--/.nav-collapse -->
 	        </div>

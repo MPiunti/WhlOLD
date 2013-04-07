@@ -128,6 +128,8 @@ public class UploadController {
         //csvService.importOpenRows(csvReader,openDocument);
         csvService.importOpenData(csvReader, openDocument, userRepo.getUserFromSession());
         isr.close();
+        System.err.println("Successfully loaded document: " + doc_name);
+        model.addObject("success", doc_name);
 	} catch (IOException e) {
 		e.printStackTrace();
 	} 

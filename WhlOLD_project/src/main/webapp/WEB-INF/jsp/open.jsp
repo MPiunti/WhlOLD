@@ -130,7 +130,7 @@
 
 	<h2>Open Data Records</h2>
 
-	<table id='tableOpenData' class="table">
+	<table id='tableOpenData' class="table table-hover table-condensed">
 		<thead></thead>
 		<tbody></tbody>
 	</table>

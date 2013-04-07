@@ -11,6 +11,7 @@ function loadTable() {
  		var row = '<tr>/';//<th></th>';
  		for (var j=0; j<response.openNodes[0].row.length; j++) { 			
  			row += '<th>' + response.openNodes[0].row[j] + '</th>';
+ 			
  		}
  		row += '</tr>';
  		console.log(row);
@@ -24,12 +25,19 @@ function loadTable() {
 
  		for (var i=0; i<response.openNodes.length; i++) {
 			var row = '<tr>';
-			//row += '<td><input type="radio" name="index" id="index" value="'+i+'"></td>';
-			
+			//row += '<td><input type="radio" name="index" id="index" value="'+i+'"></td>';		
 
 			for (var j=0; j<response.openNodes[i].row.length; j++) {
-
 				row += '<td>' + response.openNodes[i].row[j] + '</td>';
+				if(response.openNodes[i].dBPediaLinks!=null &&
+	 					response.openNodes[i].dBPediaLinks.length>0){
+	 				row += '<th><a href=\''+response.openNodes[i].venues[0].dBPediaLinks[0].URI+'\''+
+	 				       'title=\''+response.openNodes[i].venues[0].dBPediaLinks[0].Descritpion+'\'>link</a></th>';
+	 			}
+	 			if(response.openNodes[i].venues!=null &&
+	 					response.openNodes[i].venues.length>0){
+	 				row += '<th>'+response.openNodes[i].venues[0].wkt+'</th>';
+	 			}
 			}
 			row += '</tr>';
 
@@ -183,12 +191,14 @@ function toggleCrudButtons(id) {
 
 function geo() {
 	$.get(urlHolder.geo, function(response) {
-		console.log(response);	
+		console.log(response);			
 	});
+	loadTable();
 }
 
 function dbpedia() {
 	$.get(urlHolder.dbpedia, function(response) {
 		console.log(response);	
 	});
+	loadTable();
 }

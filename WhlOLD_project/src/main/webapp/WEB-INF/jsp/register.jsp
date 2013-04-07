@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
 	          <a class="brand" href="#">Open Linked Data</a>
 	          <div class="nav-collapse collapse">
 	            <ul class="nav">
-	              <li><a href="<c:url value="/home/u"/>">Home</a></li>
+	              <li><a href="<c:url value="/"/>">Log In</a></li>
 	            </ul>
 	          </div><!--/.nav-collapse -->
 	        </div>
@@ -49,20 +49,19 @@ pageEncoding="UTF-8"%>
 		<c:url value="/auth/register" var="registerUrl"/>
 		
 		<form action="${registerUrl}" method="post" >
-	      <p>
-	        <label for="j_username">Login:</label>
-	        <input id="j_username" name="j_username" type="text" value="${j_username}"/>
-	      </p>
-	      <p>
-	        <label for="j_displayname">Name:</label>
-	        <input id="j_displayname" name="j_displayname" type="text" value="${j_displayname}"/>
-	      </p>
-	      <p>
-	        <label for="j_password">Password:</label>
-	        <input id="j_password" name="j_password" type="password" />
-	      </p>
-	      <input  type="submit" value="Register" class="btn btn-primary" />
-
+	    	<fieldset>
+	    	
+	    		<label for="j_displayname">Name:</label>
+		        <input id="j_displayname" name="j_displayname" type="text" value="${j_displayname}" placeholder="Display Name"/>
+	    	
+		        <label for="j_username">Login:</label>
+		        <input id="j_username" name="j_username" type="text" value="${j_username}" placeholder="User Name"/>	        
+		     
+		        <label for="j_password">Password:</label>
+		        <input id="j_password" name="j_password" type="password" placeholder="Password"/>
+		      
+		      	<input  type="submit" value="Register" class="btn btn-primary" />
+			</fieldset>
 	    </form>		
 
 	</body>

@@ -15,7 +15,7 @@ public class OpenDocument {
 	@GraphId
 	private Long id;
 		
-	@Indexed
+	@Indexed(indexName = "docname") 
 	private String name;	
 	
 	private String type = "OPEN_DOCUMENT";
