@@ -101,6 +101,8 @@ public class OpenNodeService {
 		Iterable<OpenNode> results = openNodeRepository.getRecords(doc_uk);
 		for (OpenNode r: results) { 
 			openNodes.add(r);
+			if(r.getdBPediaLinks().size()>0)
+				System.err.println("DBLINK:" + r.getdBPediaLinks().iterator().next().getURI() );
 		}				
 		System.err.println("CONTENTS found: " + openNodes.size() );
 		return openNodes;

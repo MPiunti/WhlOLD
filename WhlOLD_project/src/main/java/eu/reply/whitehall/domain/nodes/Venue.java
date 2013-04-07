@@ -3,6 +3,7 @@ package eu.reply.whitehall.domain.nodes;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
@@ -18,7 +19,7 @@ public class Venue {
    String name;
    @Indexed(indexName = "VenueLocation") String wkt;
    
-   @RelatedTo(type = "LOCATED", direction = Direction.INCOMING)
+   @Fetch @RelatedTo(type = "LOCATED", direction = Direction.INCOMING)
    Set<OpenNode> nodes;
    
    private String type = "LOCATION";	

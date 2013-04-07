@@ -10,10 +10,10 @@ public interface OpenNodeRepository extends GraphRepository<OpenNode>  {
 	
 	//OpenNode findByUniqueKey(String uniqueKey);
 		
-	 @Query("START n=node:docname(name = {0}) MATCH (n)-[:INCLUDES]->(x)-[r]->(d)  WHERE x.headerLine = 1 RETURN x")
+	 @Query("START n=node:docname(name = {0}) MATCH (n)-[:INCLUDES]->(x)  WHERE x.headerLine = 1 RETURN x")
 	 Iterable<OpenNode> getHeaders(String doc_uk);
 	
-	 @Query("START n=node:docname(name={0}) MATCH (n)-[:INCLUDES]->(x)-[r]->(d)  WHERE x.headerLine = 0 RETURN x")
+	 @Query("START n=node:docname(name={0}) MATCH (n)-[:INCLUDES]->(x)  WHERE x.headerLine = 0 RETURN x")
 	 Iterable<OpenNode> getRecords(String doc_uk);
 	
 	

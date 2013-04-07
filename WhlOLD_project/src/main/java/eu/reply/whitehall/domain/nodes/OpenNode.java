@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
@@ -31,10 +32,10 @@ public class OpenNode {
 	@RelatedTo(type = "INCUDES", direction = Direction.INCOMING)
     Set<OpenDocument> documents;
 	
-	@RelatedTo(type = "LOCATED", direction = Direction.OUTGOING)
+	@Fetch @RelatedTo(type = "LOCATED", direction = Direction.OUTGOING)
     Set<Venue> venues;
 	
-	@RelatedTo(type = "DBP_LINKED", direction = Direction.OUTGOING)
+	@Fetch @RelatedTo(type = "DBP_LINKED", direction = Direction.OUTGOING)
     Set<DBPediaLink> dBPediaLinks;
 
 	

@@ -3,6 +3,7 @@ package eu.reply.whitehall.domain.nodes;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
@@ -20,7 +21,7 @@ public class DBPediaLink {
    
    String Description; 
    
-   @RelatedTo(type = "DBP_LINKED", direction = Direction.INCOMING)
+   @Fetch @RelatedTo(type = "DBP_LINKED", direction = Direction.INCOMING)
    Set<OpenNode> nodes;
    
    private String type = "DBPEDIA_URI";
