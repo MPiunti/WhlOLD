@@ -14,7 +14,6 @@ import eu.reply.whitehall.client.geocode.GoogleGeoCodeClient;
 import eu.reply.whitehall.domain.nodes.DBPediaLink;
 import eu.reply.whitehall.domain.nodes.OpenNode;
 import eu.reply.whitehall.domain.nodes.Venue;
-import eu.reply.whitehall.domain.relationships.DocumentNodeRelationship;
 import eu.reply.whitehall.domain.relationships.NodeDBPediaLinkRelationship;
 import eu.reply.whitehall.domain.relationships.NodeVenueRelationship;
 import eu.reply.whitehall.repository.OpenNodeRepository;
@@ -101,8 +100,8 @@ public class OpenNodeService {
 		Iterable<OpenNode> results = openNodeRepository.getRecords(doc_uk);
 		for (OpenNode r: results) { 
 			openNodes.add(r);
-			if(r.getdBPediaLinks().size()>0)
-				System.err.println("DBLINK:" + r.getdBPediaLinks().iterator().next().getURI() );
+			/*if(r.getdBPediaLinks().size()>0)
+				System.err.println("DBLINK:" + r.getdBPediaLinks().iterator().next().getURI() );*/
 		}				
 		System.err.println("CONTENTS found: " + openNodes.size() );
 		return openNodes;
@@ -192,16 +191,15 @@ public class OpenNodeService {
 	 * @param doc_uk
 	 * @return
 	 */
-	public void getDBPediaLookUp(String doc_uk){
+	public void getDBPediaLookUp(String doc_uk, Integer ...col_id){
 
 		Map<String,String> ret; String key="";
 		List<OpenNode> records = getRecords(doc_uk);
 		for(OpenNode node:records){
-			key=node.getRow().get(0); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
+			key=node.getRow().get(col_id[0]); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
 			try{
 				key=node.getRow().get(0); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
-				ret = dbPediaLookUpClient.linkDbPedia(key.replace(" ", "+"));
-				
+				ret = dbPediaLookUpClient.linkDbPedia(key.replace(" ", "+"));				
 				
 				DBPediaLink dBLink = new DBPediaLink(ret.get("URI"));	
 				dBLink.setDescription(ret.get("DESCR"));
@@ -220,13 +218,13 @@ public class OpenNodeService {
 	 * @param doc_uk
 	 * @return
 	 */
-	public void getGeoCode( String doc_uk){
+	public void getGeoCode(String doc_uk, Integer ...col_id){
 		Map<String,String> ret; 
 		String address="";
 		List<OpenNode> records = getRecords(doc_uk);
 		for(OpenNode node:records){
 			try{
-				address=node.getRow().get(0); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
+				address=node.getRow().get(col_id[0]); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
 				ret = googleGeoCodeClient.geoCode(address.replace(" ", "+"));
 				Venue venue = new Venue(new Float(ret.get("LON")), new Float(ret.get("LAT")));			
 				venueRepository.save(venue);

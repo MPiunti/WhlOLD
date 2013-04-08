@@ -13,7 +13,9 @@ function loadTable() {
  		for (var i=0; i<response.openDocuments.length; i++) {
 			var row = '<tr>';
 			//row += '<td><input type="radio" name="index" id="index" value="'+i+'"></td>';
-			row += '<td>' + response.openDocuments[i].name + '</td>';
+			var docId = response.openDocuments[i].id;
+			row += '<td><a href="http://localhost:7474/db/data/node/'+docId+'" target="_blank">'+docId+'</a></td>';
+			row += '<td><strong>' + response.openDocuments[i].name + '</strong></td>';
 			if(response.openDocuments[i].visible === 0)
 			  row += '<td>Public</td>';
 			else

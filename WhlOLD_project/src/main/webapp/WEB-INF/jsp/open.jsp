@@ -18,8 +18,8 @@
 
 <html>
 <head>
-	<link rel='stylesheet' type='text/css' media='screen' href='<c:url value="/resources/css/style.css"/>'/>
-	<!-- Bootstrap -->
+	<!-- <link rel='stylesheet' type='text/css' media='screen' href='<c:url value="/resources/css/style.css"/>'/>
+	Bootstrap -->
 	<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet" media="screen">
 
 	<!-- Bootstrap -->
@@ -131,7 +131,7 @@
     <h3>${doc.name}</h3>
 	<h5>Open Data Records</h5>
 
-	<table id='tableOpenData' class="table table-hover table-condensed">
+	<table id='tableOpenData' class="table table-hover">
 		<thead></thead>
 		<tbody></tbody>
 	</table>

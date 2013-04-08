@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -35,24 +36,25 @@ public class DBpediaLookUpClient {
 		HashMap<String,String> DBPediaURIs = new HashMap<String,String>();
 		try{		
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			factory.setNamespaceAware(true); // never forget this!
+		    factory.setNamespaceAware(false); // never forget this!
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(new InputSource(new StringReader(strstr)));
 			
 			XPathFactory xFactory = XPathFactory.newInstance();
 			XPath xpath = xFactory.newXPath();
+			
 			XPathExpression expr = xpath.compile("//Result/URI");
 			NodeList db_links= (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < db_links.getLength(); i++) {
 				String db_link = db_links.item(i).getTextContent();
-			    //System.out.println("."+i+"++++Retrieved DBPedia LINK:" + db_link); 
+			    System.out.println("."+i+"++++Retrieved DBPedia LINK:" + db_link); 
 			    DBPediaURIs.put("URI", db_link );
 			}
 			expr = xpath.compile("//Result/Description");
 			db_links= (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < db_links.getLength(); i++) {
 				String db_descr = db_links.item(i).getTextContent();
-			   // System.out.println("."+i+"++++Retrieved DBPedia LINK:" + db_descr); 
+			    System.out.println("."+i+"++++Retrieved DBPedia Description:" + db_descr); 
 			    DBPediaURIs.put("DESCR", db_descr );
 			}
 			
