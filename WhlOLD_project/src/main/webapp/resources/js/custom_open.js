@@ -8,7 +8,7 @@ function loadTable() {
 	$.get(urlHolder.headers, function(response) {
 		console.log(response);	
 		$('#tableOpenData').find('thead').children().remove(); 
- 		var row = '<tr>/';//<th></th>';
+ 		var row = '<tr><th><strong>REST URI</strong></th>';
  		for (var j=0; j<response.openNodes[0].row.length; j++) { 			
  			row += '<th>' + response.openNodes[0].row[j] + '</th>';
  			
@@ -25,7 +25,10 @@ function loadTable() {
 
  		for (var i=0; i<response.openNodes.length; i++) {
 			var row = '<tr>';
-			//row += '<td><input type="radio" name="index" id="index" value="'+i+'"></td>';		
+			//row += '<td><input type="radio" name="index" id="index" value="'+i+'"></td>';	
+			var nodeId = response.openNodes[i].id;
+			row += '<td><a href="http://localhost:7474/db/data/node/'+nodeId+'" target="_blank">'+nodeId+'</a></td>';
+			
 
 			for (var j=0; j<response.openNodes[i].row.length; j++) {
 				row += '<td>' + response.openNodes[i].row[j] + '</td>';

@@ -128,7 +128,8 @@
 	<br/>
 	<br/>
 
-	<h2>Open Data Records</h2>
+    <h3>${doc.name}</h3>
+	<h5>Open Data Records</h5>
 
 	<table id='tableOpenData' class="table table-hover table-condensed">
 		<thead></thead>
