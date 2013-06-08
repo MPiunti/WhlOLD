@@ -21,8 +21,8 @@ public class DBPediaLink {
    
    String Description; 
    
-   @Fetch @RelatedTo(type = "DBP_LINKED", direction = Direction.INCOMING)
-   Set<OpenNode> nodes;
+   /*@Fetch @RelatedTo(type = "DBP_LINKED", direction = Direction.INCOMING)
+   Set<OpenNode> nodes;*/
    
    private String type = "DBPEDIA_URI";
    
@@ -48,13 +48,13 @@ public class DBPediaLink {
 		URI = uRI;
 	}
 	
-	public Set<OpenNode> getNodes() {
+	/*public Set<OpenNode> getNodes() {
 		return nodes;
 	}
 	
 	public void setNodes(Set<OpenNode> nodes) {
 		this.nodes = nodes;
-	}
+	}*/
 	
 	public String getType() {
 		return type;

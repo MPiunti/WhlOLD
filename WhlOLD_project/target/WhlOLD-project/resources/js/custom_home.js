@@ -6,20 +6,21 @@ var urlHolder = new Object();
 function loadTable() {
 
 
-	$.get(urlHolder.records, function(response) {
+	$.get(urlHolder.documents, function(response) {
 		console.log(response);	
 		$('#tableOpenDataList').find('tbody').children().remove();
 
-
  		for (var i=0; i<response.openDocuments.length; i++) {
 			var row = '<tr>';
-			row += '<td><input type="radio" name="index" id="index" value="'+i+'"></td>';
-			row += '<td>' + response.openDocuments[i].name + '</td>';
+			//row += '<td><input type="radio" name="index" id="index" value="'+i+'"></td>';
+			var docId = response.openDocuments[i].id;
+			row += '<td><a href="http://localhost:7474/db/data/node/'+docId+'" target="_blank">'+docId+'</a></td>';
+			row += '<td><strong>' + response.openDocuments[i].name + '</strong></td>';
 			if(response.openDocuments[i].visible === 0)
 			  row += '<td>Public</td>';
 			else
 				row += '<td>Private</td>';
-			row += '<td><a href="'+urlHolder.opendata+'/'+response.openDocuments[i].name+'">link</a></td>';
+			row += '<td><a href="'+urlHolder.opendata+'/?name='+response.openDocuments[i].name+'&id='+response.openDocuments[i].id+'&unique='+response.openDocuments[i].unique+'">link</a></td>';
 			row += '</tr>';
 
 			//console.log(row);	

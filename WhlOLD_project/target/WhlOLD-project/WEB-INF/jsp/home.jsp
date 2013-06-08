@@ -5,21 +5,27 @@
 <c:url value="/open" var="opendataUrl"/>
 
 
+<c:url value="/home/u" var="homeUrl"/>
 <c:url value="/uploader/data" var="uploadUrl"/>
 <c:url value="/auth/logout" var="logoutUrl"/>
 
 
 <html>
 <head>
-	<link rel='stylesheet' type='text/css' media='screen' href='<c:url value="/resources/css/style.css"/>'/>
-	<script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
+	<!--<link rel='stylesheet' type='text/css' media='screen' href='<c:url value="/resources/css/style.css"/>'/>
+	 Bootstrap -->
+	<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet" media="screen">
+
+	<!-- Bootstrap -->
+    <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
+    <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/custom_home.js"/>'></script>
 
 	<title>Open Data List</title>
 	
 	<script type='text/javascript'>
 	$(function() {
-		urlHolder.add = '${addUrl}';
+
 		urlHolder.documents = '${documentsUrl}';
 		urlHolder.quit = '${quitUrl}';
 		urlHolder.opendata = '${opendataUrl}';
@@ -27,8 +33,8 @@
 		loadTable();
 		
 		$('#newBtn').click(function() { 
-			toggleForms('new');
-			toggleCrudButtons('hide');
+			console.log("Clicked!");
+			window.location.href = '<c:url value="/uploader/data" />';
 		});
 		
 		$('#editBtn').click(function() { 
@@ -58,28 +64,54 @@
 </head>
 
 <body>
-	<h1 id='banner'>Open Data Dashboard</h1>
-	<hr/>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="${homeUrl}">Open Linked Data</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="${homeUrl}">Home</a></li>
+              <li><a href="${uploadUrl}">Upload Data</a></li>
+              <li><a href="${logoutUrl}">Logout</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+	<div class="container">
+	<br/>
+	<br/>
+	<h2>Open Data Dashboard</h2>
+
+	<c:if test="${success!=null}">
+		<span class="label label-success">Your document <c:out value="${success}"/> has been loaded correctly</span>
+	</c:if>
+	<br/>
+	<br/>	
 	
-	<table id='tableOpenDataList'>
+	<table id='tableOpenDataList' class="table table-hover">
 		<thead></thead>
 		<tbody></tbody>
 	</table>
 	
 	<div id='controlBar'>
-		<input type='button' value='New' id='newBtn' />
-		<input type='button' value='Delete' id='deleteBtn' />
-		<input type='button' value='Edit' id='editBtn' />
-		<input type='button' value='Reload' id='reloadBtn' />
-		<input type='button' value='Quit All' id='quitBtn' />
+		<input type='button' value='New' id='newBtn' class="btn btn-primary"/>
+		<input type='button' value='Delete' id='deleteBtn' class="btn btn-primary"/>
+		<input type='button' value='Edit' id='editBtn' class="btn btn-primary"/>
+		<input type='button' value='Reload' id='reloadBtn' class="btn btn-primary"/>
+		<input type='button' value='Quit All' id='quitBtn' class="btn btn-primary" />
 	</div>
 
     <br />
 	<br />
-	<a href="${uploadUrl}" target="new">UPLOAD NEW DOCUMENT</a>
-	<br />
-	<br />
-	<a href="${logoutUrl}" target="new">Log OUT</a>
-	
+
+	</div>
+
 </body>
 </html>

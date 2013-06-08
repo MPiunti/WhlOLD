@@ -27,8 +27,9 @@ public class DBpediaLookUpClient {
 	public HashMap<String,String> linkDbPedia(String key){
 		Map<String, String> vars = new HashMap<String, String>();
 		vars.put("queryStr", key);
-		//String result = restTemplate.getForObject("http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryString={queryStr}&MaxHits=1", String.class, vars);
-		String result = restTemplate.getForObject("http://lookup.dbpedia.org/api/search.asmx/PrefixSearch?QueryClass=&MaxHits=1&QueryString={queryStr}", String.class, vars);
+		String result = restTemplate.getForObject("http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryString={queryStr}&MaxHits=1", String.class, vars);
+		//String result = restTemplate.getForObject("http://lookup.dbpedia.org/api/search.asmx/PrefixSearch?QueryClass=&MaxHits=1&QueryString={queryStr}", String.class, vars);
+		System.out.println(result);
 		return getDBPediaURI(result);
 	}
 	
@@ -36,7 +37,7 @@ public class DBpediaLookUpClient {
 		HashMap<String,String> DBPediaURIs = new HashMap<String,String>();
 		try{		
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		    factory.setNamespaceAware(false); // never forget this!
+		    factory.setNamespaceAware(true); // never forget this!
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(new InputSource(new StringReader(strstr)));
 			

@@ -98,8 +98,11 @@ public class OpenNodeService {
 	public List<OpenNode> getRecords(String doc_uk) {
 		List<OpenNode> openNodes = new ArrayList<OpenNode>();
 		Iterable<OpenNode> results = openNodeRepository.getRecords(doc_uk);
+		//OpenNode no = results.iterator().next();
 		for (OpenNode r: results) { 
-			openNodes.add(r);
+			//template.fetch(r);
+			template.fetch(r.getVenues());
+			openNodes.add(r);			
 			/*if(r.getdBPediaLinks().size()>0)
 				System.err.println("DBLINK:" + r.getdBPediaLinks().iterator().next().getURI() );*/
 		}				

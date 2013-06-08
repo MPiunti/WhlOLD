@@ -19,8 +19,8 @@ public class Venue {
    String name;
    @Indexed(indexName = "VenueLocation") String wkt;
    
-   @Fetch @RelatedTo(type = "LOCATED", direction = Direction.INCOMING)
-   Set<OpenNode> nodes;
+   /*@Fetch @RelatedTo(type = "LOCATED", direction = Direction.INCOMING)
+   Set<OpenNode> nodes;*/
    
    private String type = "LOCATION";	
    
@@ -60,14 +60,14 @@ public class Venue {
 	}
 	
 	
-	public Set<OpenNode> getNodes() {
+	/*public Set<OpenNode> getNodes() {
 		return nodes;
 	}
 	
 	
 	public void setNodes(Set<OpenNode> nodes) {
 		this.nodes = nodes;
-	}
+	}*/
 	
 	
 	public void setLocation(float lon, float lat) {

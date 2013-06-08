@@ -33,7 +33,7 @@ public class OpenNode {
     Set<OpenDocument> documents;
 	
 	@Fetch @RelatedTo(type = "LOCATED", direction = Direction.OUTGOING)
-    Set<Venue> venues;
+	Set<Venue> venues;
 	
 	@Fetch @RelatedTo(type = "DBP_LINKED", direction = Direction.OUTGOING)
     Set<DBPediaLink> dBPediaLinks;
@@ -148,4 +148,5 @@ public class OpenNode {
 		this.dBPediaLinks = dBPediaLinks;
 	}
 
+	
 }

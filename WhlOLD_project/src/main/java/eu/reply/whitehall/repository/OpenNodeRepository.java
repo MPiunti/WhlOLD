@@ -17,4 +17,6 @@ public interface OpenNodeRepository extends GraphRepository<OpenNode>  {
 	 Iterable<OpenNode> getRecords(String doc_uk);
 	
 	
+	 @Query("START n=node:docname(name={0}) MATCH (n)-[:INCLUDES]->(x)  --> (r) WHERE x.headerLine = 0  RETURN x ")
+	 Iterable<OpenNode> getRecordsRich(String doc_uk);
 }

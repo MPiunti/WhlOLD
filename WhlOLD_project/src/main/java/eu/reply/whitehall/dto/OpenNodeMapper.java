@@ -16,6 +16,8 @@ public class OpenNodeMapper {
 			dto.setUnique(openNode.getUnique());
 			dto.setName(openNode.getName());
 			dto.setRow(openNode.getRow());
+			dto.setVenues(openNode.getVenues());
+			dto.setdBPediaLinks(openNode.getdBPediaLinks());
 			return dto;
 	}
 	
