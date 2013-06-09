@@ -13,7 +13,7 @@ function loadTable() {
  			row += '<th>' + response.openNodes[0].row[j] + '</th>';
  			
  		}
- 		row += '</tr>';
+ 		row += '<th id="dbpedia"></th><th id="venue"></th></tr>';
  		console.log(row);
  		$('#tableOpenData').find('thead').append(row);
 	});
@@ -31,17 +31,23 @@ function loadTable() {
 			
 
 			for (var j=0; j<response.openNodes[i].row.length; j++) {
-				row += '<td>' + response.openNodes[i].row[j] + '</td>';
-				if(response.openNodes[i].dBPediaLinks!=null &&
-	 					response.openNodes[i].dBPediaLinks.length>0){
-	 				row += '<th><a href=\''+response.openNodes[i].venues[0].dBPediaLinks[0].URI+'\''+
-	 				       'title=\''+response.openNodes[i].venues[0].dBPediaLinks[0].Descritpion+'\'>link</a></th>';
-	 			}
-	 			if(response.openNodes[i].venues!=null &&
-	 					response.openNodes[i].venues.length>0){
-	 				row += '<th>'+response.openNodes[i].venues[0].wkt+'</th>';
-	 			}
+				row += '<td>' + response.openNodes[i].row[j] + '</td>';				
 			}
+			if(response.openNodes[i].dBPediaLinks!=null &&
+ 					response.openNodes[i].dBPediaLinks.length>0){
+ 				row += '<td><a href=\''+response.openNodes[i].venues[0].dBPediaLinks[0].URI+'\''+
+ 				       'title=\''+response.openNodes[i].venues[0].dBPediaLinks[0].Descritpion+'\'>link</a></td>';
+ 				$('#dbpedia').html("DBPedia");
+ 			} else {
+ 				row += '<td></td>';
+ 			}
+ 			if(response.openNodes[i].venues!=null &&
+ 					response.openNodes[i].venues.length>0){
+ 				row += '<td>'+response.openNodes[i].venues[0].wkt+'</td>';
+ 				$('#venue').html("Venue");
+ 			} else {
+ 				row += '<td></td>';
+ 			}
 			row += '</tr>';
 
 			//console.log(row);	

@@ -45,7 +45,7 @@ public class DBPediaLink {
 	}
 	
 	public void setURI(String uRI) {
-		URI = uRI;
+		this.URI = uRI;
 	}
 	
 	/*public Set<OpenNode> getNodes() {

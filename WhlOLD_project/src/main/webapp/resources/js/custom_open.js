@@ -35,8 +35,8 @@ function loadTable() {
 			}
 			if(response.openNodes[i].dBPediaLinks!=null &&
  					response.openNodes[i].dBPediaLinks.length>0){
- 				row += '<td><a href=\''+response.openNodes[i].venues[0].dBPediaLinks[0].URI+'\''+
- 				       'title=\''+response.openNodes[i].venues[0].dBPediaLinks[0].Descritpion+'\'>link</a></td>';
+ 				row += '<td><a href=\''+response.openNodes[i].dBPediaLinks[0].uri+'\''+
+ 				       'title=\''+response.openNodes[i].dBPediaLinks[0].description+'\'>DBPedia link</a></td>';
  				$('#dbpedia').html("DBPedia");
  			} else {
  				row += '<td></td>';
@@ -199,15 +199,17 @@ function toggleCrudButtons(id) {
 
 
 function geo() {
-	$.get(urlHolder.geo, function(response) {
-		console.log(response);			
-	});
-	loadTable();
+   $.ajax({
+        url : urlHolder.geo,
+        type: 'GET',
+        success : loadTable()
+   });
 }
 
-function dbpedia() {
-	$.get(urlHolder.dbpedia, function(response) {
-		console.log(response);	
-	});
-	loadTable();
+function dbpedia() {	
+   $.ajax({
+        url : urlHolder.dbpedia,
+        type: 'GET',
+        success : loadTable()
+   });
 }
