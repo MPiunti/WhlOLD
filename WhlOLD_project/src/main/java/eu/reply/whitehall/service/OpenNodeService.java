@@ -101,7 +101,7 @@ public class OpenNodeService {
 		//OpenNode no = results.iterator().next();
 		for (OpenNode r: results) { 
 			//template.fetch(r);
-			template.fetch(r.getVenues());
+			//template.fetch(r.getVenues());
 			openNodes.add(r);			
 			/*if(r.getdBPediaLinks().size()>0)
 				System.err.println("DBLINK:" + r.getdBPediaLinks().iterator().next().getURI() );*/

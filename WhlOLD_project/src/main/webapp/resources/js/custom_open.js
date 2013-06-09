@@ -197,19 +197,44 @@ function toggleCrudButtons(id) {
 	}
 }
 
-
+/**
+ * Enrich Function
+ * adds GEOGRAPHICAL Coordinates using Google Maps API
+ */
 function geo() {
    $.ajax({
         url : urlHolder.geo,
         type: 'GET',
-        success : loadTable()
+        beforeSend: function () {
+        	$('#tableOpenData').find('thead').children().remove(); 
+        	$('#tableOpenData').find('tbody').children().remove(); 
+        },
+        success : function (data, textStatus, xhr) {
+        	loadTable();
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.log(textStatus);
+        }
    });
 }
 
+/**
+ * Enrich Function
+ * adds DBPedia LINK using DBPedia Lookup Service API
+ */
 function dbpedia() {	
    $.ajax({
         url : urlHolder.dbpedia,
         type: 'GET',
-        success : loadTable()
+        beforeSend: function () {
+        	$('#tableOpenData').find('thead').children().remove(); 
+        	$('#tableOpenData').find('tbody').children().remove(); 
+        },
+        success : function (data, textStatus, xhr) {
+        	loadTable();
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.log(textStatus);
+        }
    });
 }
