@@ -93,11 +93,13 @@
 			toggleCrudButtons('show');
 		});
 		
-		$('#geoBtn').click(function() {			
+		$('#geoBtn').click( function() {	
+			//$(this).button('loading');
 			geo();
 		});
 		
-		$('#dbpediaBtn').click(function() {			
+		$('#dbpediaBtn').click( function() {	
+			//$(this).button('loading');
 			dbpedia();
 		});
 	});
@@ -142,10 +144,10 @@
 		<input type='button' value='Edit' id='editBtn' />
 		<input type='button' value='Reload' id='reloadBtn' />-->
 		
-		<input type='button' value='Geo' id='geoBtn' class="btn btn-primary"/>
-		<input type='button' value='DbPedia' id='dbpediaBtn' class="btn btn-primary" />
-		<input type='button' value='Delete' id='deleteBtn' class="btn btn-primary"/>		
-		<input type='button' value='Quit All' id='quitBtn' class="btn btn-primary"/>
+		<button type='button' id='geoBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> Geo </button>
+		<button type='button' id='dbpediaBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> DBPedia </button>
+		<input type='button' value='Delete' id='deleteBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"/>		
+		<input type='button' value='Quit All' id='quitBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>" />
 	</div>
 	
 	<div id='newForm'>

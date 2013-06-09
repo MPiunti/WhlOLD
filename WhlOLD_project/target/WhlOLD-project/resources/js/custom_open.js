@@ -35,8 +35,8 @@ function loadTable() {
 			}
 			if(response.openNodes[i].dBPediaLinks!=null &&
  					response.openNodes[i].dBPediaLinks.length>0){
- 				row += '<td><a href=\''+response.openNodes[i].venues[0].dBPediaLinks[0].URI+'\''+
- 				       'title=\''+response.openNodes[i].venues[0].dBPediaLinks[0].Descritpion+'\'>link</a></td>';
+ 				row += '<td><a href=\''+response.openNodes[i].dBPediaLinks[0].uri+'\''+
+ 				       'title=\''+response.openNodes[i].dBPediaLinks[0].description+'\'>DBPedia link</a></td>';
  				$('#dbpedia').html("DBPedia");
  			} else {
  				row += '<td></td>';
@@ -197,17 +197,44 @@ function toggleCrudButtons(id) {
 	}
 }
 
-
+/**
+ * Enrich Function
+ * adds GEOGRAPHICAL Coordinates using Google Maps API
+ */
 function geo() {
-	$.get(urlHolder.geo, function(response) {
-		console.log(response);			
-	});
-	loadTable();
+   $.ajax({
+        url : urlHolder.geo,
+        type: 'GET',
+        beforeSend: function () {
+        	$('#tableOpenData').find('thead').children().remove(); 
+        	$('#tableOpenData').find('tbody').children().remove(); 
+        },
+        success : function (data, textStatus, xhr) {
+        	loadTable();
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.log(textStatus);
+        }
+   });
 }
 
-function dbpedia() {
-	$.get(urlHolder.dbpedia, function(response) {
-		console.log(response);	
-	});
-	loadTable();
+/**
+ * Enrich Function
+ * adds DBPedia LINK using DBPedia Lookup Service API
+ */
+function dbpedia() {	
+   $.ajax({
+        url : urlHolder.dbpedia,
+        type: 'GET',
+        beforeSend: function () {
+        	$('#tableOpenData').find('thead').children().remove(); 
+        	$('#tableOpenData').find('tbody').children().remove(); 
+        },
+        success : function (data, textStatus, xhr) {
+        	loadTable();
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.log(textStatus);
+        }
+   });
 }
