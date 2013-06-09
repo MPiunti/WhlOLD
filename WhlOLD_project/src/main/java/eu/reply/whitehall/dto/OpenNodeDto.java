@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.Set;
 
 import eu.reply.whitehall.domain.nodes.DBPediaLink;
+import eu.reply.whitehall.domain.nodes.OpenDocument;
 import eu.reply.whitehall.domain.nodes.Venue;
 
 public class OpenNodeDto implements Serializable {
@@ -15,9 +16,12 @@ public class OpenNodeDto implements Serializable {
 	private String name, unique;
 	private LinkedList<String> row;
 
+	/* Relationships */
 	private Set<Venue> venues;
 	
 	private Set<DBPediaLink> dBPediaLinks;
+	
+	private Set<OpenDocument> documents;
 
 	
 	public Long getId() {
@@ -67,6 +71,12 @@ public class OpenNodeDto implements Serializable {
 	}
 	public void setdBPediaLinks(Set<DBPediaLink> dBPediaLinks) {
 		this.dBPediaLinks = dBPediaLinks;
+	}
+	public Set<OpenDocument> getDocuments() {
+		return documents;
+	}
+	public void setDocuments(Set<OpenDocument> documents) {
+		this.documents = documents;
 	}
 	
 }

@@ -29,7 +29,7 @@ public class OpenNode {
 	
 	private LinkedList<String> row;
 	
-	@RelatedTo(type = "INCUDES", direction = Direction.INCOMING)
+	@Fetch @RelatedTo(type = "INCUDES", direction = Direction.INCOMING)
     Set<OpenDocument> documents;
 	
 	@Fetch @RelatedTo(type = "LOCATED", direction = Direction.OUTGOING)

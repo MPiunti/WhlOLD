@@ -16,8 +16,13 @@ public class OpenNodeMapper {
 			dto.setUnique(openNode.getUnique());
 			dto.setName(openNode.getName());
 			dto.setRow(openNode.getRow());
+			
+			/* inner relationships */
+			dto.setDocuments(openNode.getDocuments());
 			dto.setVenues(openNode.getVenues());
+			/* outher relationships */
 			dto.setdBPediaLinks(openNode.getdBPediaLinks());
+			
 			return dto;
 	}
 	
