@@ -238,3 +238,26 @@ function dbpedia() {
         }
    });
 }
+
+/**
+ * Enrich Function
+ * adds Alchemy disambiguation using ALCHEMY Entity Extraction API
+ * http://www.alchemyapi.com/api/entity
+ */
+function alchemy() {	
+   $.ajax({
+        url : urlHolder.alchemy,
+        type: 'GET',
+        beforeSend: function () {
+        	$('#tableOpenData').find('thead').children().remove(); 
+        	$('#tableOpenData').find('tbody').children().remove(); 
+        },
+        success : function (data, textStatus, xhr) {
+        	loadTable();
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.log(textStatus);
+        }
+   });
+}
+

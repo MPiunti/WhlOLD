@@ -27,5 +27,12 @@ public class EnrichDocController {
 		//System.out.println(dbpedia);
 		return doc_uk;
 	}
+	
+	@RequestMapping(value="/alchemy/{doc}")
+	public  @ResponseBody String linkAlchemy(@PathVariable("doc") String doc_uk) {
+		service.getAlchemyDisambiguation(doc_uk, 0);
+		//System.out.println(dbpedia);
+		return doc_uk;
+	}
 
 }

@@ -1,5 +1,6 @@
 package eu.reply.whitehall.service;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 
+import eu.reply.whitehall.client.alchemy.AlchemyClient;
 import eu.reply.whitehall.client.dbpedia.DBpediaLookUpClient;
 import eu.reply.whitehall.client.geocode.GoogleGeoCodeClient;
 import eu.reply.whitehall.domain.nodes.DBPediaLink;
@@ -40,6 +42,8 @@ public class OpenNodeService {
 	private DBpediaLookUpClient dbPediaLookUpClient;
 	@Autowired
 	private GoogleGeoCodeClient googleGeoCodeClient;
+	@Autowired
+	private AlchemyClient alchemyClient;
 	
 	
 	
@@ -190,7 +194,8 @@ public class OpenNodeService {
 	
 	
 	/**
-	 * Enrich Nodes with Goegraphic Coordinates
+	 * Enrich Nodes with LINKED DATA
+	 * it uses basic DBPedia Lookup APIs
 	 * @param doc_uk
 	 * @return
 	 */
@@ -202,8 +207,9 @@ public class OpenNodeService {
 			key=node.getRow().get(col_id[0]); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
 			try{
 				key=node.getRow().get(0); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
-				ret = dbPediaLookUpClient.linkDbPedia(key.replace(" ", "+"));				
+				ret = dbPediaLookUpClient.linkDbPedia(key.replace(" ", "+"));			
 				
+				/* Store NODE */
 				DBPediaLink dBLink = new DBPediaLink(ret.get("URI"));	
 				dBLink.setDescription(ret.get("DESCR"));
 				dBPediaLinkRepository.save(dBLink);
@@ -229,11 +235,43 @@ public class OpenNodeService {
 			try{
 				address=node.getRow().get(col_id[0]); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
 				ret = googleGeoCodeClient.geoCode(address.replace(" ", "+"));
+				
+				/*Store NODE*/
 				Venue venue = new Venue(new Float(ret.get("LON")), new Float(ret.get("LAT")));			
 				venueRepository.save(venue);
 				
 				/* Store Relationship */
 	        	template.createRelationshipBetween(node,venue, NodeVenueRelationship.class, "LOCATED",false);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	/**
+	 * Enrich Nodes with LINKED DATA
+     * adds Alchemy disambiguation using ALCHEMY Entity Extraction API
+	 * @param doc_uk
+	 * @return
+	 */
+	public void getAlchemyDisambiguation(String doc_uk, Integer ...col_id){
+
+		Map<String,String> ret; String key="";
+		List<OpenNode> records = getRecords(doc_uk);
+		for(OpenNode node:records){
+			key=node.getRow().get(col_id[0]); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
+			try{
+				key=node.getRow().get(0); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
+				ret = alchemyClient.linkAlchemyText(key);		
+				
+				/* Store NODE */				
+				DBPediaLink alchemyNode = new DBPediaLink(ret.get("dbpedia"));	
+				alchemyNode.setDescription(ret.get("DESCR"));
+				dBPediaLinkRepository.save(alchemyNode);
+				
+				/* Store Relationship */
+	        	template.createRelationshipBetween(node, alchemyNode, NodeDBPediaLinkRelationship.class, "DBP_LINKED",false);
 			}catch(Exception e){
 				e.printStackTrace();
 			}

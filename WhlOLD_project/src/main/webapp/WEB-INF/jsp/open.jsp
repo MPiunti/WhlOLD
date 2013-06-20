@@ -7,6 +7,8 @@
 <c:url value="/open/headers/${doc.name}" var="headersUrl"/>
 <c:url value="/enrich/geo/${doc.name}" var="geoUrl"/>
 <c:url value="/enrich/dbpedia/${doc.name}" var="dbpediaUrl"/>
+<c:url value="/enrich/alchemy/${doc.name}" var="alchemyUrl"/>
+
 <c:url value="/open/create" var="addUrl"/>
 <c:url value="/open/update" var="editUrl"/>
 <c:url value="/open/delete" var="deleteUrl"/>
@@ -37,6 +39,7 @@
 		urlHolder.records = '${recordsUrl}';	
 		urlHolder.geo = '${geoUrl}';	
 		urlHolder.dbpedia = '${dbpediaUrl}';	
+		urlHolder.alchemy = '${alchemyUrl}';
 		
 		urlHolder.add = '${addUrl}';
 		urlHolder.edit = '${editUrl}';
@@ -102,6 +105,11 @@
 			//$(this).button('loading');
 			dbpedia();
 		});
+		
+		$('#alchemyBtn').click( function() {	
+			//$(this).button('loading');
+			alchemy();
+		});
 	});
 	</script>
 </head>
@@ -146,6 +154,7 @@
 		
 		<button type='button' id='geoBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> Geo </button>
 		<button type='button' id='dbpediaBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> DBPedia </button>
+		<button type='button' id='alchemyBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> Alchemy Disambiguation </button>
 		<input type='button' value='Delete' id='deleteBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"/>		
 		<input type='button' value='Quit All' id='quitBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>" />
 	</div>
