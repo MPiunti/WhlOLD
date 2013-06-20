@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import eu.reply.whitehall.client.alchemy.AlchemyClient;
 import eu.reply.whitehall.client.dbpedia.DBpediaLookUpClient;
+import eu.reply.whitehall.client.deezer.DeezerClient;
 import eu.reply.whitehall.client.geocode.GoogleGeoCodeClient;
 import eu.reply.whitehall.domain.nodes.DBPediaLink;
 import eu.reply.whitehall.domain.nodes.OpenNode;
@@ -44,6 +45,8 @@ public class OpenNodeService {
 	private GoogleGeoCodeClient googleGeoCodeClient;
 	@Autowired
 	private AlchemyClient alchemyClient;
+	@Autowired
+	private DeezerClient deezerClient;
 	
 	
 	
@@ -272,6 +275,35 @@ public class OpenNodeService {
 				
 				/* Store Relationship */
 	        	template.createRelationshipBetween(node, alchemyNode, NodeDBPediaLinkRelationship.class, "DBP_LINKED",false);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	/**
+	 * Enrich Nodes with Deezer API
+	 * @param doc_uk
+	 * @return
+	 */
+	public void getDeezerMusic(String doc_uk, Integer ...col_id){
+
+		Map<String,String> ret; String key="";
+		List<OpenNode> records = getRecords(doc_uk);
+		for(OpenNode node:records){
+			key=node.getRow().get(col_id[0]); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
+			try{
+				key=node.getRow().get(0); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
+				ret = deezerClient.linkDeezer(key);		
+				
+				/* Store NODE */				
+				DBPediaLink deezerNode = new DBPediaLink(ret.get("MP3"));	
+				deezerNode.setDescription(ret.get("TITLE"));
+				dBPediaLinkRepository.save(deezerNode);
+				
+				/* Store Relationship */
+	        	template.createRelationshipBetween(node, deezerNode, NodeDBPediaLinkRelationship.class, "DBP_LINKED",false);
 			}catch(Exception e){
 				e.printStackTrace();
 			}

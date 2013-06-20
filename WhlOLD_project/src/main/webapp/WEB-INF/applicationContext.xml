@@ -44,6 +44,7 @@
     <bean id="dbPediaLookUpClient" class="eu.reply.whitehall.client.dbpedia.DBpediaLookUpClient" />
 	<bean id="googleGeoCodeClient" class="eu.reply.whitehall.client.geocode.GoogleGeoCodeClient" />
 	<bean id="alchemyClient" class="eu.reply.whitehall.client.alchemy.AlchemyClient" />
+	<bean id="deezerClient" class="eu.reply.whitehall.client.deezer.DeezerClient" />
     
     <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
     

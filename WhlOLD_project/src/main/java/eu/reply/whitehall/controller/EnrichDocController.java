@@ -34,5 +34,12 @@ public class EnrichDocController {
 		//System.out.println(dbpedia);
 		return doc_uk;
 	}
+	
+	@RequestMapping(value="/deezer/{doc}")
+	public  @ResponseBody String linkDeezer(@PathVariable("doc") String doc_uk) {
+		service.getDeezerMusic(doc_uk, 0);
+		//System.out.println(dbpedia);
+		return doc_uk;
+	}
 
 }

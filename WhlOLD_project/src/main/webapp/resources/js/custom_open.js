@@ -260,4 +260,27 @@ function alchemy() {
         }
    });
 }
+   
+   /**
+    * Enrich Function
+    * adds Deezer Music API
+    * http://api.deezer.com
+    */
+   function deezer() {	
+      $.ajax({
+           url : urlHolder.deezer,
+           type: 'GET',
+           beforeSend: function () {
+           	$('#tableOpenData').find('thead').children().remove(); 
+           	$('#tableOpenData').find('tbody').children().remove(); 
+           },
+           success : function (data, textStatus, xhr) {
+           	loadTable();
+           },
+           error: function (xhr, textStatus, errorThrown) {
+               console.log(textStatus);
+           }
+      });
+   }
+
 
