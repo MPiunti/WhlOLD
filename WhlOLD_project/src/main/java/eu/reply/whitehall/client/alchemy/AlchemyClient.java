@@ -1,8 +1,8 @@
 package eu.reply.whitehall.client.alchemy;
 
-import java.io.IOException;
+
+
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,10 +14,11 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -36,27 +37,47 @@ public class AlchemyClient {
 	
 	public static void main(String [ ] args){
 		AlchemyClient alchemy = new AlchemyClient();		
-		alchemy.linkAlchemyText("Roma");
+		alchemy.linkAlchemyText("LeBron%20James");
 	}
 	
 	
-	public HashMap<String,String> linkAlchemyText(String key){
-
-		String API_URL = API_ENTITIES_TEXT + "?apikey="+API_KEY+"&text={queryStr}";			
+	public Map<String,String> linkAlchemyText(String key){
+		
+		restTemplate = new RestTemplate();
+		
+		String API_URL = API_ENTITIES_TEXT + "?apikey="+API_KEY+"&text=";			
 		String queryStr="",result="";
-		Map<String, String> vars = new HashMap<String, String>();
+		Map<String, String> map = new HashMap<String, String>();
 		try {
-			queryStr = key.replace(" ", "%20");
-					//URLEncoder.encode(key, "UTF-8");
+			queryStr = //key.replace(" ", "%20");
+					URLEncoder.encode(key, "UTF-8");	
+			API_URL += queryStr;
 			System.out.println(" queryStr:" + queryStr);
-			vars.put("queryStr", queryStr);
+			map.put("queryStr", queryStr);
+			//Accept-Encoding: gzip,deflate,sdch		
+			HttpHeaders requestHeaders = new HttpHeaders();
+			//requestHeaders.add("Accept-Encoding", "gzip,deflate,sdch");
+			/*requestHeaders.add("Accept-Language", "it-IT,it;q=0.8,en-US;q=0.6,en;q=0.4");
+			requestHeaders.add("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36");
+			requestHeaders.add("Content-Type","text/plain; charset=utf-8"); 
+			requestHeaders.add("Accept","* /* "); */
+			requestHeaders.add("Content-Length", Integer.toString(API_URL.length()));
+			HttpEntity requestEntity = new HttpEntity(null, requestHeaders);
+			ResponseEntity<String> response = restTemplate.exchange(
+			    API_URL,
+				HttpMethod.POST,
+			    requestEntity,
+			    String.class);
+			result = response.getBody().toString();			
+			
+			//result = restTemplate.getForObject(API_URL, String.class, vars);	
+			System.out.println(" queryStr:" + queryStr + " RESULT: " + result);
+			map = getAlchemyDisambiguation(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}				
-		result = restTemplate.getForObject(API_URL, String.class, vars);	
-		System.out.println(" queryStr:" + queryStr + " RESULT: " + result);
-		return getAlchemyDisambiguation(result);
+		}		
+		return map;
 	}
 	
 	/**

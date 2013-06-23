@@ -33,7 +33,7 @@
 	<title>Open Data Records</title>
 	
 	<script type='text/javascript'>
-	$(function() {
+	$(function() {		
 		// init
 		urlHolder.opendata = '${opendataUrl}';
 		urlHolder.headers = '${headersUrl}';

@@ -24,7 +24,7 @@ public class DBPediaLink {
    /*@Fetch @RelatedTo(type = "DBP_LINKED", direction = Direction.INCOMING)
    Set<OpenNode> nodes;*/
    
-   private String type = "DBPEDIA_URI";
+   private String type;
    
    public DBPediaLink(){}
    

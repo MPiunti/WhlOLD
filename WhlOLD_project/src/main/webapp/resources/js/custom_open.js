@@ -35,9 +35,16 @@ function loadTable() {
 			}
 			if(response.openNodes[i].dBPediaLinks!=null &&
  					response.openNodes[i].dBPediaLinks.length>0){
- 				row += '<td><a href=\''+response.openNodes[i].dBPediaLinks[0].uri+'\''+
- 				       'title=\''+response.openNodes[i].dBPediaLinks[0].description+'\'>DBPedia link</a></td>';
- 				$('#dbpedia').html("DBPedia");
+				if(response.openNodes[i].dBPediaLinks[0].type === "DEEZER_TRACKS"){
+					row += '<td><audio src="'+response.openNodes[i].dBPediaLinks[0].uri+'" controls></audio>';
+					$('#dbpedia').html("Track");
+				} else {
+	 				row += '<td><a href=\''+response.openNodes[i].dBPediaLinks[0].uri+'\'';
+	 				row +=    'title=\''+response.openNodes[i].dBPediaLinks[0].description+'\'>'+response.openNodes[i].dBPediaLinks[0].type+'</a>';
+	 				$('#dbpedia').html("Linked Data");
+				}
+ 				row += '</td>';
+ 				
  			} else {
  				row += '<td></td>';
  			}

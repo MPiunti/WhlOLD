@@ -15,6 +15,7 @@ public class OpenNodeMapper {
 			dto.setId(openNode.getId());
 			dto.setUnique(openNode.getUnique());
 			dto.setName(openNode.getName());
+			dto.setType(openNode.getType());
 			dto.setRow(openNode.getRow());
 			
 			/* inner relationships */

@@ -1,6 +1,8 @@
 package eu.reply.whitehall.client.geocode;
 
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,16 +22,28 @@ public class GoogleGeoCodeClient {
 	@Autowired
     private RestTemplate    restTemplate;
 	
-	public HashMap<String,String>  geoCode(String key){
+	private final String GOOGLEAPI_MAPS = "http://maps.googleapis.com/maps/api/geocode/xml?address={queryStr}&sensor=false";
+	
+	public HashMap<String,Float>  geoCode(String key){
 		Map<String, String> vars = new HashMap<String, String>();
-		vars.put("queryStr", key);
-		String result = restTemplate.getForObject("http://maps.googleapis.com/maps/api/geocode/xml?address={queryStr}&sensor=false", 
-				String.class, vars);
+		String queryStr,result=null;
+		try {
+			queryStr = URLEncoder.encode(key, "UTF-8");
+			vars.put("queryStr", queryStr);
+			result = restTemplate.getForObject(GOOGLEAPI_MAPS, 
+					String.class, vars);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return getLatLon(result);
 	}
 	
-	public HashMap<String,String> getLatLon(String strstr){
-		HashMap<String,String> coordinates = new HashMap<String,String>();
+	public HashMap<String,Float> getLatLon(String strstr){
+		HashMap<String,Float> coordinates = new HashMap<String,Float>();
+		float lat = Float.NaN;
+		float lng = Float.NaN;
+		
 		try{		
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setNamespaceAware(true); // never forget this!
@@ -42,15 +56,17 @@ public class GoogleGeoCodeClient {
 			NodeList nodes = (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < nodes.getLength(); i++) {
 				String lat_val = nodes.item(i).getTextContent();
-			    System.out.println("."+i+"++++Retrieved lat:" + lat_val); 
-			    coordinates.put("LAT", lat_val);
+				lat = Float.parseFloat(lat_val);
+			    System.out.println("."+i+"++++Retrieved lat:" + lat); 
+			    coordinates.put("LAT", lat);
 			}
 			expr = xpath.compile("//geometry/location/lng");
 			nodes = (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < nodes.getLength(); i++) {
 				String lon_val = nodes.item(i).getTextContent();
-			    System.out.println("."+i+"++++Retrieved lon:" + lon_val); 
-			    coordinates.put("LON", lon_val);
+				lng = Float.parseFloat(lon_val);
+			    System.out.println("."+i+"++++Retrieved lon:" + lng); 
+			    coordinates.put("LON", lng);
 			}
 		}catch(Exception e){
 			e.printStackTrace();

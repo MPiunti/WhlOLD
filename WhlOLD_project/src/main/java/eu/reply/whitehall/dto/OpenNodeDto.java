@@ -13,7 +13,7 @@ public class OpenNodeDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
-	private String name, unique;
+	private String name, unique, type;
 	private LinkedList<String> row;
 
 	/* Relationships */
@@ -65,6 +65,12 @@ public class OpenNodeDto implements Serializable {
 	}
 	public void setVenues(Set<Venue> venues) {
 		this.venues = venues;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	public Set<DBPediaLink> getdBPediaLinks() {
 		return dBPediaLinks;

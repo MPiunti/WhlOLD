@@ -2,6 +2,8 @@ package eu.reply.whitehall.client.dbpedia;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,14 +32,19 @@ public class DBpediaLookUpClient {
 	private static final String API_URL_KEYWORD = "http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryString={queryStr}&MaxHits=1";
 	private static final String API_URL_PREFIX = "http://lookup.dbpedia.org/api/search.asmx/PrefixSearch?QueryClass=&MaxHits=1&QueryString={queryStr}";
 	
-	public HashMap<String,String> linkDbPedia(String key){
+	public Map<String,String> linkDbPedia(String key){
 				
-		Map<String, String> vars = new HashMap<String, String>();
-		vars.put("queryStr", key);
-				
-		String result = restTemplate.getForObject(API_URL_KEYWORD, String.class, vars);
+		Map<String, String> map = new HashMap<String, String>();		
+		try {
+			map.put("queryStr", URLEncoder.encode(key, "UTF-8"));
+			String result = restTemplate.getForObject(API_URL_KEYWORD, String.class, map);
+			map = getDBPediaURIfromJson(result);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();		
+		}			
 		//String result = restTemplate.getForObject(API_URL_PREFIX, String.class, vars);
-		return getDBPediaURIfromJson(result);
+		return map;
 	}
 	
 	/**

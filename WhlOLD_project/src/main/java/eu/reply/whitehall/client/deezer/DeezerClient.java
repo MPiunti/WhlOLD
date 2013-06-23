@@ -1,27 +1,15 @@
 package eu.reply.whitehall.client.deezer;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 
 public class DeezerClient {
@@ -43,8 +31,8 @@ public class DeezerClient {
 		String queryStr="",result="";
 		Map<String, String> vars = new HashMap<String, String>();
 		try {
-			queryStr = key.replace(" ", "%20");
-					//URLEncoder.encode(key, "UTF-8");
+			queryStr = //key.replace(" ", "%20");
+					URLEncoder.encode(key, "UTF-8");
 			System.out.println(" queryStr:" + queryStr);
 			vars.put("queryStr", queryStr);
 		} catch (Exception e) {

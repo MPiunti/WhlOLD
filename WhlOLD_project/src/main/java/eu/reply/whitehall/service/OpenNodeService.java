@@ -1,6 +1,6 @@
 package eu.reply.whitehall.service;
 
-import java.net.URLEncoder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +10,8 @@ import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 
-import eu.reply.whitehall.client.alchemy.AlchemyClient;
+//import eu.reply.whitehall.client.alchemy.AlchemyClient;
+import eu.reply.whitehall.client.alchemy.AlchemyClientAPI;
 import eu.reply.whitehall.client.dbpedia.DBpediaLookUpClient;
 import eu.reply.whitehall.client.deezer.DeezerClient;
 import eu.reply.whitehall.client.geocode.GoogleGeoCodeClient;
@@ -36,15 +37,14 @@ public class OpenNodeService {
 	private VenueRepository venueRepository;
 	
 	@Autowired
-	private DBPediaLinkRepository dBPediaLinkRepository;
-	
+	private DBPediaLinkRepository dBPediaLinkRepository;	
 	
 	@Autowired
 	private DBpediaLookUpClient dbPediaLookUpClient;
 	@Autowired
 	private GoogleGeoCodeClient googleGeoCodeClient;
 	@Autowired
-	private AlchemyClient alchemyClient;
+	private AlchemyClientAPI alchemyClientAPI;
 	@Autowired
 	private DeezerClient deezerClient;
 	
@@ -215,6 +215,7 @@ public class OpenNodeService {
 				/* Store NODE */
 				DBPediaLink dBLink = new DBPediaLink(ret.get("URI"));	
 				dBLink.setDescription(ret.get("DESCR"));
+				dBLink.setType("DBPEDIA_LINK");
 				dBPediaLinkRepository.save(dBLink);
 				
 				/* Store Relationship */
@@ -231,7 +232,7 @@ public class OpenNodeService {
 	 * @return
 	 */
 	public void getGeoCode(String doc_uk, Integer ...col_id){
-		Map<String,String> ret; 
+		Map<String,Float> ret; 
 		String address="";
 		List<OpenNode> records = getRecords(doc_uk);
 		for(OpenNode node:records){
@@ -240,7 +241,7 @@ public class OpenNodeService {
 				ret = googleGeoCodeClient.geoCode(address.replace(" ", "+"));
 				
 				/*Store NODE*/
-				Venue venue = new Venue(new Float(ret.get("LON")), new Float(ret.get("LAT")));			
+				Venue venue = new Venue(ret.get("LON"), ret.get("LAT"));			
 				venueRepository.save(venue);
 				
 				/* Store Relationship */
@@ -266,10 +267,11 @@ public class OpenNodeService {
 			key=node.getRow().get(col_id[0]); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
 			try{
 				key=node.getRow().get(0); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
-				ret = alchemyClient.linkAlchemyText(key);		
+				ret = alchemyClientAPI.linkAlchemyText(key);		
 				
 				/* Store NODE */				
-				DBPediaLink alchemyNode = new DBPediaLink(ret.get("dbpedia"));	
+				DBPediaLink alchemyNode = new DBPediaLink(ret.get("dbpedia"));
+				alchemyNode.setType("ALCHEMY_DISAMBIGUATION");
 				alchemyNode.setDescription(ret.get("DESCR"));
 				dBPediaLinkRepository.save(alchemyNode);
 				
@@ -283,7 +285,7 @@ public class OpenNodeService {
 	
 	
 	/**
-	 * Enrich Nodes with Deezer API
+	 * Enrich Nodes with Deezer Tracks API
 	 * @param doc_uk
 	 * @return
 	 */
@@ -299,6 +301,7 @@ public class OpenNodeService {
 				
 				/* Store NODE */				
 				DBPediaLink deezerNode = new DBPediaLink(ret.get("MP3"));	
+				deezerNode.setType("DEEZER_TRACKS");
 				deezerNode.setDescription(ret.get("TITLE"));
 				dBPediaLinkRepository.save(deezerNode);
 				
