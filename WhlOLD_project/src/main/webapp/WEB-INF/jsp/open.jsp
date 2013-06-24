@@ -24,6 +24,7 @@
 	<!-- <link rel='stylesheet' type='text/css' media='screen' href='<c:url value="/resources/css/style.css"/>'/>
 	Bootstrap -->
 	<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet" media="screen">
+	<link href="<c:url value='/resources/css/font-awesome.min.css'/>" rel="stylesheet" media="screen">
 
 	<!-- Bootstrap -->
     <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
@@ -210,7 +211,10 @@
 		
 		<br/>
 		<br/>
-		<a class="btn btn-large btn-info" data-toggle="modal" href="#myModal">Launch Modal</a>
+		<a class="btn btn-large btn-info" data-toggle="modal" href="#myModal">
+			<i class="icon-cloud"></i>
+			Link it
+		</a>
 		
 		<div class="modal hide" id="myModal"><!-- note the use of "hide" class -->
 		  <div class="modal-header">
