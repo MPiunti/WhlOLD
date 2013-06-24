@@ -42,7 +42,6 @@ pageEncoding="UTF-8"%>
 	    <br/>
 	    <br/>
 	    <div class="container">
-		    <div class="form-actions">	
 		
 			<h2>Register as a New User</h2>
 			<div class="error">${error}</div>
@@ -66,7 +65,6 @@ pageEncoding="UTF-8"%>
 				</fieldset>
 		    </form>	
 		   </div>	
-		 </div>
 
 	</body>
 </html>
