@@ -27,8 +27,9 @@
 
 	<!-- Bootstrap -->
     <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
-    <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
+    <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.10.1.min.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/custom_open.js"/>'></script>
+	<script type='text/javascript' src='<c:url value="/resources/js/bootstrap-modal.js"/>'></script>
 
 	<title>Open Data Records</title>
 	
@@ -117,6 +118,8 @@
 			//$(this).button('loading');
 			deezer();
 		});
+		
+
 	});
 	</script>
 </head>
@@ -202,6 +205,22 @@
 			<input type='button' value='Close' id='closeEditForm' />
 			<input type='submit' value='Submit'/>
 		</form>
+	</div>
+	
+	<a class="btn btn-large btn-primary" data-toggle="modal" href="#myModal">Launch Modal</a>
+	
+	<div class="modal hide" id="myModal"><!-- note the use of "hide" class -->
+	  <div class="modal-header">
+	    <button class="close" data-dismiss="modal">x</button>
+	    <h3>Modal header</h3>
+	  </div>
+	  <div class="modal-body">
+	    <p>One fine body </p>
+	  </div>
+	  <div class="modal-footer">
+	    <a href="#" class="btn" data-dismiss="modal">Close</a> <!-- note the use of "data-dismiss" -->
+	    <!-- <a href="#" class="btn btn-primary">Save changes</a>-->
+	  </div>
 	</div>
 </body>
 </html>

@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
 
 		<!-- Bootstrap -->
 	    <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
-	    <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
+	    <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.10.1.min.js"/>'></script>
 		<script type='text/javascript' src='<c:url value="/resources/js/custom_home.js"/>'></script>
 		<title>Login</title>
 	</head>
@@ -41,28 +41,32 @@ pageEncoding="UTF-8"%>
 	    
 	    <br/>
 	    <br/>
-	
-		<h2>Register as a New User</h2>
-		<div class="error">${error}</div>
+	    <div class="container">
+		    <div class="form-actions">	
 		
-		<c:url value="/home/" var="homeUrl"/>
-		<c:url value="/auth/register" var="registerUrl"/>
-		
-		<form action="${registerUrl}" method="post" >
-	    	<fieldset>
-	    	
-	    		<label for="j_displayname">Name:</label>
-		        <input id="j_displayname" name="j_displayname" type="text" value="${j_displayname}" placeholder="Display Name"/>
-	    	
-		        <label for="j_username">Login:</label>
-		        <input id="j_username" name="j_username" type="text" value="${j_username}" placeholder="User Name"/>	        
-		     
-		        <label for="j_password">Password:</label>
-		        <input id="j_password" name="j_password" type="password" placeholder="Password"/>
-		      
-		      	<input  type="submit" value="Register" class="btn btn-primary" />
-			</fieldset>
-	    </form>		
+			<h2>Register as a New User</h2>
+			<div class="error">${error}</div>
+			
+			<c:url value="/home/" var="homeUrl"/>
+			<c:url value="/auth/register" var="registerUrl"/>
+			
+			<form action="${registerUrl}" method="post" >
+		    	<fieldset>
+		    	
+		    		<label for="j_displayname">Name:</label>
+			        <input id="j_displayname" name="j_displayname" type="text" value="${j_displayname}" placeholder="Display Name"/>
+		    	
+			        <label for="j_username">Login:</label>
+			        <input id="j_username" name="j_username" type="text" value="${j_username}" placeholder="User Name"/>	        
+			     
+			        <label for="j_password">Password:</label>
+			        <input id="j_password" name="j_password" type="password" placeholder="Password"/>
+			      
+			      	<input  type="submit" value="Register" class="btn btn-primary" />
+				</fieldset>
+		    </form>	
+		   </div>	
+		 </div>
 
 	</body>
 </html>

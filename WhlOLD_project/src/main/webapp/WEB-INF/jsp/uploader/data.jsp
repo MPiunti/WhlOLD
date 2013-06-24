@@ -15,7 +15,7 @@
         <!-- Bootstrap -->
 	    <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
 	    <script src="<c:url value='/resources/js/jasny-bootstrap.min.js'/>"></script>
-	    <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
+	    <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.10.1.min.js"/>'></script>
 		<script type='text/javascript' src='<c:url value="/resources/js/custom_home.js"/>'></script>
         <title>Open Data - Upload</title>
     </head>

@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
 		<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet" media="screen">
 
 		<!-- Bootstrap -->
-		<script src="<c:url value='/resources/js/jquery-1.6.4.min.js'/>"></script>
+		<script src="<c:url value='/resources/js/jquery-1.10.1.min.js'/>"></script>
 	    <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
 
 		<title>Login</title>
@@ -48,27 +48,32 @@ pageEncoding="UTF-8"%>
 		<div class="container">
 			<br/>
 			<br/>
-	
-			<form action="${loginUrl}" method="post" class="form-signin">
-		    <h2 class="form-signin-heading">Login</h2>
-			<div class="error"><font color="red">${error}</font></div>
-		    
-		      <p>
-		        <label for="j_username">Login:</label>
-		        <input id="j_username" name="j_username" type="text" class="input-block-level"
-		            value="${not empty param.login_error ? sessionScope['SPRING_SECURITY_LAST_USERNAME'] : '' }" placeholder="password"/>
-		      </p>
-		      <p>
-		        <label for="j_password">Password:</label>
-		        <input id="j_password" name="j_password" type="password" class="input-block-level" 
-		        placeholder="Password"/>
-		      </p>
-		      <p>
-		        <label>Remember me:</label>
-		        <input type="checkbox" name="_spring_security_remember_me" value="Remember me" />
-		      </p>
-		      <input  type="submit" class="btn btn-large btn-primary" value="Login"/>
-		    </form>
+			<div class="form-actions">	
+				<form action="${loginUrl}" method="post" class="form-signin">
+			    <h2 class="form-signin-heading">Login</h2>
+				<c:if test="${not empty error}">
+					<div class="error alert alert-error">			
+					   <strong>Login error</strong> ${error} 
+					</div>
+				</c:if>
+			    
+			      <p>
+			        <label for="j_username">Username:</label>
+			        <input id="j_username" name="j_username" type="text" class="input-block-level"
+			            value="${not empty param.login_error ? sessionScope['SPRING_SECURITY_LAST_USERNAME'] : '' }" placeholder="password"/>
+			      </p>
+			      <p>
+			        <label for="j_password">Password:</label>
+			        <input id="j_password" name="j_password" type="password" class="input-block-level" 
+			        placeholder="Password"/>
+			      </p>
+			      <p>
+			        <label>Remember me:</label>
+			        <input type="checkbox" name="_spring_security_remember_me" value="Remember me" />
+			      </p>
+			      <input  type="submit" class="btn btn-large btn-primary" value="Login"/>
+			    </form>
+			   </div>
 	    </div>
 
 </body>

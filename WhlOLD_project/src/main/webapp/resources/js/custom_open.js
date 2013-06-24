@@ -40,7 +40,8 @@ function loadTable() {
 					$('#dbpedia').html("Track");
 				} else {
 	 				row += '<td><a href=\''+response.openNodes[i].dBPediaLinks[0].uri+'\'';
-	 				row +=    'title=\''+response.openNodes[i].dBPediaLinks[0].description+'\'>'+response.openNodes[i].dBPediaLinks[0].type+'</a>';
+	 				row +=    'title=\''+response.openNodes[i].dBPediaLinks[0].description+'\'>';
+	 				row += '<span class="label label-info">'+response.openNodes[i].dBPediaLinks[0].type+'</span></a>';
 	 				$('#dbpedia').html("Linked Data");
 				}
  				row += '</td>';
@@ -50,7 +51,7 @@ function loadTable() {
  			}
  			if(response.openNodes[i].venues!=null &&
  					response.openNodes[i].venues.length>0){
- 				row += '<td>'+response.openNodes[i].venues[0].wkt+'</td>';
+ 				row += '<td><span class="label label-success">'+response.openNodes[i].venues[0].wkt+'</span></td>';
  				$('#venue').html("Venue");
  			} else {
  				row += '<td></td>';
