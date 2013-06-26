@@ -301,38 +301,49 @@ function alchemy() {
 	    };
 
 	    var theUI = {
-	      nodes:{"arbor.js":{color:"red", shape:"dot", alpha:1}, 
+	      nodes:{"Artists":{color:"red", shape:"dot", alpha:1}, 
 	      
-	             demos:{color:CLR.branch, shape:"dot", alpha:1}, 
+	             Max_Hernst:{color:CLR.branch, shape:"dot", alpha:1}, 
 	             halfviz:{color:CLR.demo, alpha:0, link:'#'},
 	             atlas:{color:CLR.demo, alpha:0, link:'#'},
 	             echolalia:{color:CLR.demo, alpha:0, link:'#'},
 
-	             docs:{color:CLR.branch, shape:"dot", alpha:1}, 
+	            Luc_Besson:{color:CLR.branch, shape:"dot", alpha:1}, 
 	             reference:{color:CLR.doc, alpha:0, link:'#'},
 	             introduction:{color:CLR.doc, alpha:0, link:'#'},
 
-	             code:{color:CLR.branch, shape:"dot", alpha:1},
+	            Henry_Bergson:{color:CLR.branch, shape:"dot", alpha:1},
 	             github:{color:CLR.code, alpha:0, link:'#'},
 	             ".zip":{color:CLR.code, alpha:0, link:'#'},
-	             ".tar.gz":{color:CLR.code, alpha:0, link:'#'}
+	             ".tar.gz":{color:CLR.code, alpha:0, link:'#'},
+	             
+	            Jason_Pollock:{color:CLR.branch, shape:"dot", alpha:1},
+	             github:{color:CLR.code, alpha:0, link:'#'},
+	             "GitHub":{color:CLR.code, alpha:0, link:'#'},
+	             "SourceForge":{color:CLR.code, alpha:0, link:'#'},
+	             "Heroku":{color:CLR.code, alpha:0, link:'#'}
 	            },
 	      edges:{
-	        "arbor.js":{
-	          demos:{length:.3},
-	          docs:{length:.3},
-	          code:{length:.3}
+	    	"Artists":{
+	    		  Max_Hernst:{length:.3},
+	    		  Luc_Besson:{length:.3},
+	    		  Henry_Bergson:{length:.3},
+	    		  Jason_Pollock:{length:.3}
 	        },
-	        demos:{halfviz:{},
+	        Max_Hernst:{halfviz:{},
 	               atlas:{},
 	               echolalia:{}
 	        },
-	        docs:{reference:{},
+	        Luc_Besson:{reference:{},
 	              introduction:{}
 	        },
-	        code:{".zip":{},
+	        Henry_Bergson:{".zip":{},
 	              ".tar.gz":{},
 	              "github":{}
+	        },
+	       Jason_Pollock:{"GitHub":{},
+	              "SourceForge":{},
+	              "Heroku":{}
 	        }
 	      }
 	    };
