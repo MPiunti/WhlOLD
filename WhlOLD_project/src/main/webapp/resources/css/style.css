@@ -19,6 +19,11 @@ h1, hr {
 #controlBar {
 	padding-top: 3px;	
 }
+#myModal {
+	width: 900px; /* SET THE WIDTH OF THE MODAL */
+	margin: -250px 0 0 -450px; /* CHANGE MARGINS TO ACCOMODATE THE NEW WIDTH (original = margin: -250px 0 0 -280px;) */
+}
+
 
 table {
 	border: 1px solid;
