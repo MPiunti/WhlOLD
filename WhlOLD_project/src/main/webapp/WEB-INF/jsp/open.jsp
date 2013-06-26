@@ -31,6 +31,12 @@
     <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.10.1.min.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/custom_open.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/bootstrap-modal.js"/>'></script>
+	
+	<script type='text/javascript' src="<c:url value='/resources/js/graph/jquery.address-1.4.min.js'/>"></script>
+	<script type='text/javascript' src="<c:url value='/resources/js/graph/arbor.js '/>"></script>
+	<script type='text/javascript' src="<c:url value='/resources/js/graph/arbor-tween.js '/>"></script>
+	<script type='text/javascript' src="<c:url value='/resources/js/graph/arbor-graphics.js '/>"></script>
+	<script type='text/javascript' src="<c:url value='/resources/js/graph/arbor_engine.js '/>"></script>
 
 	<title>Open Data Records</title>
 	
@@ -118,6 +124,11 @@
 		$('#deezerBtn').click( function() {	
 			//$(this).button('loading');
 			deezer();
+		});
+		
+		$('a.graph').click( function() {	
+			console.log('click graph!');
+			plot();
 		});
 		
 
@@ -211,7 +222,7 @@
 		
 		<br/>
 		<br/>
-		<a class="btn btn-large btn-info" data-toggle="modal" href="#myModal">
+		<a class="btn btn-large btn-info graph" data-toggle="modal" href="#myModal">
 			<i class="icon-cloud"></i>
 			Link it
 		</a>
@@ -219,10 +230,11 @@
 		<div class="modal hide" id="myModal"><!-- note the use of "hide" class -->
 		  <div class="modal-header">
 		    <button class="close" data-dismiss="modal">x</button>
-		    <h3>Modal header</h3>
+		    <h3>Document Graph</h3>
 		  </div>
 		  <div class="modal-body">
-		    <p>One fine body </p>
+		    <!--  <p>One fine Graph </p>-->
+		    <canvas id="thegraph" width="400" height="200"></canvas>
 		  </div>
 		  <div class="modal-footer">
 		    <a href="#" class="btn" data-dismiss="modal">Close</a> <!-- note the use of "data-dismiss" -->
