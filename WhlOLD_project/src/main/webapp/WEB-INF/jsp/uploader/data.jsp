@@ -10,11 +10,13 @@
         <!--<link rel='stylesheet' type='text/css' media='screen' href='<c:url value="/resources/css/style.css"/>'/>
 		 Bootstrap -->
 		<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet" media="screen">
-		<link href="<c:url value='/resources/css/jasny-bootstrap.min.css'/>" rel="stylesheet" media="screen">
+		<!-- <link href="<c:url value='/resources/css/jasny-bootstrap.min.css'/>" rel="stylesheet" media="screen"> -->
+		<link href="<c:url value='/resources/css/bootstrap-fileupload.min.css'/>" rel="stylesheet" media="screen">
 
         <!-- Bootstrap -->
 	    <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
-	    <script src="<c:url value='/resources/js/jasny-bootstrap.min.js'/>"></script>
+	   <!--  <script src="<c:url value='/resources/js/jasny-bootstrap.min.js'/>"></script> -->
+	    <script src="<c:url value='/resources/js/bootstrap-fileupload.min.js'/>"></script>
 	    <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.10.1.min.js"/>'></script>
 		<script type='text/javascript' src='<c:url value="/resources/js/custom_home.js"/>'></script>
         <title>Open Data - Upload</title>
@@ -26,7 +28,6 @@
     
     	<div class="navbar navbar-inverse navbar-fixed-top">
 	      <div class="navbar-inner">
-	        <div class="container">
 	          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
@@ -40,7 +41,6 @@
 	              <li><a href="${logoutUrl}">Logout</a></li>
 	            </ul>
 	          </div><!--/.nav-collapse -->
-	        </div>
 	      </div>
 	    </div>
     	
@@ -52,7 +52,7 @@
         </div>
     
         <form:form modelAttribute="uploadItem" method="post" enctype="multipart/form-data" >
-            <fieldset>
+            
                 <legend>Upload Fields</legend>
  
        
@@ -83,8 +83,7 @@
 					 </div>
 				   </div>
 				   
-				   <input type="submit" value="Load Document" class="btn btn-primary btn-large"/>
-            </fieldset>
+				   <input type="submit" value="Load Document" class="btn btn-primary btn-large" />
         </form:form>
         <!-- Bootstrap -->
 	    <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>

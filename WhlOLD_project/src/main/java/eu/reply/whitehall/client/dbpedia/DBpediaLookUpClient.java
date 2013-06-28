@@ -33,10 +33,15 @@ public class DBpediaLookUpClient {
 	private static final String API_URL_PREFIX = "http://lookup.dbpedia.org/api/search.asmx/PrefixSearch?QueryClass=&MaxHits=1&QueryString={queryStr}";
 	
 	public Map<String,String> linkDbPedia(String key){
+		
+		/*System.getProperties().put("proxySet", "true"); 
+		System.getProperties().put("proxyHost", "proxy.reply.it"); 
+		System.getProperties().put("proxyPort", "8080");*/
 				
 		Map<String, String> map = new HashMap<String, String>();		
 		try {
 			map.put("queryStr", URLEncoder.encode(key, "UTF-8"));
+			
 			String result = restTemplate.getForObject(API_URL_KEYWORD, String.class, map);
 			map = getDBPediaURIfromJson(result);
 		} catch (UnsupportedEncodingException e) {

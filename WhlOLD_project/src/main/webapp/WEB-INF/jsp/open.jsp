@@ -182,12 +182,29 @@
 			<input type='button' value='Edit' id='editBtn' />
 			<input type='button' value='Reload' id='reloadBtn' />-->
 			
-			<button type='button' id='geoBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> Geo </button>
-			<button type='button' id='dbpediaBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> DBPedia </button>
+			<a class="btn btn btn-primary" id='geoBtn'>
+				<i class="icon-map-marker"></i>
+				Geo
+			</a>
+			<a class="btn btn btn-primary" id='dbpediaBtn'>
+				<i class="icon-group"></i>
+				DBPedia
+			</a>
+			<a class="btn btn btn-primary" id='alchemyBtn'>
+				<i class="icon-font"></i>
+				Alchemy
+			</a>
+			<a class="btn btn btn-primary" id='deezerBtn'>
+				<i class="icon-play"></i>
+				Deezer
+			</a>
+			
+			<!-- <button type='button' id='geoBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> Geo </button> 
+			<button type='button' id='dbpediaBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> DBPedia </button> 
 			<button type='button' id='alchemyBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> Alchemy Disambiguation </button>
-			<button type='button' id='deezerBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> Deezer </button>
-			<input type='button' value='Delete' id='deleteBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"/>		
-			<input type='button' value='Quit All' id='quitBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>" />
+			<button type='button' id='deezerBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> Deezer </button> -->
+			<input type='button' value='Delete' id='deleteBtn' class="btn" data-loading-text="<i class='icon-upload icon-white'></i>"/>		
+			<input type='button' value='Quit All' id='quitBtn' class="btn" data-loading-text="<i class='icon-upload icon-white'></i>" />
 		</div>
 		
 		<div id='newForm'>
@@ -230,8 +247,8 @@
 		<br/>
 		<br/>
 		<a class="btn btn-large btn-info graph" data-toggle="modal" href="#myModal">
-			<i class="icon-cloud"></i>
-			Link it
+			<i class="icon-bullseye"></i>
+			Graph it
 		</a>
 		
 		<div class="modal hide" id="myModal"><!-- note the use of "hide" class -->
