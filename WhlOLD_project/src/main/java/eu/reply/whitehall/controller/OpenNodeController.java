@@ -2,6 +2,8 @@ package eu.reply.whitehall.controller;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +44,11 @@ public class OpenNodeController {
 		return openNodeListDto;
 	}
 
-		
+	/**
+	 * List of Values for Datatables
+	 * @param doc_uk
+	 * @return
+	 */
 	@RequestMapping(value="/records/{doc}")
 	public @ResponseBody OpenNodeListDto getOpenNodes(@PathVariable("doc") String doc_uk) {
 		
@@ -50,6 +56,16 @@ public class OpenNodeController {
 		//openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.findAllRecords(doc_name)));
 		openNodeListDto.setOpenNodes(OpenNodeMapper.map(service.getRecords(doc_uk)));
 		return openNodeListDto;
+	}
+	
+	/**
+	 * List of Values for Graph Visualization
+	 * @param doc_uk
+	 * @return
+	 */
+	@RequestMapping(value="/graph/{doc}")
+	public @ResponseBody List<OpenNode> getOpenGraph(@PathVariable("doc") String doc_uk) {
+		return service.getRecords(doc_uk);
 	}
 	
 	

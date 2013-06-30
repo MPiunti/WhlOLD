@@ -10,6 +10,8 @@
   //   eval("console.log("+args.join(",")+")")
   // }  
   
+  var level1 = new Array();
+
   var Renderer = function(elt){
     var dom = $(elt);
     // hack! do not use JQuery to pick $("#thegraph") 
@@ -30,17 +32,17 @@
       init:function(pSystem){
         sys = pSystem;
         sys.screen({size:{width:dom.width(), height:dom.height()},
-                    padding:[36,60,36,60]});
+                    padding:[18,30,18,30]});
 
         $(window).resize(that.resize);
         that.resize();
         that._initMouseHandling();
 
-        if (document.referrer.match(/echolalia|atlas|halfviz/)){
+      /*  if (document.referrer.match(/echolalia|atlas|halfviz/)){
           // if we got here by hitting the back button in one of the demos, 
           // start with the demos section pre-selected
           that.switchSection('demos');
-        }
+        }*/
       },
       resize:function(){
         canvas.width = $(window).width();
@@ -163,8 +165,9 @@
                  dom.removeClass('linkable');
                  window.status = '';
               }
-            }else if ($.inArray(nearest.node.name, ['Luc_Besson','Max_Hernst','Henry_Bergson','Artists','Jason_Pollock']) >=0 ){
-              if (nearest.node.name!=_section){
+            }else if ($.inArray(nearest.node.name, level1) >=0 ){
+                /* explode childs */
+            	if (nearest.node.name!=_section){
                 _section = nearest.node.name;
                 that.switchSection(_section);
               }

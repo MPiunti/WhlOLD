@@ -2,6 +2,19 @@
  *  @MPiunti Reply.eu
  */
 var urlHolder = new Object();
+var Document = "Document";
+
+var theUI = {
+	nodes:{Document:{color:"#b94a48", shape:"dot", alpha:1} },
+	edges:{Document:{}}
+};
+
+var CLR = {
+    branch:"#b2b19d",
+    code:"#3a87ad",
+    doc:"#922E00",
+    demo:"#468847"
+};
 
 function loadTable() {
 
@@ -19,29 +32,43 @@ function loadTable() {
 	});
 
 	$.get(urlHolder.records, function(response) {
-		console.log(response);	
+		//console.log(response);	
 		$('#tableOpenData').find('tbody').children().remove();
 
 
  		for (var i=0; i<response.openNodes.length; i++) {
 			var row = '<tr>';
+			     //  graph nodes and links
+					theUI.nodes[response.openNodes[i].row[0] ] = {color:CLR.branch, shape:"dot", alpha:1};
+					level1.push(response.openNodes[i].row[0]);
+					theUI.edges[Document][response.openNodes[i].row[0]] = {length:.3, label:"INCLUDES"};	
+			
+			
 			//row += '<td><input type="radio" name="index" id="index" value="'+i+'"></td>';	
 			var nodeId = response.openNodes[i].id;
 			row += '<td><a href="http://localhost:7474/db/data/node/'+nodeId+'" target="_blank">'+nodeId+'</a></td>';
-			
-
+			// put the ROW Array in the datatable
 			for (var j=0; j<response.openNodes[i].row.length; j++) {
 				row += '<td>' + response.openNodes[i].row[j] + '</td>';				
 			}
+			
 			if(response.openNodes[i].dBPediaLinks!=null &&
  					response.openNodes[i].dBPediaLinks.length>0){
 				if(response.openNodes[i].dBPediaLinks[0].type === "DEEZER_TRACKS"){
 					row += '<td><audio src="'+response.openNodes[i].dBPediaLinks[0].uri+'" controls></audio>';
+					//  graph nodes and links
+						theUI.nodes[response.openNodes[i].dBPediaLinks[0].uri ] = {color:CLR.code, alpha:0, link:response.openNodes[i].dBPediaLinks[0].uri};
+						theUI.edges[response.openNodes[i].row[0]] = {};
+						theUI.edges[response.openNodes[i].row[0]][response.openNodes[i].dBPediaLinks[0].uri] = {length:.3, label:"DBP_LINKED"};	
 					$('#dbpedia').html("Track");
 				} else {
 	 				row += '<td><a href=\''+response.openNodes[i].dBPediaLinks[0].uri+'\'';
 	 				row +=    'title=\''+response.openNodes[i].dBPediaLinks[0].description+'\'>';
 	 				row += '<span class="label label-info">'+response.openNodes[i].dBPediaLinks[0].type+'</span></a>';
+		 			//  graph nodes and links
+						theUI.nodes[response.openNodes[i].dBPediaLinks[0].uri] = {color:CLR.code, alpha:0, link:response.openNodes[i].dBPediaLinks[0].uri};
+						theUI.edges[response.openNodes[i].row[0]] = {};
+						theUI.edges[response.openNodes[i].row[0]][response.openNodes[i].dBPediaLinks[0].uri] = {length:.3, label:"DBP_LINKED"};	
 	 				$('#dbpedia').html("Linked Data");
 				}
  				row += '</td>';
@@ -52,6 +79,10 @@ function loadTable() {
  			if(response.openNodes[i].venues!=null &&
  					response.openNodes[i].venues.length>0){
  				row += '<td><span class="label label-success">'+response.openNodes[i].venues[0].wkt+'</span></td>';
+	 			//  graph nodes and links
+					theUI.nodes[response.openNodes[i].venues[0].wkt] = {color:CLR.demo, alpha:0, link:response.openNodes[i].venues[0].wkt};
+					theUI.edges[response.openNodes[i].row[0]] = {};
+					theUI.edges[response.openNodes[i].row[0]][response.openNodes[i].venues[0].wkt] = {length:.3, label:"LOCATED"};	
  				$('#venue').html("Venue");
  			} else {
  				row += '<td></td>';
@@ -299,11 +330,11 @@ function alchemy() {
 	      demo:"#a7af00"
 	    };
 
-	    Max_Hernst = "Max Hernst";
+	   /* Max_Hernst = "Max Hernst";
 	    var theUI = {
 	      nodes:{"Artists":{color:"red", shape:"dot", alpha:1}, 
 	      
-	    	     Max_Hernst:{color:CLR.branch, shape:"dot", alpha:1}, 
+	    	    Max_Hernst:{color:CLR.branch, shape:"dot", alpha:1}, 
 	             halfviz:{color:CLR.demo, alpha:0, link:'#'},
 	             atlas:{color:CLR.demo, alpha:0, link:'#'},
 	             echolalia:{color:CLR.demo, alpha:0, link:'#'},
@@ -325,28 +356,30 @@ function alchemy() {
 	            },
 	      edges:{
 	    	"Artists":{
-	    		  Max_Hernst:{length:.3, label:"OWNS"},
-	    		  Luc_Besson:{length:.3, label:"OWNS"},
-	    		  Henry_Bergson:{length:.3},
-	    		  Jason_Pollock:{length:.3, label:"OWNS"}
+	    		Max_Hernst:{length:.3, label:"OWNS"},
+	    		Luc_Besson:{length:.3, label:"OWNS"},
+	    		Henry_Bergson:{length:.3},
+	    		Jason_Pollock:{length:.3, label:"OWNS"}
 	        },
-	        Max_Hernst:{halfviz:{label:"OWNS"},
-	               atlas:{},
-	               echolalia:{label:"OWNS"}
+	        Max_Hernst:{
+	        	halfviz:{label:"OWNS"},
+	            atlas:{},
+	            echolalia:{label:"OWNS"}
 	        },
-	        Luc_Besson:{reference:{},
-	              introduction:{label:"OWNS"}
+	        Luc_Besson:{
+	        	reference:{},
+	            introduction:{label:"OWNS"}
 	        },
 	        Henry_Bergson:{".zip":{},
-	              ".tar.gz":{label:"OWNS"},
-	              "github":{}
+	            ".tar.gz":{label:"OWNS"},
+	            "github":{}
 	        },
-	       Jason_Pollock:{"GitHub":{},
-	              "SourceForge":{label:"OWNS"},
-	              "Heroku":{}
+	        Jason_Pollock:{"GitHub":{},
+	            "SourceForge":{label:"OWNS"},
+	            "Heroku":{}
 	        }
 	      }
-	    };
+	    };*/
 
 
 	    var sys = arbor.ParticleSystem();
