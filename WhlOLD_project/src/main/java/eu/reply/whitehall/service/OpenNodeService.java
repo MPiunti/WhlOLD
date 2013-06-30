@@ -240,12 +240,16 @@ public class OpenNodeService {
 				address=node.getRow().get(col_id[0]); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
 				ret = googleGeoCodeClient.geoCode(address.replace(" ", "+"));
 				
-				/*Store NODE*/
-				Venue venue = new Venue(ret.get("LON"), ret.get("LAT"));			
-				venueRepository.save(venue);
-				
-				/* Store Relationship */
-	        	template.createRelationshipBetween(node,venue, NodeVenueRelationship.class, "LOCATED",false);
+				Float LON = ret.get("LON");
+				Float LAT =  ret.get("LAT");
+				if(LON!=null && LAT!=null){
+					/*Store NODE*/
+					Venue venue = new Venue(LON, LAT);			
+					venueRepository.save(venue);
+					
+					/* Store Relationship */
+		        	template.createRelationshipBetween(node,venue, NodeVenueRelationship.class, "LOCATED",false);
+				}
 			}catch(Exception e){
 				e.printStackTrace();
 			}

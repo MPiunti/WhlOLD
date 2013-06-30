@@ -57,7 +57,6 @@ function loadTable() {
  				row += '<td></td>';
  			}
 			row += '</tr>';
-
 			//console.log(row);	
 			$('#tableOpenData').find('tbody').append(row);
  		}
@@ -300,10 +299,11 @@ function alchemy() {
 	      demo:"#a7af00"
 	    };
 
+	    Max_Hernst = "Max Hernst";
 	    var theUI = {
 	      nodes:{"Artists":{color:"red", shape:"dot", alpha:1}, 
 	      
-	             Max_Hernst:{color:CLR.branch, shape:"dot", alpha:1}, 
+	    	     Max_Hernst:{color:CLR.branch, shape:"dot", alpha:1}, 
 	             halfviz:{color:CLR.demo, alpha:0, link:'#'},
 	             atlas:{color:CLR.demo, alpha:0, link:'#'},
 	             echolalia:{color:CLR.demo, alpha:0, link:'#'},
@@ -325,24 +325,24 @@ function alchemy() {
 	            },
 	      edges:{
 	    	"Artists":{
-	    		  Max_Hernst:{length:.3},
-	    		  Luc_Besson:{length:.3},
+	    		  Max_Hernst:{length:.3, label:"OWNS"},
+	    		  Luc_Besson:{length:.3, label:"OWNS"},
 	    		  Henry_Bergson:{length:.3},
-	    		  Jason_Pollock:{length:.3}
+	    		  Jason_Pollock:{length:.3, label:"OWNS"}
 	        },
-	        Max_Hernst:{halfviz:{},
+	        Max_Hernst:{halfviz:{label:"OWNS"},
 	               atlas:{},
-	               echolalia:{}
+	               echolalia:{label:"OWNS"}
 	        },
 	        Luc_Besson:{reference:{},
-	              introduction:{}
+	              introduction:{label:"OWNS"}
 	        },
 	        Henry_Bergson:{".zip":{},
-	              ".tar.gz":{},
+	              ".tar.gz":{label:"OWNS"},
 	              "github":{}
 	        },
 	       Jason_Pollock:{"GitHub":{},
-	              "SourceForge":{},
+	              "SourceForge":{label:"OWNS"},
 	              "Heroku":{}
 	        }
 	      }

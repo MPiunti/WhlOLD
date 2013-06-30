@@ -57,7 +57,7 @@ public class GoogleGeoCodeClient {
 			for (int i = 0; i < nodes.getLength(); i++) {
 				String lat_val = nodes.item(i).getTextContent();
 				lat = Float.parseFloat(lat_val);
-			    System.out.println("."+i+"++++Retrieved lat:" + lat); 
+			    System.out.println("."+i+"++++Retrieved lat:" + lat_val); 
 			    coordinates.put("LAT", lat);
 			}
 			expr = xpath.compile("//geometry/location/lng");
@@ -65,7 +65,7 @@ public class GoogleGeoCodeClient {
 			for (int i = 0; i < nodes.getLength(); i++) {
 				String lon_val = nodes.item(i).getTextContent();
 				lng = Float.parseFloat(lon_val);
-			    System.out.println("."+i+"++++Retrieved lon:" + lng); 
+			    System.out.println("."+i+"++++Retrieved lon:" + lon_val); 
 			    coordinates.put("LON", lng);
 			}
 		}catch(Exception e){
