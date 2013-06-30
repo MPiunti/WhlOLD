@@ -24,8 +24,9 @@
         nearest = null,
         _mouseP = null;
 
+    var that = {};
     
-    var that = {
+     that = {
       init:function(pSystem){
         sys = pSystem;
         sys.screen({size:{width:dom.width(), height:dom.height()},
@@ -101,37 +102,37 @@
       switchMode:function(e){
         if (e.mode=='hidden'){
           dom.stop(true).fadeTo(e.dt,0, function(){
-            if (sys) sys.stop()
-            $(this).hide()
-          })
+            if (sys) sys.stop();
+            $(this).hide();
+          });
         }else if (e.mode=='visible'){
           dom.stop(true).css('opacity',0).show().fadeTo(e.dt,1,function(){
-            that.resize()
-          })
-          if (sys) sys.start()
+            that.resize();
+          });
+          if (sys) sys.start();
         }
       },
       
       switchSection:function(newSection){
-        var parent = sys.getEdgesFrom(newSection)[0].source
+        var parent = sys.getEdgesFrom(newSection)[0].source;
         var children = $.map(sys.getEdgesFrom(newSection), function(edge){
-          return edge.target
-        })
+          return edge.target;
+        });
         
         sys.eachNode(function(node){
-          if (node.data.shape=='dot') return // skip all but leafnodes
+          if (node.data.shape=='dot') return; // skip all but leafnodes
 
-          var nowVisible = ($.inArray(node, children)>=0)
-          var newAlpha = (nowVisible) ? 1 : 0
-          var dt = (nowVisible) ? .5 : .5
-          sys.tweenNode(node, dt, {alpha:newAlpha})
+          var nowVisible = ($.inArray(node, children)>=0);
+          var newAlpha = (nowVisible) ? 1 : 0;
+          var dt = (nowVisible) ? .5 : .5;
+          sys.tweenNode(node, dt, {alpha:newAlpha});
 
           if (newAlpha==1){
-            node.p.x = parent.p.x + .05*Math.random() - .025
-            node.p.y = parent.p.y + .05*Math.random() - .025
-            node.tempMass = .001
+            node.p.x = parent.p.x + .05*Math.random() - .025;
+            node.p.y = parent.p.y + .05*Math.random() - .025;
+            node.tempMass = .001;
           }
-        })
+        });
       },
       
       
@@ -140,201 +141,201 @@
         selected = null;
         nearest = null;
         var dragged = null;
-        var oldmass = 1
+        var oldmass = 1;
 
-        var _section = null
+        var _section = null;
 
         var handler = {
           moved:function(e){
             var pos = $(canvas).offset();
-            _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
+            _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top);
             nearest = sys.nearest(_mouseP);
 
-            if (!nearest.node) return false
+            if (!nearest.node) return false;
 
             if (nearest.node.data.shape!='dot'){
-              selected = (nearest.distance < 50) ? nearest : null
+              selected = (nearest.distance < 50) ? nearest : null;
               if (selected){
-                 dom.addClass('linkable')
-                 window.status = selected.node.data.link.replace(/^\//,"http://"+window.location.host+"/").replace(/^#/,'')
+                 dom.addClass('linkable');
+                 window.status = selected.node.data.link.replace(/^\//,"http://"+window.location.host+"/").replace(/^#/,'');
               }
               else{
-                 dom.removeClass('linkable')
-                 window.status = ''
+                 dom.removeClass('linkable');
+                 window.status = '';
               }
             }else if ($.inArray(nearest.node.name, ['Luc_Besson','Max_Hernst','Henry_Bergson','Artists','Jason_Pollock']) >=0 ){
               if (nearest.node.name!=_section){
-                _section = nearest.node.name
-                that.switchSection(_section)
+                _section = nearest.node.name;
+                that.switchSection(_section);
               }
-              dom.removeClass('linkable')
-              window.status = ''
+              dom.removeClass('linkable');
+              window.status = '';
             }
             
-            return false
+            return false;
           },
           clicked:function(e){
             var pos = $(canvas).offset();
-            _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
+            _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top);
             nearest = dragged = sys.nearest(_mouseP);
             
             if (nearest && selected && nearest.node===selected.node){
-              var link = selected.node.data.link
+              var link = selected.node.data.link;
               if (link.match(/^#/)){
-                 $(that).trigger({type:"navigate", path:link.substr(1)})
+                 $(that).trigger({type:"navigate", path:link.substr(1)});
               }else{
-                 window.location = link
+                 window.location = link;
               }
-              return false
+              return false;
             }
             
             
-            if (dragged && dragged.node !== null) dragged.node.fixed = true
+            if (dragged && dragged.node !== null) dragged.node.fixed = true;
 
             $(canvas).unbind('mousemove', handler.moved);
-            $(canvas).bind('mousemove', handler.dragged)
-            $(window).bind('mouseup', handler.dropped)
+            $(canvas).bind('mousemove', handler.dragged);
+            $(window).bind('mouseup', handler.dropped);
 
-            return false
+            return false;
           },
           dragged:function(e){
-            var old_nearest = nearest && nearest.node._id
+            var old_nearest = nearest && nearest.node._id;
             var pos = $(canvas).offset();
-            var s = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
+            var s = arbor.Point(e.pageX-pos.left, e.pageY-pos.top);
 
-            if (!nearest) return
+            if (!nearest) return;
             if (dragged !== null && dragged.node !== null){
-              var p = sys.fromScreen(s)
-              dragged.node.p = p
+              var p = sys.fromScreen(s);
+              dragged.node.p = p;
             }
 
-            return false
+            return false;
           },
 
           dropped:function(e){
-            if (dragged===null || dragged.node===undefined) return
-            if (dragged.node !== null) dragged.node.fixed = false
-            dragged.node.tempMass = 1000
+            if (dragged===null || dragged.node===undefined) return;
+            if (dragged.node !== null) dragged.node.fixed = false;
+            dragged.node.tempMass = 1000;
             dragged = null;
-            // selected = null
-            $(canvas).unbind('mousemove', handler.dragged)
-            $(window).unbind('mouseup', handler.dropped)
+            // selected = null;
+            $(canvas).unbind('mousemove', handler.dragged);
+            $(window).unbind('mouseup', handler.dropped);
             $(canvas).bind('mousemove', handler.moved);
-            _mouseP = null
-            return false
+            _mouseP = null;
+            return false;
           }
 
 
-        }
+        };
 
         $(canvas).mousedown(handler.clicked);
         $(canvas).mousemove(handler.moved);
 
       }
-    }
+    };
     
-    return that
-  }
+    return that;
+  };
   
   
   var Nav = function(elt){
-    var dom = $(elt)
+    var dom = $(elt);
 
-    var _path = null
+    var _path = null;
     
     var that = {
       init:function(){
-        $(window).bind('popstate',that.navigate)
-        dom.find('> a').click(that.back)
-        $('.more').one('click',that.more)
+        $(window).bind('popstate',that.navigate);
+        dom.find('> a').click(that.back);
+        $('.more').one('click',that.more);
         
-        $('#docs dl:not(.datastructure) dt').click(that.reveal)
-        that.update()
-        return that
+        $('#docs dl:not(.datastructure) dt').click(that.reveal);
+        that.update();
+        return that;
       },
       more:function(e){
-        $(this).removeAttr('href').addClass('less').html('&nbsp;').siblings().fadeIn()
-        $(this).next('h2').find('a').one('click', that.less)
+        $(this).removeAttr('href').addClass('less').html('&nbsp;').siblings().fadeIn();
+        $(this).next('h2').find('a').one('click', that.less);
         
-        return false
+        return false;
       },
       less:function(e){
-        var more = $(this).closest('h2').prev('a')
+        var more = $(this).closest('h2').prev('a');
         $(this).closest('h2').prev('a')
         .nextAll().fadeOut(function(){
-          $(more).text('creation & use').removeClass('less').attr('href','#')
-        })
-        $(this).closest('h2').prev('a').one('click',that.more)
+          $(more).text('creation & use').removeClass('less').attr('href','#');
+        });
+        $(this).closest('h2').prev('a').one('click',that.more);
         
-        return false
+        return false;
       },
       reveal:function(e){
-        $(this).next('dd').fadeToggle('fast')
-        return false
+        $(this).next('dd').fadeToggle('fast');
+        return false;
       },
       back:function(){
-        _path = "/"
+        _path = "/";
         if (window.history && window.history.pushState){
           window.history.pushState({path:_path}, "", _path);
         }
-        that.update()
-        return false
+        that.update();
+        return false;
       },
       navigate:function(e){
-        var oldpath = _path
+        var oldpath = _path;
         if (e.type=='navigate'){
-          _path = e.path
+          _path = e.path;
           if (window.history && window.history.pushState){
              window.history.pushState({path:_path}, "", _path);
           }else{
-            that.update()
+            that.update();
           }
         }else if (e.type=='popstate'){
-          var state = e.originalEvent.state || {}
-          _path = state.path || window.location.pathname.replace(/^\//,'')
+          var state = e.originalEvent.state || {};
+          _path = state.path || window.location.pathname.replace(/^\//,'');
         }
-        if (_path != oldpath) that.update()
+        if (_path != oldpath) that.update();
       },
       update:function(){
-        var dt = 'fast'
+        var dt = 'fast';
         if (_path===null){
           // this is the original page load. don't animate anything just jump
           // to the proper state
-          _path = window.location.pathname.replace(/^\//,'')
-          dt = 0
-          dom.find('p').css('opacity',0).show().fadeTo('slow',1)
+          _path = window.location.pathname.replace(/^\//,'');
+          dt = 0;
+          dom.find('p').css('opacity',0).show().fadeTo('slow',1);
         }
 
         switch (_path){
           case '':
           case '/':
-          dom.find('p').text('a graph visualization library using web workers and jQuery')
-          dom.find('> a').removeClass('active').attr('href','#')
+          dom.find('p').text('a graph visualization library using web workers and jQuery');
+          dom.find('> a').removeClass('active').attr('href','#');
 
           $('#docs').fadeTo('fast',0, function(){
-            $(this).hide()
-            $(that).trigger({type:'mode', mode:'visible', dt:dt})
+            $(this).hide();
+            $(that).trigger({type:'mode', mode:'visible', dt:dt});
           })
-          document.title = "arbor.js"
-          break
+          document.title = "arbor.js";
+          break;
           
           case 'introduction':
           case 'reference':
-          $(that).trigger({type:'mode', mode:'hidden', dt:dt})
-          dom.find('> p').text(_path)
-          dom.find('> a').addClass('active').attr('href','#')
-          $('#docs').stop(true).css({opacity:0}).show().delay(333).fadeTo('fast',1)
+          $(that).trigger({type:'mode', mode:'hidden', dt:dt});
+          dom.find('> p').text(_path);
+          dom.find('> a').addClass('active').attr('href','#');
+          $('#docs').stop(true).css({opacity:0}).show().delay(333).fadeTo('fast',1);
                     
-          $('#docs').find(">div").hide()
-          $('#docs').find('#'+_path).show()
-          document.title = "arbor.js » " + _path
-          break
+          $('#docs').find(">div").hide();
+          $('#docs').find('#'+_path).show();
+          document.title = "arbor.js » " + _path;
+          break;
         }
         
       }
-    }
-    return that
-  }
+    };
+    return that;
+  };
   
 
 //})(this.jQuery)
