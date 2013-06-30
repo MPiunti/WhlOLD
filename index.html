@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Open Linked Data as a Service : " />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Open Linked Data as a Service</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/MPiunti/WhlOLD">View on GitHub</a>
+
+          <h1 id="project_title">Open Linked Data as a Service</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/MPiunti/WhlOLD/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/MPiunti/WhlOLD/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>The project support a "Open Data as a Service" infrastructure, making use of non-relational databases in order to better represent, inside the data model, the intrinsic linkability of information.  The approach adopts <strong>Neo4J</strong>, thus natively conceiving data as a fully fledged Linked Data model using are Nodes and Relationships.  This results in maintaining a crosscutting semantic within the data, which may evolve over time in terms of structures and relationships. Finally, this allows to easily manage data schemes which are closer to the end-users goals --- namely the terminal use cases to which the data will be applied to.
+We also want data to be automatically structured in W3C compliant formats and possibly enriched, through the use of third party APIs, i.e. allowing data to be georeferenced or linked to external data sets as DBPedia, etc.</p>
+
+<p>The system, is based on a plain Spring Data + Neo4J back-end (see <a href="http://www.slideshare.net/indecadenza/linkedopendataromenetcamp13">here</a> ).. It is also characterized by a series of connectors through the external modules: input "gates", allows to feed the system starting from local files as well as data streams and APIs. Accordingly, it also provides a set of configurable output "gates", which allows data to be automatically retrieved, through the use of REST based APIs.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Open Linked Data as a Service maintained by <a href="https://github.com/MPiunti">MPiunti</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
