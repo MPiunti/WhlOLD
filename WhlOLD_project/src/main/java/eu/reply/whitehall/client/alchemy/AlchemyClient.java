@@ -1,7 +1,6 @@
 package eu.reply.whitehall.client.alchemy;
 
 
-
 import java.io.StringReader;
 import java.net.URLEncoder;
 import java.util.HashMap;
