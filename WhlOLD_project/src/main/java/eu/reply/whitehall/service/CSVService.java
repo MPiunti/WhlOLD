@@ -91,7 +91,7 @@ public class CSVService {
     	LinkedList<String> row = new LinkedList<String>(Arrays.asList(column));	
     	node.setRow(row);
     	node.setHeaderLine(1);
-    	node.setName(openDocument.getName());
+    	node.setName("HEADERS");
     	openNodeRepository.save(node);
     	
     	/* Store Relationship */
@@ -103,7 +103,10 @@ public class CSVService {
         while (csvDocument.readRecord()) {
         	// TODO:  username is dymanic
         	node = new OpenNode(user.getLogin()+"@"+openDocument.getName()+"_id:"+openDocument.getId());
-        	node.setName(openDocument.getName());
+        	if(row.get(0)!=null || !"".equals(row.get(0)))
+        		node.setName(row.get(0));
+        	else
+        		node.setName(openDocument.getName());
         	row = new LinkedList<String>(Arrays.asList(csvDocument.getValues()));
         	/*for(int i=0;i < OPEN_COLUMN; i++){
         		 row.add(csvDocument.get(column[i]));

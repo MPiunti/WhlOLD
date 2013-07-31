@@ -34,7 +34,7 @@ public class GoogleGeoCodeClient {
 					String.class, vars);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 		return getLatLon(result);
 	}
@@ -69,7 +69,7 @@ public class GoogleGeoCodeClient {
 			    coordinates.put("LON", lng);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 		return coordinates;
 	}

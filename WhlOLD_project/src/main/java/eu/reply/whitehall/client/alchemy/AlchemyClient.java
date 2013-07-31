@@ -74,7 +74,7 @@ public class AlchemyClient {
 			map = getAlchemyDisambiguation(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}		
 		return map;
 	}
@@ -115,7 +115,7 @@ public class AlchemyClient {
 			
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 		return ALCHEMY_URIs;
 	}

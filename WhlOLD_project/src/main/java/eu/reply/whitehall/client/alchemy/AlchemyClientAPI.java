@@ -44,7 +44,7 @@ public class AlchemyClientAPI {
 		} catch (XPathExpressionException | IOException | SAXException
 				| ParserConfigurationException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 		return ALCHEMY_URIs;
 	}
@@ -78,7 +78,7 @@ public class AlchemyClientAPI {
 			    ALCHEMY_URIs.put("DESCR", url_type );
 			}			
 		}catch(Exception e){
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 		return ALCHEMY_URIs;
 	}

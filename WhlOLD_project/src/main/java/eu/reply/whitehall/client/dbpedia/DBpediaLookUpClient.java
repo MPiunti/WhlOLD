@@ -74,11 +74,14 @@ public class DBpediaLookUpClient {
 			 
 		} catch (JsonParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} // or URL, Stream, Reader, String, byte[]
+			System.err.println(e.getMessage());// or URL, Stream, Reader, String, byte[]
+		}  catch (Exception e) { 
+			System.err.println(e.getMessage());
+		}
+		
 		
 		return DBPediaURIs;
 		
