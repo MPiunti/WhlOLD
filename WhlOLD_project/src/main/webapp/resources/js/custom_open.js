@@ -61,7 +61,7 @@ function loadTable() {
 						theUI.edges[response.openNodes[i].row[0]] = {};
 						theUI.edges[response.openNodes[i].row[0]][response.openNodes[i].dBPediaLinks[0].uri] = {length:.3, label:"DBP_LINKED"};	
 					$('#dbpedia').html("Track");
-				} else {
+				} else if (response.openNodes[i].dBPediaLinks[0].uri != null || response.openNodes[i].dBPediaLinks[0].description != null) {
 	 				row += '<td><a href=\''+response.openNodes[i].dBPediaLinks[0].uri+'\'';
 	 				row +=    'title=\''+response.openNodes[i].dBPediaLinks[0].description+'\'>';
 	 				row += '<span class="label label-info">'+response.openNodes[i].dBPediaLinks[0].type+'</span></a>';
