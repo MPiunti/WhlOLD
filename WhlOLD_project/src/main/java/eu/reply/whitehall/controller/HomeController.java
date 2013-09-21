@@ -60,12 +60,17 @@ public class HomeController {
 	@RequestMapping(value="/testCSV")
 	public ModelAndView testCSV() {
 		ModelAndView mav = new ModelAndView();
+		List<List<String>> list_of_rows = new ArrayList<List<String>>();
 		List<String> list_of_values = new ArrayList<String>();
 		list_of_values.add("a");
 		list_of_values.add("b");
 		list_of_values.add("c");
+		list_of_values.add("d");
 		mav.addObject("SEPARATOR", ";");
-		mav.addObject("modelKey", list_of_values);
+		list_of_rows.add(list_of_values);
+		list_of_rows.add(list_of_values);
+		list_of_rows.add(list_of_values);
+		mav.addObject("datasheet", list_of_rows);
 		View csvView = new CSVView();
 		mav.setView(csvView);
 		return mav;
