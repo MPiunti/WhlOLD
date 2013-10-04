@@ -19,6 +19,9 @@ public class Venue {
    String name;
    @Indexed(indexName = "VenueLocation") String wkt;
    
+   String latitude;
+   String longitude;
+   
    /*@Fetch @RelatedTo(type = "LOCATED", direction = Direction.INCOMING)
    Set<OpenNode> nodes;*/
    
@@ -29,8 +32,15 @@ public class Venue {
    }
    
    public  Venue(float lon, float lat) {
-	  this.wkt = String.format("POINT( %.2f %.2f )",lon,lat);
+	  this.wkt = String.format("POINT( %.5f %.5f )",lon,lat);
    }
+   
+   public  Venue(String lon, String lat) {
+	  this.wkt = String.format("POINT( %.5f %.5f )",Float.parseFloat(lon), Float.parseFloat(lat));
+	   this.latitude = lat;
+	   this.longitude = lon;
+   }
+   
    public Long getId() {
 		return id;
    }	
@@ -70,6 +80,22 @@ public class Venue {
 	}*/
 	
 	
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
 	public void setLocation(float lon, float lat) {
 	      this.wkt = String.format("POINT( %.2f %.2f )",lon,lat);
 	}

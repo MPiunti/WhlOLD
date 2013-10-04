@@ -24,7 +24,7 @@ public class GoogleGeoCodeClient {
 	
 	private final String GOOGLEAPI_MAPS = "http://maps.googleapis.com/maps/api/geocode/xml?address={queryStr}&sensor=false";
 	
-	public HashMap<String,Float>  geoCode(String key){
+	public HashMap<String,String>  geoCode(String key){
 		Map<String, String> vars = new HashMap<String, String>();
 		String queryStr,result=null;
 		try {
@@ -39,7 +39,38 @@ public class GoogleGeoCodeClient {
 		return getLatLon(result);
 	}
 	
-	public HashMap<String,Float> getLatLon(String strstr){
+	public HashMap<String,String> getLatLon(String strstr){
+	HashMap<String,String> coordinates = new HashMap<String,String>();
+	
+	try{		
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setNamespaceAware(true); // never forget this!
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document doc = builder.parse(new InputSource(new StringReader(strstr)));
+		
+		XPathFactory xFactory = XPathFactory.newInstance();
+		XPath xpath = xFactory.newXPath();
+		XPathExpression expr = xpath.compile("//geometry/location/lat");
+		NodeList nodes = (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
+		for (int i = 0; i < nodes.getLength(); i++) {
+			String lat_val = nodes.item(i).getTextContent();
+		    System.out.println("."+i+"++++Retrieved lat:" + lat_val); 
+		    coordinates.put("LAT", lat_val);
+		}
+		expr = xpath.compile("//geometry/location/lng");
+		nodes = (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
+		for (int i = 0; i < nodes.getLength(); i++) {
+			String lon_val = nodes.item(i).getTextContent();
+		    System.out.println("."+i+"++++Retrieved lon:" + lon_val); 
+		    coordinates.put("LON", lon_val);
+		}
+	}catch(Exception e){
+		System.err.println(e.getMessage());
+	}
+	return coordinates;
+}
+	
+	/*public HashMap<String,Float> getLatLon(String strstr){
 		HashMap<String,Float> coordinates = new HashMap<String,Float>();
 		float lat = Float.NaN;
 		float lng = Float.NaN;
@@ -72,6 +103,6 @@ public class GoogleGeoCodeClient {
 			System.err.println(e.getMessage());
 		}
 		return coordinates;
-	}
+	}*/
 
 }

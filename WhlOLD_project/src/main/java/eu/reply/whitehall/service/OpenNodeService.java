@@ -232,7 +232,7 @@ public class OpenNodeService {
 	 * @return
 	 */
 	public void getGeoCode(String doc_uk, Integer ...col_id){
-		Map<String,Float> ret; 
+		Map<String,String> ret; 
 		String address="";
 		List<OpenNode> records = getRecords(doc_uk);
 		for(OpenNode node:records){
@@ -240,8 +240,8 @@ public class OpenNodeService {
 				address=node.getRow().get(col_id[0]); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
 				ret = googleGeoCodeClient.geoCode(address.replace(" ", "+"));
 				
-				Float LON = ret.get("LON");
-				Float LAT =  ret.get("LAT");
+				String LON = ret.get("LON");
+				String LAT =  ret.get("LAT");
 				if(LON!=null && LAT!=null){
 					/*Store NODE*/
 					Venue venue = new Venue(LON, LAT);			

@@ -34,6 +34,7 @@ function loadTable() {
 	$.get(urlHolder.records, function(response) {
 		//console.log(response);	
 		$('#tableOpenData').find('tbody').children().remove();
+		var map = false;
 
 
  		for (var i=0; i<response.openNodes.length; i++) {
@@ -78,13 +79,16 @@ function loadTable() {
  			}
  			if(response.openNodes[i].venues!=null &&
  					response.openNodes[i].venues.length>0){
- 				row += '<td><span class="label label-success">'+response.openNodes[i].venues[0].wkt+'</span></td>';
+ 				var venue = response.openNodes[i].venues[0];
+ 				row += '<td><span class="label label-success"> Point('+venue.latitude+', '+venue.longitude+ ')</span></td>';
 	 			//  graph nodes and links
-					theUI.nodes[response.openNodes[i].venues[0].wkt] = {color:CLR.demo, alpha:0, link:response.openNodes[i].venues[0].wkt};
-					theUI.edges[response.openNodes[i].row[0]] = {};
-					theUI.edges[response.openNodes[i].row[0]][response.openNodes[i].venues[0].wkt] = {length:.3, label:"LOCATED"};	
+					theUI.nodes[venue.wkt] = {color:CLR.demo, alpha:0, link:venue.wkt};
+					theUI.edges[venue] = {};
+					theUI.edges[venue][venue.wkt] = {length:.3, label:"LOCATED"};	
  				$('#venue').html("Venue");
+ 				map=true;
  			} else {
+
  				row += '<td></td>';
  			}
 			row += '</tr>';
@@ -94,7 +98,13 @@ function loadTable() {
  		
  		$('#tableOpenData').data('model', response.openNodes);
 		toggleForms('hide'); 
+		
+		if(!map) {
+			$('#map-canvas').hide();
+		}
  	});
+	
+		
 }
 
 function submitNewRecord() {
