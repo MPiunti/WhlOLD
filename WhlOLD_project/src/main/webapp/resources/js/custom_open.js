@@ -80,8 +80,15 @@ function loadTable() {
  			if(response.openNodes[i].venues!=null &&
  					response.openNodes[i].venues.length>0){
  				var venue = response.openNodes[i].venues[0];
+ 				var loi = response.openNodes[i].name;
  				row += '<td><span class="label label-success"> Point('+venue.latitude+', '+venue.longitude+ ')</span></td>';
-	 			//  graph nodes and links
+	 			
+ 				pushLoi(loi,
+ 						new google.maps.LatLng(venue.latitude,venue.longitude),
+ 						loi,
+ 						'www.google.com');
+
+ 				//  graph nodes and links
 					theUI.nodes[venue.wkt] = {color:CLR.demo, alpha:0, link:venue.wkt};
 					theUI.edges[venue] = {};
 					theUI.edges[venue][venue.wkt] = {length:.3, label:"LOCATED"};	
@@ -101,6 +108,8 @@ function loadTable() {
 		
 		if(!map) {
 			$('#map-canvas').hide();
+		} else {
+			drawMap('map-canvas');
 		}
  	});
 	

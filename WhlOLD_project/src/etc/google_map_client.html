@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+  <title>Google Maps Multiple Markers</title> 
+  <script src="http://maps.google.com/maps/api/js?sensor=true" 
+          type="text/javascript"></script>
+</head> 
+<body>
+  <div id="map" style="width: 800px; height: 600px;"></div>
+
+  <script type="text/javascript">
+  var bounds = new google.maps.LatLngBounds();
+  
+  var marker, i;
+  
+  // The Bermuda Triangle
+  var polygonCoords = new Array();  
+  pushLoi(['Miami',new google.maps.LatLng(25.774252, -80.190262), 'this is some content for MIAMI.', 'http://google.com']);
+  pushLoi(['Puerto Rico', new google.maps.LatLng(18.466465, -66.118292), 'this is some content for Puerto Rico.', 'http://google.com']);
+  pushLoi(['Bermuda',new google.maps.LatLng(32.321384, -64.757370), 'this is some content for BERMUDA', 'http://google.com']);
+
+  
+  for (i = 0; i < polygonCoords.length; i++) {
+    bounds.extend(polygonCoords[i][1]);
+  }
+
+  // The Center of the Bermuda Triangle - (25.3939245, -72.473816)
+  //console.log(bounds.getCenter());
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 10,
+    center: bounds.getCenter(),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+
+  var infowindow = new google.maps.InfoWindow();
+
+  for (i = 0; i < polygonCoords.length; i++) {  
+    marker = new google.maps.Marker({
+      position: polygonCoords[i][1], //new google.maps.LatLng(locations[i][1], locations[i][2]),
+      map: map
+  });
+
+  google.maps.event.addListener(marker, 'click', (function(marker, i) {
+      return function() {
+        infowindow.setContent(pushModlInfo(polygonCoords[i][0], polygonCoords[i][2], polygonCoords[i][3]));
+        infowindow.open(map, marker);
+      }
+    })(marker, i));
+  }
+  
+  /**
+  * push a location array in the LOI array
+  */
+  function pushLoi(loi){
+		polygonCoords.push(loi);
+  }
+  
+  /**
+   * push a location array in the LOI array
+   */
+  function pushLoi(title, LatLng, content, url ){
+	  var low = new Array();
+	  low.push(title);
+	  low.push(LatLng);	  
+	  low.push(content);
+	  low.push(url);
+	  polygonCoords.push(low);
+  }
+  
+  /**
+  * return a formatted content for Google Maps pop ups
+  */
+  function pushModlInfo(title, body, link){
+    var contentString = '<div id="content">'+
+		 '<div id="siteNotice">'+
+  	 '</div>'+
+	     '<h2 id="firstHeading" class="firstHeading">'+title+'</h2>'+
+	     '<div id="bodyContent">'+
+ 		 	'<p><b>'+title+'</b>,' +body+'</p>'+
+ 		 	'<p>Web Space: <a href="'+link+'" target="_blank">'+title+'</a></p>'+
+	     '</div>'+
+	     '</div>';
+    return contentString;
+  }
+  </script>
+</body>
+</html>
