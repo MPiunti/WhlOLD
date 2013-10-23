@@ -4,16 +4,19 @@ Beta version. The project support a "Open Data as a Service" infrastructure, mak
 
 The system is based on a plain Spring Data + Neo4J back-end. It is also characterized by a series of connectors through the external modules: input "gates", allows to feed the system starting from local files as well as data streams and APIs. Accordingly, it also provides a set of configurable output "gates", which allows data to be automatically retrieved, through the use of REST based APIs.
 
+Installation
+============
+The project builds using Maven artifacts. In order to be lounched, it requires a running Neo4j server up and running on the default location ( which is for Neo4J at http://localhost:7474/)
+
 Notes
 =====
-Working example .csv can be found in the doc directory.
+The prototype is the same shown at 2013 Reply xChange and Netcamp events.
+Working examples .csv can be found in the doc directory.
 
-Thanks to krams915:
-http://krams915.blogspot.com/2012/03/spring-mvc-31-implement-crud-with_3045.html
 
 Version
 =======
-April, 2013
+April-July, 2013
 
 Author
 ======
