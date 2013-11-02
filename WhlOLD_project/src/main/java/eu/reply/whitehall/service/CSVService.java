@@ -103,11 +103,13 @@ public class CSVService {
         while (csvDocument.readRecord()) {
         	// TODO:  username is dymanic
         	node = new OpenNode(user.getLogin()+"@"+openDocument.getName()+"_id:"+openDocument.getId());
+        	row = new LinkedList<String>(Arrays.asList(csvDocument.getValues()));
+        	
         	if(row.get(0)!=null || !"".equals(row.get(0)))
         		node.setName(row.get(0));
         	else
-        		node.setName(openDocument.getName());
-        	row = new LinkedList<String>(Arrays.asList(csvDocument.getValues()));
+        		node.setName(" undefined row");
+        	
         	/*for(int i=0;i < OPEN_COLUMN; i++){
         		 row.add(csvDocument.get(column[i]));
             }*/		

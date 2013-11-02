@@ -32,6 +32,7 @@ public class GoogleGeoCodeClient {
 			vars.put("queryStr", queryStr);
 			result = restTemplate.getForObject(GOOGLEAPI_MAPS, 
 					String.class, vars);
+			 System.out.println("++++Query for:" + queryStr ); 
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			System.err.println(e.getMessage());

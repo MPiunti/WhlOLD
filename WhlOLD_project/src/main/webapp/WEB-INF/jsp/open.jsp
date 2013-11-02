@@ -147,7 +147,7 @@
 	<style type="text/css">
 		#myModal {
 			width: 1100px; 
-			//height: 800px;
+			/*height: 800px;*/
 			margin: 0 0 0 -450px; 
 		}
 

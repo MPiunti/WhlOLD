@@ -244,7 +244,8 @@ public class OpenNodeService {
 				String LAT =  ret.get("LAT");
 				if(LON!=null && LAT!=null){
 					/*Store NODE*/
-					Venue venue = new Venue(LON, LAT);			
+					Venue venue = new Venue(LON, LAT);
+					venue.setWkt("Point("+LAT+","+LON+")");
 					venueRepository.save(venue);
 					
 					/* Store Relationship */

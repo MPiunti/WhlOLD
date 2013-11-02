@@ -19,7 +19,7 @@ var CLR = {
 function loadTable() {
 
 	$.get(urlHolder.headers, function(response) {
-		console.log(response);	
+		//console.log(response);	
 		$('#tableOpenData').find('thead').children().remove(); 
  		var row = '<tr><th><strong>REST URI</strong></th>';
  		for (var j=0; j<response.openNodes[0].row.length; j++) { 			
@@ -86,7 +86,7 @@ function loadTable() {
  				pushLoi(loi,
  						new google.maps.LatLng(venue.latitude,venue.longitude),
  						loi,
- 						'www.google.com');
+ 						'www.google.com ' + i);
 
  				//  graph nodes and links
 					theUI.nodes[venue.wkt] = {color:CLR.demo, alpha:0, link:venue.wkt};

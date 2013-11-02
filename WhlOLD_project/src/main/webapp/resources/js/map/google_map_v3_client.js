@@ -17,7 +17,7 @@
   function drawMap(mapDom)  {
 	  var bounds = new google.maps.LatLngBounds();
   
-	  for (i = 0; i < polygonCoords.length; i++) {
+	  for (var i = 0; i < polygonCoords.length; i++) {
 	    bounds.extend(polygonCoords[i][1]);
 	  }
 	
@@ -25,9 +25,15 @@
 	  //console.log(bounds.getCenter());
 	
 	  var map = new google.maps.Map(document.getElementById(mapDom), {
-	    zoom: 10,
+	    //zoom: 3,
 	    center: bounds.getCenter(),
 	    mapTypeId: google.maps.MapTypeId.ROADMAP
+	  });
+	  // fit bounds of LOI
+	  map.fitBounds(bounds);
+	  var listener = google.maps.event.addListener(map, "idle", function() { 
+	    if (map.getZoom() > 16) map.setZoom(16); 
+	    google.maps.event.removeListener(listener); 
 	  });
 
 	  var infowindow = new google.maps.InfoWindow();
@@ -39,6 +45,7 @@
 	  });
 
 	  google.maps.event.addListener(marker, 'click', (function(marker, i) {
+		  console.log(polygonCoords[i]);
 	      return function() {
 	        infowindow.setContent(pushModlInfo(polygonCoords[i][0], polygonCoords[i][2], polygonCoords[i][3]));
 	        infowindow.open(map, marker);
