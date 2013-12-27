@@ -355,12 +355,12 @@
 		<snapshots><enabled>false</enabled></snapshots>
 	</repository>
 
-	<!--
+	<!-- -->
 	<repository>
 		<id>jboss</id>
 		<name>JBoss repository</name>
 		<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
-	</repository> -->
+	</repository> 
 	
   </repositories>
   
