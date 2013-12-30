@@ -14,7 +14,7 @@ public class Chunker {
     public static final char EOL_CHAR = '\n';
     public static final char EOF_CHAR = (char)-1;
     public static final int PREV_EOL_CHAR = -2;
-    private static final int BUFSIZE = 32*1024;
+    private static final int BUFSIZE = 64*1024;  //improved
     private final Reader reader;
     private final char delim;
     private final char[] buffer=new char[BUFSIZE];
