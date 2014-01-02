@@ -43,7 +43,7 @@ public class Chunker {
             int available = reader.read(buffer);
             pos = 0;
             if (available == -1) {
-                available = 0;
+                available = 0; 
             }
             if (available < BUFSIZE) {
                 buffer[available] = EOF_CHAR;
