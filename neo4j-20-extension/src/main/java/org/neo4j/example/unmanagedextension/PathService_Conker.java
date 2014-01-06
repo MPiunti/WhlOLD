@@ -2,6 +2,7 @@ package org.neo4j.example.unmanagedextension;
 
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -57,9 +58,12 @@ public class PathService_Conker {
                 Collections.<String, Object>singletonMap("startNode", startNode));
         Long startNodeID = (Long) result.iterator().next().get("nodeId");
     	Node neoNode = graphDb.getNodeById(startNodeID);
-        Traverser friendsTraverser = getFriends(neoNode);
-        Long start = startDate != null ? parseDateToTimestamp(startDate) : 0;
-        Long end = endDate != null ? parseDateToTimestamp(endDate) : Long.MAX_VALUE;
+//        Traverser friendsTraverser = getFriends(neoNode);
+        Traverser friendsTraverser = getFriends(graphDb, neoNode);
+//        Long start = startDate != null ? parseDateToTimestamp(startDate) : 0;
+        Long start = startDate != null ? parseDateToMillis(startDate) : 0;
+//        Long end = endDate != null ? parseDateToTimestamp(endDate) : Long.MAX_VALUE;
+        Long end = endDate != null ? parseDateToMillis(endDate) : Long.MAX_VALUE;
         Set<Map<String, Object>> nodes = new LinkedHashSet<Map<String, Object>>();
         Set<Map<String, Object>> relationships = new LinkedHashSet<Map<String, Object>>();
         Long ultimoMovimento = 0L;
@@ -117,8 +121,17 @@ public class PathService_Conker {
     	return find(graphDb, startNode, null, endDate);
     }
 
+    @Deprecated
     private static Traverser getFriends (final Node node) {
         TraversalDescription td = Traversal.description()
+                .breadthFirst()
+                .relationships(RelTypes.MOVES, Direction.OUTGOING)
+                .evaluator(Evaluators.excludeStartPosition());
+        return td.traverse(node);
+    }
+
+    private static Traverser getFriends (final GraphDatabaseService graphDb, final Node node) {
+        TraversalDescription td = graphDb.traversalDescription()
                 .breadthFirst()
                 .relationships(RelTypes.MOVES, Direction.OUTGOING)
                 .evaluator(Evaluators.excludeStartPosition());
@@ -139,5 +152,12 @@ public class PathService_Conker {
     
     private Long parseDateToTimestamp (String date) throws Exception {
     	return parseDate(date).getTime();
+    }
+    
+    private Long parseDateToMillis (String date) throws Exception {
+    	Calendar cal = Calendar.getInstance();
+        cal.setTime(parseDate(date));
+        long timeStamp = cal.getTimeInMillis();
+        return timeStamp;
     }
 }
