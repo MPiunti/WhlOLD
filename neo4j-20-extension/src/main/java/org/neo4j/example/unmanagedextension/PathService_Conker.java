@@ -33,6 +33,11 @@ import org.neo4j.graphdb.traversal.Traverser;
 import org.neo4j.kernel.Traversal;
 import org.neo4j.server.logging.Logger;
 
+/**
+ * Base Traverslals
+ * @author a.santurbano
+ *
+ */
 @Path("/path")
 public class PathService_Conker {
 	

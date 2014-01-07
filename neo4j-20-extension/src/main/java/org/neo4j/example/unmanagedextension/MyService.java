@@ -16,6 +16,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * Base Service
+ * @author m.piunti
+ *
+ */
 @Path("/service")
 public class MyService {
 	
