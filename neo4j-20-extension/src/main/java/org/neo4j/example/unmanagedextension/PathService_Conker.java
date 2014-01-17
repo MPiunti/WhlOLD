@@ -58,7 +58,8 @@ public class PathService_Conker {
     		, @PathParam("endDate") String endDate) throws Exception {
     	logger.info("Test find");
     	ExecutionEngine executionEngine = new ExecutionEngine(graphDb);
-    	String query = "START n = node:stalla(id={startNode}) RETURN ID(n) as nodeId";
+    	String query = "MATCH (n { name: \"{startNode}\" })	RETURN n";
+    			//"START n = node:struttura(id={startNode}) RETURN ID(n) as nodeId";
         ExecutionResult result = executionEngine.execute(String.format(query, startNode),
                 Collections.<String, Object>singletonMap("startNode", startNode));
         Long startNodeID = (Long) result.iterator().next().get("nodeId");
