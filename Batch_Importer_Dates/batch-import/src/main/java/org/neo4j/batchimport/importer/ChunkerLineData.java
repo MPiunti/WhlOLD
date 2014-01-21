@@ -1,16 +1,12 @@
 package org.neo4j.batchimport.importer;
 
-import org.neo4j.batchimport.LineData;
-import org.neo4j.batchimport.structs.PropertyHolder;
 import org.neo4j.batchimport.utils.Chunker;
-import org.neo4j.batchimport.utils.DateToTimeUnits;
+
 
 import java.io.IOException;
 import java.io.Reader;
-import java.text.ParseException;
 import java.util.*;
 
-import static org.neo4j.helpers.collection.MapUtil.map;
 
 public class ChunkerLineData extends AbstractLineData {
     private final Chunker chunker;
