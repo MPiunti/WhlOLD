@@ -2,7 +2,7 @@ package org.neo4j.batchimport.importer;
 
 import java.text.ParseException;
 
-import org.neo4j.batchimport.utils.DataToTimeMillis;
+import org.neo4j.batchimport.utils.DateToTimeUnits;
 
 public enum Type {
     ID {
@@ -42,7 +42,7 @@ public enum Type {
          public Object convert(String value) {
     		 Long millis = null;
     		 try {
-				millis = DataToTimeMillis.getTimeMillis(value);
+				millis = DateToTimeUnits.getTimeMillis(value);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				millis = 0L;
@@ -51,6 +51,20 @@ public enum Type {
             return millis;
          }
     },
+    TIMESTAMP {
+   	 @Override
+        public Object convert(String value) {
+   		 Long timestamp = null;
+   		 try {
+				timestamp = DateToTimeUnits.getTimeStamp(value);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				timestamp = 0L;
+				e.printStackTrace();
+			}
+           return timestamp;
+        }
+   },
     DOUBLE {
         @Override
         public Object convert(String value) {

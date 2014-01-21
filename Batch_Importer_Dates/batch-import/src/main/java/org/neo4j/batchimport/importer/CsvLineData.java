@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.text.ParseException;
 
-import org.neo4j.batchimport.utils.DataToTimeMillis;
+import org.neo4j.batchimport.utils.DateToTimeUnits;
 
 import static org.neo4j.helpers.collection.MapUtil.map;
 

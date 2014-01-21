@@ -3,7 +3,7 @@ package org.neo4j.batchimport.importer;
 import org.neo4j.batchimport.LineData;
 import org.neo4j.batchimport.structs.PropertyHolder;
 import org.neo4j.batchimport.utils.Chunker;
-import org.neo4j.batchimport.utils.DataToTimeMillis;
+import org.neo4j.batchimport.utils.DateToTimeUnits;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -55,20 +55,12 @@ public class ChunkerLineData extends AbstractLineData {
                 break;
             }
             if (Chunker.NO_VALUE != value) {
-            	/*if(headers[i].name.endsWith("_ts")){
-            		long toTimeMillis;
-					try {
-						toTimeMillis = DataToTimeMillis.getTimeMillis(value);
-						lineData[i] = toTimeMillis;
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						lineData[i] = value;
-						e.printStackTrace();
-					}            		
-            	}
-            	else{*/
+            	/**
+            	 *  the management of the properties is AUTHOMAICALLY provided by 
+            	 * org.neo4j.batchimport.importer.Type  convert methods 
+            	 **/
             		lineData[i] = headers[i].type == Type.STRING ? value : headers[i].type.convert(value);
-            	//}
+            	
             } else {
                 lineData[i] = null;
             }
