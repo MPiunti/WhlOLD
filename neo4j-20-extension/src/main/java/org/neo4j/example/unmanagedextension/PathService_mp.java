@@ -1,11 +1,13 @@
 package org.neo4j.example.unmanagedextension;
 
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Map;
@@ -22,11 +24,15 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.PropertyContainer;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
+import org.neo4j.graphdb.ResourceIterable;
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.traversal.Evaluators;
 import org.neo4j.graphdb.traversal.TraversalDescription;
 import org.neo4j.graphdb.traversal.Traverser;
@@ -34,42 +40,101 @@ import org.neo4j.kernel.Traversal;
 import org.neo4j.server.logging.Logger;
 
 /**
- * Base Traverslals
- * @author a.santurbano
+ * Base Traverslals Path navigation
+ * @author m.piunti
  *
  */
-@Path("/path")
-public class PathService_Conker {
+@Path("/mp")
+public class PathService_mp{
 	
 	Logger logger = Logger.getLogger(this.getClass());
 	
 	private String dateFormat = "dd-MM-yyyy";
 	
 	public enum RelTypes implements RelationshipType {
-        MOVIMENTO,
+        //MOVIMENTO,
         MOVES
     }
 	
     @GET
-    @Path("/find/{startNode}/{startDate}/{endDate}")
-    @Produces("application/json")
-    public Response find (@Context GraphDatabaseService graphDb, @PathParam("startNode") String startNode
-    		, @PathParam("startDate") String startDate
-    		, @PathParam("endDate") String endDate) throws Exception {
-    	logger.info("Test find");
-    	ExecutionEngine executionEngine = new ExecutionEngine(graphDb);
-    	String query = "MATCH (n { name: \"{startNode}\" })	RETURN n";
+    @Path("/hi")
+    public String helloWorld(@Context GraphDatabaseService graphDb) {
+        String ret = "Hello World!";
+        Label label = DynamicLabel.label("AL");
+        ResourceIterable<Node> nodes = graphDb.findNodesByLabelAndProperty(label, "name", "AL024RE023");
+        Iterator<Relationship> it = nodes.iterator().next().getRelationships().iterator();
+        while( it.hasNext() )
+        	ret += it.next().getProperty("data_movimento_ts") + "<br/>";
+        
+        return ret;
+    }
+	
+    @GET
+    @Path("/find/{startNode}/{date1}/{date2}")
+    //@Produces("application/json")
+    public String find ( @PathParam("startNode") String startNode
+    		, @PathParam("date1") Long date1
+    		, @PathParam("date2") Long date2
+    		, @Context GraphDatabaseService graphDb) throws IOException {
+
+    	String ret="";     	    
+    	// first two characters   	
+    	Label label = DynamicLabel.label(startNode.substring(0, 2));
+    	// transaction is needed 
+    	// @since 2.0
+    	// http://stackoverflow.com/questions/21110677/neo4j-index-does-does-not-work-using-java-api
+    	try{
+    	   
+    	   Transaction tx = graphDb.beginTx();
+    		
+    	   ResourceIterable<Node> nodes = graphDb.findNodesByLabelAndProperty(label, "name", startNode);
+ 	       Iterator<Relationship> it = nodes.iterator().next().getRelationships().iterator();
+ 	       Long dt_mov;
+ 	       Relationship rel;
+ 	        while( it.hasNext() ){
+ 	        	rel = it.next();
+ 	        	dt_mov = Long.parseLong(rel.getProperty("data_movimento_ts").toString() );
+ 	        	if((dt_mov >= date1) && (dt_mov <= date2))
+ 	        		ret +=  "node data_movimento_ts: " + rel.getProperty("data_movimento_ts") + "<br/>";
+ 	        }
+    		tx.success();
+
+    	}catch(Exception e){
+    		
+    	}
+        
+        
+        
+       	//ExecutionEngine executionEngine = new ExecutionEngine(graphDb);
+    	String query = "<br/><br/> MATCH (n { name: '%s'})	RETURN n " +  label.name();
+    	ret += "\n \n" + String.format(query,startNode);
+    	
+    	
     			//"START n = node:struttura(id={startNode}) RETURN ID(n) as nodeId";
-        ExecutionResult result = executionEngine.execute(String.format(query, startNode),
+ 
+    	return ret;
+        /*ExecutionResult result = executionEngine.execute(String.format(query,startNode), 
                 Collections.<String, Object>singletonMap("startNode", startNode));
-        Long startNodeID = (Long) result.iterator().next().get("nodeId");
+        Long startNodeID = (Long) result.iterator().next().get("id");
+        
+        logger.info("Start node id: " + startNodeID);
+        
     	Node neoNode = graphDb.getNodeById(startNodeID);
-//        Traverser friendsTraverser = getFriends(neoNode);
-        Traverser friendsTraverser = getFriends(graphDb, neoNode);
-//        Long start = startDate != null ? parseDateToTimestamp(startDate) : 0;
-        Long start = startDate != null ? parseDateToMillis(startDate) : 0;
-//        Long end = endDate != null ? parseDateToTimestamp(endDate) : Long.MAX_VALUE;
-        Long end = endDate != null ? parseDateToMillis(endDate) : Long.MAX_VALUE;
+
+    	
+    	String strret;
+    	
+    	if(date1<date2){
+    		 strret = " the node:" + neoNode.getProperty("name") + "(id{}) is a starting node" + startNodeID;
+    	} else {
+    		strret =  " the node:" + neoNode.getProperty("name") + "(id{}) is an arriving node" + startNodeID;
+    	}
+    	
+   	   
+   	    return strret;
+    	
+
+        /*
         Set<Map<String, Object>> nodes = new LinkedHashSet<Map<String, Object>>();
         Set<Map<String, Object>> relationships = new LinkedHashSet<Map<String, Object>>();
         Long ultimoMovimento = 0L;
@@ -98,13 +163,17 @@ public class PathService_Conker {
         }
         ObjectMapper objectMapper = new ObjectMapper();
         logger.info("Nodes size: %d\nRelationships size: %d", nodes.size(), relationships.size());
-        Map<String, Set<Map<String, Object>>> response = new HashMap<String, Set<Map<String, Object>>>();
+    	
+        
         response.put("nodes", nodes);
         response.put("relationships", relationships);
         return Response.ok().entity(objectMapper.writeValueAsString(response)).build();
+        */
+    	
+
     }
     
-    @GET
+   /* @GET
     @Path("/find/{startNode}")
     @Produces("application/json")
     public Response find (@Context GraphDatabaseService graphDb, @PathParam("startNode") String startNode) throws Exception {
@@ -126,7 +195,9 @@ public class PathService_Conker {
     		, @PathParam("endDate") String endDate) throws Exception {
     	return find(graphDb, startNode, null, endDate);
     }
-
+    */
+    
+    
     @Deprecated
     private static Traverser getFriends (final Node node) {
         TraversalDescription td = Traversal.description()
@@ -167,3 +238,18 @@ public class PathService_Conker {
         return timeStamp;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
