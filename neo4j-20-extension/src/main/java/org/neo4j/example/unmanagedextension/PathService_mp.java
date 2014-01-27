@@ -73,10 +73,10 @@ public class PathService_mp{
     	   tx.success();
     	   
     	   // Traverse sub graph
-    	   GraphStructure subGraph = exploreFromNode(baseNode, date1, date2);
+    	   GraphStructure subGraph = (date1<date2) ? exploreFromNode(baseNode, date1, date2) : exploreToNode(baseNode, date1, date2);
     	    	        
     	   // fill Response
- 	        retMap = prepareJSON(subGraph.getNode_map().values(), subGraph.getRelations_map().values());
+ 	       retMap = prepareJSON(subGraph.getNode_map().values(), subGraph.getRelations_map().values());
 
     	}catch(Exception e){
     		retMap = new HashMap<String, Object>();
@@ -90,11 +90,11 @@ public class PathService_mp{
     
     
     /**
-     * Explore Node
+     * Exploring FORWARD starting form a baseNode
      * @param baseNode
-     * @param date1 start date
-     * @param date2 end date
-     * @return
+     * @param date1 starting date
+     * @param date2 finish date
+     * @return Graph structure subgraph
      */
     private GraphStructure exploreFromNode(Node baseNode, Long date1, Long date2){    	
     	
@@ -122,10 +122,61 @@ public class PathService_mp{
         	// take just outgoing relationships
         	if(rel.getStartNode().getId() == baseNode.getId() 
         			&& dt_mov<=date2 && dt_mov>=date1){ 	
-        		if(relations_map.get(rel.getId()) == null )
+        		if(!relations_map.containsKey(rel.getId()) )
         		    relations_map.put(rel.getId(), rel);
         		
         		GraphStructure ngs = exploreFromNode(rel.getEndNode(), dt_mov, date2);
+        		
+        		relations_map.putAll(ngs.getRelations_map());
+        		node_map.putAll(ngs.getNode_map());
+        	}
+	       } 
+ 	   }
+	        
+       subGraph.setNode_map(node_map);
+       subGraph.setRelations_map(relations_map);
+        
+       return subGraph;
+    	
+    }
+    
+    /**
+     * Exploring BACKWARD starting form a baseNode
+     * @param baseNode
+     * @param date1 finish date
+     * @param date2 starting date
+     * @return Graph structure subgraph
+     */
+    private GraphStructure exploreToNode(Node baseNode, Long date1, Long date2){    	
+    	
+       GraphStructure subGraph = new GraphStructure();
+       Map<Long, TimedNode> node_map = new LinkedHashMap<Long, TimedNode>();
+       Map<Long, Relationship> relations_map = new LinkedHashMap<Long, Relationship>();
+    	
+ 	   // Fill structure
+ 	   
+ 	   TimedNode basetNode = new TimedNode();
+ 	   basetNode.setNode(baseNode);
+ 	   basetNode.setTime(date1);
+ 	   
+ 	   if(node_map.get(baseNode.getId()) == null) {
+ 		  // this node has not been visited yet
+		  node_map.put(baseNode.getId(), basetNode); 	  
+ 	   
+	      Iterator<Relationship> it = baseNode.getRelationships().iterator();
+	      Long dt_mov;
+	      Relationship rel;
+	      
+	      while( it.hasNext() ){
+        	rel = it.next();
+        	dt_mov = Long.parseLong(rel.getProperty("data_movimento_ts").toString());
+        	// take just INGOING relationships
+        	if(rel.getEndNode().getId() == baseNode.getId() 
+        			&& dt_mov>=date2 && dt_mov<=date1){ 	
+        		if(!relations_map.containsKey(rel.getId()) )
+        		    relations_map.put(rel.getId(), rel);
+        		
+        		GraphStructure ngs = exploreToNode(rel.getEndNode(), dt_mov, date2);
         		
         		relations_map.putAll(ngs.getRelations_map());
         		node_map.putAll(ngs.getNode_map());
