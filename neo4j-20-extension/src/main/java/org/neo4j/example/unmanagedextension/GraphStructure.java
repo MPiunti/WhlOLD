@@ -1,6 +1,6 @@
 package org.neo4j.example.unmanagedextension;
 
-import java.util.LinkedHashMap;
+
 import java.util.Map;
 
 import org.neo4j.graphdb.Relationship;
