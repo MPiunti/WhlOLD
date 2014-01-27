@@ -2,18 +2,13 @@ package org.neo4j.example.unmanagedextension;
 
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-
-import java.util.Date;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -23,42 +18,27 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import org.codehaus.jackson.map.ObjectMapper;
-
-import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.PropertyContainer;
 import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.ResourceIterable;
 import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.traversal.Evaluators;
-import org.neo4j.graphdb.traversal.TraversalDescription;
-import org.neo4j.graphdb.traversal.Traverser;
 
-import org.neo4j.server.logging.Logger;
 
 /**
- * Base Traverslals Path navigation
+ * Base Traverslals Path navigation 
+ * MOVIMENTAZIONI MIN SALUTE
  * @author m.piunti
+ * @date Jan 2014
  *
  */
 @Path("/mp")
 public class PathService_mp{
-	
-	Logger logger = Logger.getLogger(this.getClass());
-	
-	private String dateFormat = "dd-MM-yyyy";
-	
-	public enum RelTypes implements RelationshipType {
-        //MOVIMENTO,
-        MOVES
-    }
-	
+		
     @GET
-    @Path("/hi")
+    @Path("/test")
     public String helloWorld(@Context GraphDatabaseService graphDb) {
         String ret = "Hello World!";
         Label label = DynamicLabel.label("AL");
@@ -80,13 +60,9 @@ public class PathService_mp{
     	    
     	// first two characters   	
     	Label label = DynamicLabel.label(startNode.substring(0, 2));
-    	// transaction is needed 
-    	// @since 2.0
-    	// http://stackoverflow.com/questions/21110677/neo4j-index-does-does-not-work-using-java-api
-    	Map<String, Object> retMap; // = new HashMap<String, Object>();
-    	List<TimedNode> node_list = new ArrayList<TimedNode>();
-    	List<Relationship> relations_list = new ArrayList<Relationship>();
-    	
+    	// transaction is needed  @since 2.0
+    	// @seealso http://stackoverflow.com/questions/21110677/neo4j-index-does-does-not-work-using-java-api
+    	Map<String, Object> retMap;  	
     	ObjectMapper objectMapper = new ObjectMapper();
     	
     	
@@ -96,32 +72,11 @@ public class PathService_mp{
     	   Node baseNode = graphDb.findNodesByLabelAndProperty(label, "name", startNode).iterator().next();    	   
     	   tx.success();
     	   
-    	   // Fill structure
-    	   
-    	   TimedNode basetNode = new TimedNode();
-    	   basetNode.setNode(baseNode);
-    	   basetNode.setTime(date1);
-    	   node_list.add(basetNode);
-    	   
- 	       Iterator<Relationship> it = baseNode.getRelationships().iterator();
- 	       Long dt_mov;
- 	       Relationship rel;
- 	      
- 	        while( it.hasNext() ){
- 	        	rel = it.next();
- 	        	dt_mov = Long.parseLong(rel.getProperty("data_movimento_ts").toString());
- 	        	// take just outgoing relationships
- 	        	if(rel.getStartNode().getId() == baseNode.getId() 
- 	        			&& dt_mov<=date2 && dt_mov>=date1){ 	        		
- 	        		relations_list.add(rel);
- 	        		TimedNode ntNode = new TimedNode();
- 	        		ntNode.setNode(rel.getEndNode());
- 	        		ntNode.setTime(dt_mov);
- 	        	    node_list.add(ntNode);
- 	        	}
- 	        }    	    	 
- 	        
- 	        retMap = prepareJSON(node_list, relations_list);
+    	   // Traverse sub graph
+    	   GraphStructure subGraph = exploreFromNode(baseNode, date1, date2);
+    	    	        
+    	   // fill Response
+ 	        retMap = prepareJSON(subGraph.getNode_map().values(), subGraph.getRelations_map().values());
 
     	}catch(Exception e){
     		retMap = new HashMap<String, Object>();
@@ -134,8 +89,58 @@ public class PathService_mp{
     }
     
     
+    /**
+     * Explore Node
+     * @param baseNode
+     * @param date1
+     * @param date2
+     * @return
+     */
+    private GraphStructure exploreFromNode(Node baseNode, Long date1, Long date2){    	
+    	
+       GraphStructure subGraph = new GraphStructure();
+       Map<Long, TimedNode> node_map = new LinkedHashMap<Long, TimedNode>();
+       Map<Long, Relationship> relations_map = new LinkedHashMap<Long, Relationship>();
+    	
+ 	   // Fill structure
+ 	   
+ 	   TimedNode basetNode = new TimedNode();
+ 	   basetNode.setNode(baseNode);
+ 	   basetNode.setTime(date1);
+ 	   
+ 	   if(node_map.get(baseNode.getId()) == null) {
+ 		  // this node has not been visited yet
+		  node_map.put(baseNode.getId(), basetNode); 	  
+ 	   
+	      Iterator<Relationship> it = baseNode.getRelationships().iterator();
+	      Long dt_mov;
+	      Relationship rel;
+	      
+	      while( it.hasNext() ){
+        	rel = it.next();
+        	dt_mov = Long.parseLong(rel.getProperty("data_movimento_ts").toString());
+        	// take just outgoing relationships
+        	if(rel.getStartNode().getId() == baseNode.getId() 
+        			&& dt_mov<=date2 && dt_mov>=date1){ 	
+        		if(relations_map.get(rel.getId()) == null )
+        		    relations_map.put(rel.getId(), rel);
+        		
+        		GraphStructure ngs = exploreFromNode(rel.getEndNode(), dt_mov, date2);
+        		
+        		relations_map.putAll(ngs.getRelations_map());
+        		node_map.putAll(ngs.getNode_map());
+        	}
+	       } 
+ 	   }
+	        
+       subGraph.setNode_map(node_map);
+       subGraph.setRelations_map(relations_map);
+        
+       return subGraph;
+    	
+    }
     
-    
+
     
     /**
      *   Prepare JSON Response
@@ -143,7 +148,7 @@ public class PathService_mp{
      * @param relations_list
      * @return
      */
-    private Map<String, Object> prepareJSON(List<TimedNode> node_list, List<Relationship> relations_list) {
+    private Map<String, Object> prepareJSON(Collection<TimedNode> node_list, Collection<Relationship> relations_list) {
     	
     	Map<String, Object> retMap = new HashMap<String, Object>();
     	
@@ -157,7 +162,7 @@ public class PathService_mp{
 		     for(Label l: node.getLabels() ){
 		    	 nodeMap.put("type_label", l.name() );
 		     }
-		     //nodeMap.put("ragione_sociale", node.getProperty("ragione_sociale"));
+		     nodeMap.put("ragione_sociale", node.getProperty("ragione_sociale",null));
 		     nodes.add(nodeMap);
 		    }
 		retMap.put("nodes", nodes);
@@ -169,8 +174,11 @@ public class PathService_mp{
 		         // relMap.put("type", relationship.getType() );
 		         relMap.put("start_node", relationship.getStartNode().getId());
 		         relMap.put("end_node", relationship.getEndNode().getId());
-		         relMap.put("data_movimento_ts", relationship.getProperty("data_movimento_ts"));
-		         // relMap.put("data_movimento", relationship.getProperty("data_movimento"));
+		         relMap.put("data_movimento_ts", relationship.getProperty("data_movimento_ts", null));
+		         relMap.put("num_capi_nodo_orig", relationship.getProperty("num_capi_nodo_orig", null));
+		         relMap.put("num_capi_nodo_dest	", relationship.getProperty("num_capi_nodo_dest", null));
+		         relMap.put("num_capi_movimentati", relationship.getProperty("num_capi_movimentati", null));
+		         relMap.put("data_movimento", relationship.getProperty("data_movimento", null));
 		         relationships.add(relMap);
 		}
 		
@@ -181,51 +189,9 @@ public class PathService_mp{
     }
     
     
-    /*
-    @Deprecated
-    private static Traverser getFriends (final Node node) {
-        TraversalDescription td = Traversal.description()
-                .breadthFirst()
-                .relationships(RelTypes.MOVES, Direction.OUTGOING)
-                .evaluator(Evaluators.excludeStartPosition());
-        return td.traverse(node);
-    }
-
-    private static Traverser getFriends (final GraphDatabaseService graphDb, final Node node) {
-        TraversalDescription td = graphDb.traversalDescription()
-                .breadthFirst()
-                .relationships(RelTypes.MOVES, Direction.OUTGOING)
-                .evaluator(Evaluators.excludeStartPosition());
-        return td.traverse(node);
-    }
-    */
-    
-    private Date parseDate (String strDate) throws Exception {
-    	return new SimpleDateFormat(dateFormat, Locale.ITALIAN).parse(strDate);
-    }
-    
-    private Map<String, Object> toMap (PropertyContainer node) {
-    	Map<String, Object> nodeMap = new HashMap<String, Object>();
-    	for (String key : node.getPropertyKeys()) {
-    		nodeMap.put(key, node.getProperty(key));
-    	}
-    	return nodeMap;
-    }
-    
-    private Long parseDateToTimestamp (String date) throws Exception {
-    	return parseDate(date).getTime();
-    }
-    
-    private Long parseDateToMillis (String date) throws Exception {
-    	Calendar cal = Calendar.getInstance();
-        cal.setTime(parseDate(date));
-        long timeStamp = cal.getTimeInMillis();
-        return timeStamp;
-    }
+   
+ 
 }
-
-
-
 
 
 
