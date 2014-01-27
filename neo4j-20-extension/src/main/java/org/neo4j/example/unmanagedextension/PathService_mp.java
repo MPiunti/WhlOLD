@@ -3,12 +3,14 @@ package org.neo4j.example.unmanagedextension;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -71,8 +73,8 @@ public class PathService_mp{
 	
     @GET
     @Path("/find/{startNode}/{date1}/{date2}")
-    //@Produces("application/json")
-    public String find ( @PathParam("startNode") String startNode
+    @Produces("application/json")
+    public Response find ( @PathParam("startNode") String startNode
     		, @PathParam("date1") Long date1
     		, @PathParam("date2") Long date2
     		, @Context GraphDatabaseService graphDb) throws IOException {
@@ -83,119 +85,82 @@ public class PathService_mp{
     	// transaction is needed 
     	// @since 2.0
     	// http://stackoverflow.com/questions/21110677/neo4j-index-does-does-not-work-using-java-api
-    	try{
-    	   
+    	Map<String, Object> retMap = new HashMap<String, Object>();
+    	List<Node> node_list = new ArrayList<Node>();
+    	List<Relationship> relations_list = new ArrayList<Relationship>();
+    	
+    	ObjectMapper objectMapper = new ObjectMapper();
+    	
+    	
+    	try{    	   
     	   Transaction tx = graphDb.beginTx();
     		
-    	   ResourceIterable<Node> nodes = graphDb.findNodesByLabelAndProperty(label, "name", startNode);
- 	       Iterator<Relationship> it = nodes.iterator().next().getRelationships().iterator();
+    	   //ResourceIterable<Node> nodes_it = graphDb.findNodesByLabelAndProperty(label, "name", startNode);
+    	   Node baseNode = graphDb.findNodesByLabelAndProperty(label, "name", startNode).iterator().next();
+    	   node_list.add(baseNode);
+    	   
+ 	       Iterator<Relationship> it = baseNode.getRelationships().iterator();
  	       Long dt_mov;
  	       Relationship rel;
+ 	      
  	        while( it.hasNext() ){
  	        	rel = it.next();
- 	        	dt_mov = Long.parseLong(rel.getProperty("data_movimento_ts").toString() );
+ 	        	// take just outgoing relationships
+ 	        	if(rel.getStartNode().getId() == baseNode.getId()){
+ 	        		relations_list.add(rel);
+ 	        		node_list.add(rel.getEndNode());
+ 	        	}
+ 	        	/*dt_mov = Long.parseLong(rel.getProperty("data_movimento_ts").toString() );
  	        	if((dt_mov >= date1) && (dt_mov <= date2))
- 	        		ret +=  "node data_movimento_ts: " + rel.getProperty("data_movimento_ts") + "<br/>";
+ 	        		ret +=  "node data_movimento_ts: " + rel.getProperty("data_movimento_ts") + "<br/>";*/
  	        }
-    		tx.success();
+    		tx.success(); 	  
 
+    	
+	    	 
+	    	List<Object> nodes = new ArrayList<Object>();
+	    	for ( Node node : node_list )
+	    	    {
+	    	     Map<String, Object> nodeMap = new HashMap<String, Object>();
+	    	     nodeMap.put("id", node.getId());
+	    	     nodeMap.put("name", node.getProperty("name"));
+	    	     for(Label l: node.getLabels() ){
+	    	    	 nodeMap.put("type_label", l.name() );
+	    	     }
+	    	     //nodeMap.put("ragione_sociale", node.getProperty("ragione_sociale"));
+	    	     nodes.add(nodeMap);
+	    	    }
+	    	retMap.put("nodes", nodes);
+	    	 
+	    	List<Object> relationships = new ArrayList<Object>();
+	    	for ( Relationship relationship : relations_list  )
+	    	    {
+	    	         Map<String, Object> relMap = new HashMap<String, Object>();
+	    	         relMap.put("id", relationship.getId());
+	    	        // relMap.put("type", relationship.getType() );
+	    	         relMap.put("start_node", relationship.getStartNode().getId());
+	    	         relMap.put("end_node", relationship.getEndNode().getId());
+	    	         relMap.put("data_movimento_ts", relationship.getProperty("data_movimento_ts"));
+	    	      //   relMap.put("data_movimento", relationship.getProperty("data_movimento"));
+	    	         relationships.add(relMap);
+	    	    }
+	    	 
+	    	retMap.put("relationships", relationships);    	 
+	    	
+
+	    	retMap.put("response", "OK");
+	    	
+	    	return Response.ok().entity(objectMapper.writeValueAsString(retMap)).build();     
+    	
     	}catch(Exception e){
-    		
-    	}
-        
-        
-        
-       	//ExecutionEngine executionEngine = new ExecutionEngine(graphDb);
-    	String query = "<br/><br/> MATCH (n { name: '%s'})	RETURN n " +  label.name();
-    	ret += "\n \n" + String.format(query,startNode);
-    	
-    	
-    			//"START n = node:struttura(id={startNode}) RETURN ID(n) as nodeId";
+    		retMap.put("response", "KO");
+    		retMap.put("exception", e.getMessage());
+    		return Response.ok().entity(objectMapper.writeValueAsString(retMap)).build();    
+    	}     
+
+    }
+    
  
-    	return ret;
-        /*ExecutionResult result = executionEngine.execute(String.format(query,startNode), 
-                Collections.<String, Object>singletonMap("startNode", startNode));
-        Long startNodeID = (Long) result.iterator().next().get("id");
-        
-        logger.info("Start node id: " + startNodeID);
-        
-    	Node neoNode = graphDb.getNodeById(startNodeID);
-
-    	
-    	String strret;
-    	
-    	if(date1<date2){
-    		 strret = " the node:" + neoNode.getProperty("name") + "(id{}) is a starting node" + startNodeID;
-    	} else {
-    		strret =  " the node:" + neoNode.getProperty("name") + "(id{}) is an arriving node" + startNodeID;
-    	}
-    	
-   	   
-   	    return strret;
-    	
-
-        /*
-        Set<Map<String, Object>> nodes = new LinkedHashSet<Map<String, Object>>();
-        Set<Map<String, Object>> relationships = new LinkedHashSet<Map<String, Object>>();
-        Long ultimoMovimento = 0L;
-        for (org.neo4j.graphdb.Path friendPath : friendsTraverser) {
-        	for (Relationship relationship : friendPath.relationships()) {
-        		Long dataMovimento = (Long) relationship.getProperty("data_movimento");
-        		logger.info("StartDate: %d\nEndDate: %d\nDataMovimento: %d"
-        				, start, end, dataMovimento);
-				if (ultimoMovimento > dataMovimento) {
-					continue;
-				}
-				ultimoMovimento = dataMovimento;
-    			if (dataMovimento >= start && dataMovimento <= end) {
-    				Map<String, Object> node = toMap(friendPath.endNode());
-    				node.put("nId", friendPath.endNode().getId());
-    				nodes.add(node);
-    				Map<String, Object> rel = toMap(relationship);
-    				rel.put("source", relationship.getStartNode().getId());
-    				rel.put("target", node.get("nId"));
-    				rel.put("rId", relationship.getId());
-    				relationships.add(rel);
-    				logger.info("NodeId: %d, RelationshipId: %d, at depth: %d", friendPath.endNode().getId()
-    						, relationship.getId(), friendPath.length());
-    			}
-        	}
-        }
-        ObjectMapper objectMapper = new ObjectMapper();
-        logger.info("Nodes size: %d\nRelationships size: %d", nodes.size(), relationships.size());
-    	
-        
-        response.put("nodes", nodes);
-        response.put("relationships", relationships);
-        return Response.ok().entity(objectMapper.writeValueAsString(response)).build();
-        */
-    	
-
-    }
-    
-   /* @GET
-    @Path("/find/{startNode}")
-    @Produces("application/json")
-    public Response find (@Context GraphDatabaseService graphDb, @PathParam("startNode") String startNode) throws Exception {
-    	return find(graphDb, startNode, null, null);
-    }
-    
-    @GET
-    @Path("/find/startbyday/{startNode}")
-    @Produces("application/json")
-    public Response startbyday (@Context GraphDatabaseService graphDb, @PathParam("startNode") String startNode
-    		, @PathParam("startDate") String startDate) throws Exception {
-    	return find(graphDb, startNode, startDate, null);
-    }
-    
-    @GET
-    @Path("/find/endbyday/{endDate}")
-    @Produces("application/json")
-    public Response endbyday (@Context GraphDatabaseService graphDb, @PathParam("startNode") String startNode
-    		, @PathParam("endDate") String endDate) throws Exception {
-    	return find(graphDb, startNode, null, endDate);
-    }
-    */
     
     
     @Deprecated
