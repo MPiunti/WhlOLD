@@ -96,7 +96,7 @@ public class PathService_mp{
      * @param date2 finish date
      * @return Graph structure subgraph
      */
-    private GraphStructure exploreFromNode(Node baseNode, Long date1, Long date2){    	
+    private GraphStructure exploreFromNode(Node baseNode, Long dateMin, Long dateMax){    	
     	
        GraphStructure subGraph = new GraphStructure();
        Map<Long, TimedNode> node_map = new LinkedHashMap<Long, TimedNode>();
@@ -106,7 +106,7 @@ public class PathService_mp{
  	   
  	   TimedNode basetNode = new TimedNode();
  	   basetNode.setNode(baseNode);
- 	   basetNode.setTime(date1);
+ 	   basetNode.setTime(dateMin);
  	   
  	   if(node_map.get(baseNode.getId()) == null) {
  		  // this node has not been visited yet
@@ -119,13 +119,13 @@ public class PathService_mp{
 	      while( it.hasNext() ){
         	rel = it.next();
         	dt_mov = Long.parseLong(rel.getProperty("data_movimento_ts").toString());
-        	// take just outgoing relationships
+        	// take just OUTGOING relationships
         	if(rel.getStartNode().getId() == baseNode.getId() 
-        			&& dt_mov<=date2 && dt_mov>=date1){ 	
+        			&& dt_mov<=dateMax && dt_mov>=dateMin){ 	
         		if(!relations_map.containsKey(rel.getId()) )
         		    relations_map.put(rel.getId(), rel);
         		
-        		GraphStructure ngs = exploreFromNode(rel.getEndNode(), dt_mov, date2);
+        		GraphStructure ngs = exploreFromNode(rel.getEndNode(), dt_mov, dateMax);
         		
         		relations_map.putAll(ngs.getRelations_map());
         		node_map.putAll(ngs.getNode_map());
@@ -147,7 +147,7 @@ public class PathService_mp{
      * @param date2 starting date
      * @return Graph structure subgraph
      */
-    private GraphStructure exploreToNode(Node baseNode, Long date1, Long date2){    	
+    private GraphStructure exploreToNode(Node baseNode, Long dateMax, Long dateMin){    	
     	
        GraphStructure subGraph = new GraphStructure();
        Map<Long, TimedNode> node_map = new LinkedHashMap<Long, TimedNode>();
@@ -157,7 +157,7 @@ public class PathService_mp{
  	   
  	   TimedNode basetNode = new TimedNode();
  	   basetNode.setNode(baseNode);
- 	   basetNode.setTime(date1);
+ 	   basetNode.setTime(dateMax);
  	   
  	   if(node_map.get(baseNode.getId()) == null) {
  		  // this node has not been visited yet
@@ -172,11 +172,11 @@ public class PathService_mp{
         	dt_mov = Long.parseLong(rel.getProperty("data_movimento_ts").toString());
         	// take just INGOING relationships
         	if(rel.getEndNode().getId() == baseNode.getId() 
-        			&& dt_mov>=date2 && dt_mov<=date1){ 	
+        			&& dt_mov>=dateMin && dt_mov<=dateMax){ 	
         		if(!relations_map.containsKey(rel.getId()) )
         		    relations_map.put(rel.getId(), rel);
         		
-        		GraphStructure ngs = exploreToNode(rel.getEndNode(), dt_mov, date2);
+        		GraphStructure ngs = exploreToNode(rel.getStartNode(), dt_mov, dateMin);
         		
         		relations_map.putAll(ngs.getRelations_map());
         		node_map.putAll(ngs.getNode_map());
