@@ -9,8 +9,7 @@ public class GraphStructure {
 	
 	Map<Long, TimedNode> node_map;
 	Map<Long, Relationship> relations_map;
-	
-	
+
 	
 	public Map<Long, TimedNode> getNode_map() {
 		return node_map;
