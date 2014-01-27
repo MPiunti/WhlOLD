@@ -92,8 +92,8 @@ public class PathService_mp{
     /**
      * Explore Node
      * @param baseNode
-     * @param date1
-     * @param date2
+     * @param date1 start date
+     * @param date2 end date
      * @return
      */
     private GraphStructure exploreFromNode(Node baseNode, Long date1, Long date2){    	
@@ -169,17 +169,17 @@ public class PathService_mp{
 		 
 		List<Object> relationships = new ArrayList<Object>();
 		for ( Relationship relationship : relations_list  )   {
-		         Map<String, Object> relMap = new HashMap<String, Object>();
-		         relMap.put("id", relationship.getId());
-		         // relMap.put("type", relationship.getType() );
-		         relMap.put("start_node", relationship.getStartNode().getId());
-		         relMap.put("end_node", relationship.getEndNode().getId());
-		         relMap.put("data_movimento_ts", relationship.getProperty("data_movimento_ts", null));
-		         relMap.put("num_capi_nodo_orig", relationship.getProperty("num_capi_nodo_orig", null));
-		         relMap.put("num_capi_nodo_dest	", relationship.getProperty("num_capi_nodo_dest", null));
-		         relMap.put("num_capi_movimentati", relationship.getProperty("num_capi_movimentati", null));
-		         relMap.put("data_movimento", relationship.getProperty("data_movimento", null));
-		         relationships.add(relMap);
+	         Map<String, Object> relMap = new HashMap<String, Object>();
+	         relMap.put("id", relationship.getId());
+	         // relMap.put("type", relationship.getType() );
+	         relMap.put("start_node", relationship.getStartNode().getId());
+	         relMap.put("end_node", relationship.getEndNode().getId());
+	         relMap.put("data_movimento_ts", relationship.getProperty("data_movimento_ts", null));
+	         relMap.put("num_capi_nodo_orig", relationship.getProperty("num_capi_nodo_orig", null));
+	         relMap.put("num_capi_nodo_dest	", relationship.getProperty("num_capi_nodo_dest", null));
+	         relMap.put("num_capi_movimentati", relationship.getProperty("num_capi_movimentati", null));
+	         relMap.put("data_movimento", relationship.getProperty("data_movimento", null));
+	         relationships.add(relMap);
 		}
 		
 		retMap.put("relationships", relationships);
