@@ -23,7 +23,7 @@ public class MyServiceTest {
     private ObjectMapper objectMapper = new ObjectMapper();
     private static final RelationshipType KNOWS = DynamicRelationshipType.withName("KNOWS");
 
-    @Before
+//    @Before
     public void setUp() {
         db = new ImpermanentGraphDatabase();
         populateDb(db);
@@ -57,18 +57,18 @@ public class MyServiceTest {
         return node;
     }
 
-    @After
+//    @After
     public void tearDown() throws Exception {
         db.shutdown();
 
     }
 
-    @Test
+//    @Test
     public void shouldRespondToHelloWorld() {
         assertEquals("Hello World!", service.helloWorld());
     }
 
-    @Test
+//    @Test
     public void shouldQueryDbForFriends() throws IOException {
         Response response = service.getFriends("B", db);
         List list = objectMapper.readValue((String) response.getEntity(), List.class);

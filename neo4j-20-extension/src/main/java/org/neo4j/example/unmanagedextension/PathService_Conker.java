@@ -38,7 +38,7 @@ import org.neo4j.server.logging.Logger;
  * @author a.santurbano
  *
  */
-@Path("/path")
+@Path("/pathold")
 public class PathService_Conker {
 	
 	Logger logger = Logger.getLogger(this.getClass());
