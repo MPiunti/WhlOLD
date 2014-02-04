@@ -25,7 +25,7 @@ public class MyServiceFunctionalTest {
 
     private static final RelationshipType KNOWS = DynamicRelationshipType.withName("KNOWS");
 
-    @Test
+//    @Test
     public void shouldReturnFriends() throws IOException {
         NeoServer server = CommunityServerBuilder.server()
                 .withThirdPartyJaxRsPackage("org.neo4j.example.unmanagedextension", MOUNT_POINT)

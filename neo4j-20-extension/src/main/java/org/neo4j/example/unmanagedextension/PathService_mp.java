@@ -41,11 +41,19 @@ public class PathService_mp{
     @Path("/test")
     public String helloWorld(@Context GraphDatabaseService graphDb) {
         String ret = "Hello World!";
+<<<<<<< HEAD
         Label label = DynamicLabel.label("AL");
         ResourceIterable<Node> nodes = graphDb.findNodesByLabelAndProperty(label, "name", "AL024RE023");
         Iterator<Relationship> it = nodes.iterator().next().getRelationships().iterator();
         while( it.hasNext() )
         	ret += it.next().getProperty("data_movimento_ts") + "<br/>";
+=======
+//        Label label = DynamicLabel.label("AL");
+//        ResourceIterable<Node> nodes = graphDb.findNodesByLabelAndProperty(label, "name", "AL024RE023");
+//        Iterator<Relationship> it = nodes.iterator().next().getRelationships().iterator();
+//        while( it.hasNext() )
+//        	ret += it.next().getProperty("data_movimento_ts") + "<br/>";
+>>>>>>> branch 'master' of https://github.com/MPiunti/WhlOLD.git
         
         return ret;
     }
