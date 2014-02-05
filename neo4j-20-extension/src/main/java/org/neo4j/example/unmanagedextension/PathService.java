@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.IteratorUtils;
+import org.apache.commons.lang.time.StopWatch;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.DynamicLabel;
@@ -95,7 +96,7 @@ public class PathService {
 				relationships.add(relationshipToMap(relationship));
         	}
         }
-        logger.info("Nodes size: %d\nRelationships size: %d", nodes.size(), relationships.size());
+        logger.info("NODES FOUND: %d\nRELATIONSHIPS size: %d", nodes.size(), relationships.size());
         Map<String, Set<Map<String, Object>>> response = new HashMap<String, Set<Map<String, Object>>>();
         response.put("nodes", nodes);
         response.put("relationships", relationships);
@@ -187,13 +188,35 @@ public class PathService {
     	return map;
     }
     
+    
+    
     public static void main(String[] args) {
     	GraphDatabaseService graphdb = new GraphDatabaseFactory()
-		        .newEmbeddedDatabaseBuilder("C:\\Users\\Andrea\\Desktop\\movH1-13.db")
+    	.newEmbeddedDatabaseBuilder("C:\\Users\\m.piunti\\Desktop\\batch_importer_20\\movH1-13.db")
+		       // .newEmbeddedDatabaseBuilder("C:\\Users\\Andrea\\Desktop\\movH1-13.db")    	
 		        .newGraphDatabase();
 		try {
 			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
-			new PathService().find(graphdb, "SS115BS060", sf.parse("12-01-2013").getTime(), sf.parse("13-05-2013").getTime());
+			PathService traversingService = new PathService();
+				
+			long startTime = System.currentTimeMillis();
+			traversingService.find(
+					graphdb, 
+					"SS115BS060", 
+					sf.parse("13-12-2013").getTime(),
+					sf.parse("12-01-2013").getTime()
+					);	
+			System.out.println(" BACKWARD ANALYSIS finalized in: " +  (System.currentTimeMillis() - startTime)/1000  + " sec.");
+			
+			startTime = System.currentTimeMillis();
+			
+			traversingService.find(
+					graphdb, 
+					"SS115BS060", 					
+					sf.parse("12-01-2013").getTime(),
+					sf.parse("13-12-2013").getTime()
+					);		
+			System.out.println(" FORWARD ANALYSIS finalized in: " +  (System.currentTimeMillis() - startTime)/1000  + " sec.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
