@@ -1,6 +1,9 @@
 package org.neo4j.example.unmanagedextension;
 
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.collections.Predicate;
 import org.neo4j.graphdb.Path;
 import org.neo4j.graphdb.Relationship;
@@ -15,15 +18,13 @@ public class PathFilter implements Evaluator, Predicate {
 		this.start = start;
 		this.end = end;
 	}
+	
+	@SuppressWarnings("unchecked")
 	public Evaluation evaluate(Path path) {
-		ultimoMovimento = start;
-		for (Relationship rel : path.relationships()) {
-			Long dataMovimento = (Long) rel.getProperty("data_movimento_ts");
-			if (evaluateDate(dataMovimento, ultimoMovimento, end)) {
-				ultimoMovimento = dataMovimento;
-				return Evaluation.INCLUDE_AND_CONTINUE;
-			}
-			ultimoMovimento = dataMovimento;
+		List<Relationship> rels = IteratorUtils.toList(path.relationships().iterator());
+		rels = (List<Relationship>) CollectionUtils.selectRejected(rels, new PathFilter(start, end));
+		if (rels.isEmpty()) {
+			return Evaluation.INCLUDE_AND_CONTINUE;
 		}
 		return CollectionUtils.size(path.relationships()) > 0 ? Evaluation.EXCLUDE_AND_PRUNE : Evaluation.EXCLUDE_AND_CONTINUE;
 	}
@@ -31,13 +32,16 @@ public class PathFilter implements Evaluator, Predicate {
 		if (!(arg instanceof Relationship)) {
 			return false;
 		}
+		if (ultimoMovimento == 0L) {
+			ultimoMovimento = start;
+		}
 		Relationship rel = (Relationship) arg;
 		Long dataMovimento = (Long) rel.getProperty("data_movimento_ts");
 		if (evaluateDate(dataMovimento, ultimoMovimento, end)) {
 			ultimoMovimento = dataMovimento;
 			return true;
 		}
-		ultimoMovimento = dataMovimento;
+//		ultimoMovimento = dataMovimento;
 		return false;
 	}
 	
