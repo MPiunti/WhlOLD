@@ -4,6 +4,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
@@ -66,5 +67,13 @@ public class PathController {
     @Path("/view{viewname : (/[a-z_\\-\\s0-9\\.]+)+\\.\\w+$}")
     public Response view (@PathParam("viewname") String viewName) throws Exception {
     	return pathService.view(viewName);
+    }
+    
+    @GET
+    @Path("/nodes/{nodeName}")
+    public Response getNodeByName (@Context GraphDatabaseService graphDb, @PathParam("nodeName") String nodeName
+    		, @QueryParam("limit") Integer limit) throws Exception {
+		pathService.setGraphDb(graphDb);
+    	return pathService.getNodeByName(nodeName, limit);
     }
 }

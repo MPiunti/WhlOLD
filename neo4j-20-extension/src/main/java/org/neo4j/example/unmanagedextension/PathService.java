@@ -2,8 +2,11 @@ package org.neo4j.example.unmanagedextension;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +19,8 @@ import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.neo4j.cypher.javacompat.ExecutionEngine;
+import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -54,6 +59,8 @@ public class PathService {
 		logger.info("Test find");
 		return ret;
 	}
+	
+	public ObjectMapper objectMapper = setObjectMapper();
 
 	@SuppressWarnings("unchecked")
 	public Response find(String startNode, Long startDate, Long endDate)
@@ -61,10 +68,11 @@ public class PathService {
 		Date now = new Date();
 		Label label = DynamicLabel.label(startNode.substring(0, 2));
 		Node neoNode = null;
-		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, Object> response = new HashMap<String, Object>();
 		if (graphDb == null) {
 			logger.info("graphDb is null");
-			return Response.serverError().build();
+			response.put("error", "graphDb is null");
+			return Response.serverError().entity(response).build();
 		}
 		try {
 			Transaction tx = graphDb.beginTx();
@@ -76,13 +84,18 @@ public class PathService {
 			logger.info("Errore: " + e.getMessage());
 			return Response.serverError().build();
 		}
+		if (neoNode == null) {
+			response.put("errore", "Nodo di partenza non trovato");
+			return Response.noContent().entity(response).build();
+		}
 		Long start = startDate != null ? startDate : 0;
 		Long end = endDate != null ? endDate : Long.MAX_VALUE;
 		boolean isBackward = start > end;
 		Traverser friendsTraverser = getFriends(neoNode, isBackward, start, end);
 		Set<Map<String, Object>> nodes = new LinkedHashSet<Map<String, Object>>();
-		Set<Map<String, Object>> relationships = new LinkedHashSet<Map<String, Object>>();
 		nodes.add(toMap(neoNode));
+//		Set<Map<String, Object>> relationships = new LinkedHashSet<Map<String, Object>>();
+		List<Map<String, Object>> relationships = new ArrayList<Map<String, Object>>();
 		for (org.neo4j.graphdb.Path friendPath : friendsTraverser) {
 			List<Relationship> rels = IteratorUtils.toList(friendPath
 					.relationships().iterator());
@@ -94,13 +107,20 @@ public class PathService {
 		}
 		logger.info("Nodi trovati: %d\nRelazioni trovate: %d", nodes.size(),
 				relationships.size());
-		Map<String, Set<Map<String, Object>>> response = new HashMap<String, Set<Map<String, Object>>>();
+		nodes.iterator().next().put("isStart", true);
 		response.put("nodes", nodes);
 		response.put("relationships", relationships);
 		Date now2 = new Date();
 		logger.info("Time: " + ((now2.getTime() - now.getTime()) / 1000));
 		return Response.ok().entity(objectMapper.writeValueAsString(response))
 				.build();
+	}
+
+	private ObjectMapper setObjectMapper() {
+		if (objectMapper == null) {
+			objectMapper = new ObjectMapper();
+		}
+		return objectMapper;
 	}
 
 	public Response find(String startNode) throws Exception {
@@ -188,6 +208,33 @@ public class PathService {
 				.header("Content-Type", contentType + "; charset=UTF-8")
 				.build();
 	}
+	
+	
+	
+	public Response getNodeByName(String nodeName, Integer limit) throws Exception {
+		String query = "MATCH (n) WHERE n.name =~ '%s.*' RETURN n";
+		if (limit != null && limit > 0) {
+			query += String.format(" LIMIT %d", limit);
+		}
+		ExecutionEngine executor = new ExecutionEngine(graphDb);
+		
+		Set<Map<String, Object>> nodes = new LinkedHashSet<Map<String, Object>>();
+		try {
+			Transaction tx = graphDb.beginTx();
+			ExecutionResult result = executor.execute(String.format(query, nodeName));
+			Iterator<Node> nodeIterator = result.columnAs("n");
+			while (nodeIterator.hasNext()) {
+				nodes.add(toMap(nodeIterator.next()));
+			}
+			tx.success();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Map<String, Object> response = new HashMap<String, Object>();
+			response.put("errore", "Nodo di partenza non trovato");
+			return Response.noContent().entity(response).build();
+		}
+		return Response.ok().entity(objectMapper.writeValueAsString(nodes)).build();
+	}
 
 	public static void main(String[] args) {
 		GraphDatabaseService graphService = new GraphDatabaseFactory()
@@ -200,22 +247,27 @@ public class PathService {
 			traversingService.setGraphDb(graphService);
 
 			String nodeName = "SS115BS060";
-			String startDate = "24-04-2013";
+			String startDateS = "24-04-2013";
 			// String[] endDates = {"26-04-2013", "28-04-2013", "30-04-2013",
 			// "05-05-2013", "10-05-2013", "15-05-2013", "20-05-2013",
 			// "25-05-2013"};
-			String[] endDates = { "28-04-2013" };
-			Long startDateL = sf.parse(startDate).getTime();
-
-			for (String endDate : endDates) {
-				Long endDateL = sf.parse(endDate).getTime();
+//			String[] endDates = { "28-04-2013" };
+			Integer[] endDates = { 2,3,5,7,9,11,13,15,20,30,40,50 };
+			Date startDate = sf.parse(startDateS);
+			Long startDateL = startDate.getTime();
+			System.out.println(traversingService.getNodeByName("SS1", 10).getEntity());
+			for (Integer endDate : endDates) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(startDate);
+				calendar.add(Calendar.DAY_OF_MONTH, endDate);
+				Long endDateL = calendar.getTimeInMillis();//sf.parse(endDate).getTime();
 				System.out.println(String.format(
 						"Nodo: %s, From: %s, To: %s, Tipo: FORWARD", nodeName,
-						startDate, endDate));
+						startDateS, calendar.getTime()));
 				System.out.println(String.format(
 						"Url: http://localhost:7474/moves/path/find/%s/%d/%d",
 						nodeName, startDateL, endDateL));
-				traversingService.find(nodeName, startDateL, endDateL);
+//				System.out.println(traversingService.find(nodeName, startDateL, endDateL).getEntity());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
