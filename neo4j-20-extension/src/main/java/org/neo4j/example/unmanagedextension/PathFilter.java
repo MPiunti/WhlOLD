@@ -22,11 +22,11 @@ public class PathFilter implements Evaluator, Predicate {
 	@SuppressWarnings("unchecked")
 	public Evaluation evaluate(Path path) {
 		List<Relationship> rels = IteratorUtils.toList(path.relationships().iterator());
-		rels = (List<Relationship>) CollectionUtils.selectRejected(rels, new PathFilter(start, end));
-		if (rels.isEmpty()) {
+		List<Relationship> filteredRels = (List<Relationship>) CollectionUtils.selectRejected(rels, new PathFilter(start, end));
+		if (filteredRels.isEmpty()) {
 			return Evaluation.INCLUDE_AND_CONTINUE;
 		}
-		return CollectionUtils.size(path.relationships()) > 0 ? Evaluation.EXCLUDE_AND_PRUNE : Evaluation.EXCLUDE_AND_CONTINUE;
+		return rels.size() > 0 ? Evaluation.EXCLUDE_AND_PRUNE : Evaluation.EXCLUDE_AND_CONTINUE;
 	}
 	public boolean evaluate(Object arg) {
 		if (!(arg instanceof Relationship)) {

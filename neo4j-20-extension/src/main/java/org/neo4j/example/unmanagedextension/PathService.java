@@ -2,7 +2,6 @@ package org.neo4j.example.unmanagedextension;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -65,7 +64,7 @@ public class PathService {
 	@SuppressWarnings("unchecked")
 	public Response find(String startNode, Long startDate, Long endDate)
 			throws Exception {
-		Date now = new Date();
+		Date startTime = new Date();
 		Label label = DynamicLabel.label(startNode.substring(0, 2));
 		Node neoNode = null;
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -94,8 +93,8 @@ public class PathService {
 		Traverser friendsTraverser = getFriends(neoNode, isBackward, start, end);
 		Set<Map<String, Object>> nodes = new LinkedHashSet<Map<String, Object>>();
 		nodes.add(toMap(neoNode));
-//		Set<Map<String, Object>> relationships = new LinkedHashSet<Map<String, Object>>();
-		List<Map<String, Object>> relationships = new ArrayList<Map<String, Object>>();
+		Set<Map<String, Object>> relationships = new LinkedHashSet<Map<String, Object>>();
+//		List<Map<String, Object>> relationships = new ArrayList<Map<String, Object>>();
 		for (org.neo4j.graphdb.Path friendPath : friendsTraverser) {
 			List<Relationship> rels = IteratorUtils.toList(friendPath
 					.relationships().iterator());
@@ -107,11 +106,11 @@ public class PathService {
 		}
 		logger.info("Nodi trovati: %d\nRelazioni trovate: %d", nodes.size(),
 				relationships.size());
+		Date endTime = new Date();
+		logger.info("Time: " + ((endTime.getTime() - startTime.getTime())));
 		nodes.iterator().next().put("isStart", true);
 		response.put("nodes", nodes);
 		response.put("relationships", relationships);
-		Date now2 = new Date();
-		logger.info("Time: " + ((now2.getTime() - now.getTime()) / 1000));
 		return Response.ok().entity(objectMapper.writeValueAsString(response))
 				.build();
 	}
@@ -145,8 +144,8 @@ public class PathService {
 				.relationships(RelTypes.MOVES,
 						!isBackward ? Direction.OUTGOING : Direction.INCOMING)
 				.evaluator(Evaluators.excludeStartPosition())
-				.uniqueness(Uniqueness.NODE_PATH)
-				// .uniqueness(Uniqueness.NODE_GLOBAL)
+//				.uniqueness(Uniqueness.NODE_PATH)//OK
+				.uniqueness(Uniqueness.RELATIONSHIP_GLOBAL)//BETTER
 				.evaluator(getPathFilter(isBackward, start, end));
 		return td.traverse(node);
 	}
@@ -252,10 +251,11 @@ public class PathService {
 			// "05-05-2013", "10-05-2013", "15-05-2013", "20-05-2013",
 			// "25-05-2013"};
 //			String[] endDates = { "28-04-2013" };
-			Integer[] endDates = { 2,3,5,7,9,11,13,15,20,30,40,50 };
+//			Integer[] endDates = { 2,3,5,7,9,11,13,15,20,30,40,50 };
+			Integer[] endDates = { 4 };
 			Date startDate = sf.parse(startDateS);
 			Long startDateL = startDate.getTime();
-			System.out.println(traversingService.getNodeByName("SS1", 10).getEntity());
+//			System.out.println(traversingService.getNodeByName("SS1", 10).getEntity());
 			for (Integer endDate : endDates) {
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(startDate);
@@ -265,9 +265,9 @@ public class PathService {
 						"Nodo: %s, From: %s, To: %s, Tipo: FORWARD", nodeName,
 						startDateS, calendar.getTime()));
 				System.out.println(String.format(
-						"Url: http://localhost:7474/moves/path/find/%s/%d/%d",
-						nodeName, startDateL, endDateL));
-//				System.out.println(traversingService.find(nodeName, startDateL, endDateL).getEntity());
+						"http://localhost:7474/moves/path/find/%s/%d/%d\n",
+						nodeName, endDateL, startDateL));
+				System.out.println(traversingService.find(nodeName, startDateL, endDateL).getEntity());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
