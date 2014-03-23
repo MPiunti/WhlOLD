@@ -5,14 +5,33 @@
     <groupId>ckan-crawler</groupId>
     <artifactId>ckan-crawler</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    
+   <properties>
+        <mvn.spring.version>4.0.0.RELEASE</mvn.spring.version>
+        <mvn.project.build.sourceEncoding>UTF-8</mvn.project.build.sourceEncoding>
+        <mvn.var1>Hello</mvn.var1>
+        <mvn.main.class>ckan_crawler.ckan_crawler.Main</mvn.main.class>
+
+        <!-- log4j -->
+        <mvn.log4j.rootCategory>WARN</mvn.log4j.rootCategory>
+        <mvn.log4j.category.org.springframework.beans.factory>WARN</mvn.log4j.category.org.springframework.beans.factory>
+    </properties>
 
     <dependencies>
+    
+
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${mvn.spring.version}</version>
         </dependency>
+        <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${mvn.spring.version}</version>
+		</dependency>
+            
 
         <dependency>
             <groupId>log4j</groupId>
@@ -51,16 +70,7 @@
 
     </dependencies>
 
-    <properties>
-        <mvn.spring.version>3.1.0.RELEASE</mvn.spring.version>
-        <mvn.project.build.sourceEncoding>UTF-8</mvn.project.build.sourceEncoding>
-        <mvn.var1>Hello</mvn.var1>
-        <mvn.main.class>ckan_crawler.ckan_crawler.Main</mvn.main.class>
 
-        <!-- log4j -->
-        <mvn.log4j.rootCategory>WARN</mvn.log4j.rootCategory>
-        <mvn.log4j.category.org.springframework.beans.factory>WARN</mvn.log4j.category.org.springframework.beans.factory>
-    </properties>
 
     <build>
         <resources>

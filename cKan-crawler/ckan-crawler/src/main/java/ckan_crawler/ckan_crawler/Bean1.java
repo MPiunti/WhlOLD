@@ -4,16 +4,17 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class Bean1 implements IBean1 {
 
-    private String var1;
+    private String baseUrl;
 
     @Override
     public String hello(String name) {
-        return var1 + ", " + name;
+        return  name + baseUrl + " by mp";
     }
 
     @Override
-    @Value("${var1}")
-    public void setVar1(String var1) {
-        this.var1 = var1;
+    @Value("${ckan.base.url}")
+    public void setBaseUrl(String url) {
+        this.baseUrl = url;
     }
+    
 }

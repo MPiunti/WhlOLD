@@ -31,7 +31,7 @@ public class Bean1WithJUnitParamsTest {
     {
         System.out.println(getClass().getName() + ".testHello");
         //given
-        bean1.setVar1(arg1);
+        bean1.setBaseUrl(arg1);
         String result;
         //when
 

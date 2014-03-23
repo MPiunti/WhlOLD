@@ -11,7 +11,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     
-    <spring.core.version>3.2.1.RELEASE</spring.core.version>
+    <spring.core.version>3.2.8.RELEASE</spring.core.version>
     <spring.security.version>3.1.0.RELEASE</spring.security.version>
 	<spring.data.neo4j.version>2.1.0.M1</spring.data.neo4j.version>
 
