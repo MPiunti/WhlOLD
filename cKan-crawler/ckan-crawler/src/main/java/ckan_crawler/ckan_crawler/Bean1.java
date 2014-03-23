@@ -33,6 +33,10 @@ public class Bean1 implements IBean1 {
     @Value("${ckan.taglist.url")
     public void setTaglistUrl(String url) {
         this.taglistUrl = url;
+    @Value("${ckan.base.url}")
+    @Value("${ckan.base.url}")
+    public void setVar1(String var1) {
+        this.var1 = var1;
     }
     
     @Override
