@@ -11,6 +11,7 @@
         <mvn.project.build.sourceEncoding>UTF-8</mvn.project.build.sourceEncoding>
         <mvn.var1>Hello</mvn.var1>
         <mvn.main.class>ckan_crawler.ckan_crawler.Main</mvn.main.class>
+        <jackson.version>1.9.3</jackson.version>
 
         <!-- log4j -->
         <mvn.log4j.rootCategory>WARN</mvn.log4j.rootCategory>
@@ -67,6 +68,25 @@
             <version>0.3.7</version>
             <scope>test</scope>
         </dependency>
+        
+        <!-- Data Mapper package is a high-performance data binding package built 
+		on Jackson JSON processor -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${jackson.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+	
+		<!-- Jackson is a high-performance JSON processor (parser, generator) -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>${jackson.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 
     </dependencies>
 

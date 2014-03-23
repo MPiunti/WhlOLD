@@ -9,7 +9,9 @@ import org.springframework.core.env.Environment;
 
 import java.io.StringReader;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -48,6 +50,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -82,6 +88,11 @@ public class Runner implements IRunner {
     public Map<String,String> getCatalog(){
 		
     	RestTemplate restTemplate = new RestTemplate();
+    	List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+		messageConverters.add(new FormHttpMessageConverter());
+		messageConverters.add(new StringHttpMessageConverter());
+		messageConverters.add(new MappingJacksonHttpMessageConverter());
+		restTemplate.setMessageConverters(messageConverters);		
 		
 		String API_URL = bean1.getBaseUrl() + bean1.getPackagelistUrl();	
 		HttpHeaders requestHeaders = new HttpHeaders();
@@ -91,15 +102,15 @@ public class Runner implements IRunner {
 		Map<String, String> map = new HashMap<String, String>();
 		try {
 
-			ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+			ResponseEntity<HashMap> response = restTemplate.exchange(
 			    API_URL,
 				HttpMethod.POST,
 				requestEntity,
-			    new HashMap<String, Object>(), 8);
+			    HashMap.class);
 			Map<String, Object> result = response.getBody();			
 			
 			//result = restTemplate.getForObject(API_URL, String.class, vars);	
-			System.out.println(" RESULT: " + result);
+			System.out.println(result.get("success") + " RESULT: " + result.get("result"));
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
