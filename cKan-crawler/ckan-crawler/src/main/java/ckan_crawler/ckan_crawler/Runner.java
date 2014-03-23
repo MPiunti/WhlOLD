@@ -83,17 +83,20 @@ public class Runner implements IRunner {
 		
     	RestTemplate restTemplate = new RestTemplate();
 		
-		String API_URL = bean1.getBaseUrl() + bean1.getPackagelistUrl();			
+		String API_URL = bean1.getBaseUrl() + bean1.getPackagelistUrl();	
+		HttpHeaders requestHeaders = new HttpHeaders();
+		requestHeaders.add("Accept","application/json ");
+		HttpEntity requestEntity = new HttpEntity(null, requestHeaders);
 
 		Map<String, String> map = new HashMap<String, String>();
 		try {
 
-			ResponseEntity<String> response = restTemplate.exchange(
+			ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
 			    API_URL,
 				HttpMethod.POST,
-			    null,
-			    String.class);
-			String result = response.getBody();			
+				requestEntity,
+			    new HashMap<String, Object>(), 8);
+			Map<String, Object> result = response.getBody();			
 			
 			//result = restTemplate.getForObject(API_URL, String.class, vars);	
 			System.out.println(" RESULT: " + result);
