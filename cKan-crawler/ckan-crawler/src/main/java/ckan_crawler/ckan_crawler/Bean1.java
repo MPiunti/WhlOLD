@@ -30,13 +30,9 @@ public class Bean1 implements IBean1 {
     }
 
     @Override
-    @Value("${ckan.taglist.url")
-    public void setTaglistUrl(String url) {
-        this.taglistUrl = url;
-    @Value("${ckan.base.url}")
     @Value("${ckan.base.url}")
     public void setVar1(String var1) {
-        this.var1 = var1;
+        this.baseUrl = var1;
     }
     
     @Override
@@ -57,6 +53,11 @@ public class Bean1 implements IBean1 {
     @Override
 	public String getTaglistUrl() {
 		return taglistUrl;
+	}
+
+	@Override
+	public void setTaglistUrl(String url) {
+		this.taglistUrl = url;		
 	}
     
 }

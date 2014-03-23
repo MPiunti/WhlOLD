@@ -9,7 +9,8 @@ public interface IBean1 {
 	public String getGrouplistUrl();
 	public String getTaglistUrl();
     
-    public void setPackagelistUrl(String url);
+    public void setVar1(String url);
+	public void setPackagelistUrl(String url);
     public void setGrouplistUrl(String url);
     public void setTaglistUrl(String url);
 }
