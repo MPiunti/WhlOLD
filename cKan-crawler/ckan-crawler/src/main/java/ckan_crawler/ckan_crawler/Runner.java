@@ -30,10 +30,10 @@ import org.xml.sax.InputSource;
 
 
 /**
- * Created by IntelliJ IDEA.
+ * Created by mPiunti
  * User: xaoc
- * Date: 30.11.11
- * Time: 17:23
+ * Date: 23.3.14
+ * Time: 17:42
  */
 public class Runner implements IRunner {
 
@@ -47,7 +47,35 @@ public class Runner implements IRunner {
     public void run() {
     	//log.info(" HIIIII " + this.environment.getProperty("ckan.base.url") );
         log.info(bean1.hello("CRAWLING: "));
+        getCatalog();
+        
     }
+    
+    public Map<String,String> getCatalog(){
+		
+    	RestTemplate restTemplate = new RestTemplate();
+		
+		String API_URL = bean1.getBaseUrl() + bean1.getPackagelistUrl();			
+
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+
+			ResponseEntity<String> response = restTemplate.exchange(
+			    API_URL,
+				HttpMethod.POST,
+			    null,
+			    String.class);
+			String result = response.getBody();			
+			
+			//result = restTemplate.getForObject(API_URL, String.class, vars);	
+			System.out.println(" RESULT: " + result);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.err.println(e.getMessage());
+		}		
+		return map;
+	}
 
     @Autowired
     @Override

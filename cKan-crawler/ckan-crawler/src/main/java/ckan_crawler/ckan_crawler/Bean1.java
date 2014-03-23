@@ -35,18 +35,22 @@ public class Bean1 implements IBean1 {
         this.taglistUrl = url;
     }
     
+    @Override
     public String getBaseUrl() {
 		return baseUrl;
 	}
 
+    @Override
 	public String getPackagelistUrl() {
 		return packagelistUrl;
 	}
 
+    @Override
 	public String getGrouplistUrl() {
 		return grouplistUrl;
 	}
 
+    @Override
 	public String getTaglistUrl() {
 		return taglistUrl;
 	}
