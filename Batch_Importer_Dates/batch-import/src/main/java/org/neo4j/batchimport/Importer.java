@@ -127,7 +127,12 @@ public class Importer {
     }
 
     private long lookup(String index,String property,Object value) {
-        Long id = indexFor(index).get(property, value).getSingle();
+    	Long id=null;
+    	try{
+        	id = indexFor(index).get(property, value).getSingle();
+        }catch(Exception e){
+        	System.out.println(" NOT FOUND !!!! index: " + index + " property: " + property + " value: " + value);
+        }        
         return id==null ? -1 : id;
     }
 
@@ -235,6 +240,8 @@ public class Importer {
             for (IndexInfo indexInfo : config.getIndexInfos()) {
                 if (indexInfo.shouldImportFile()) importIndex(indexInfo);
             }
+        }catch(Exception e){
+        	e.printStackTrace();
 		} finally {
             finish();
         }
