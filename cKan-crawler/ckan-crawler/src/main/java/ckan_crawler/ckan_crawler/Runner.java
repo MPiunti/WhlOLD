@@ -11,6 +11,7 @@ import java.io.StringReader;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,6 +75,22 @@ public class Runner implements IRunner {
 	@Autowired Environment 
 	environment; 
 	
+	
+	/*
+	 * 
+	 * http://www.dati.gov.it/catalog/api/3/action/package_list
+
+	http://www.dati.gov.it/catalog/api/3/action/group_list
+	
+	http://www.dati.gov.it/catalog/api/3/action/tag_list
+	
+	 
+	 
+	http://www.dati.gov.it/catalog/api/3/action/package_show?id=inps_389
+	 
+	http://www.dati.gov.it/catalog/api/3/action/package_show?id=regione-toscana_superfici_comunalid2f5cd03-b0f8-4411-8dd8-26a3c10492a0   tags[3]
+
+	 */
 
     @Logger private Log log;
 
@@ -107,10 +124,34 @@ public class Runner implements IRunner {
 				HttpMethod.POST,
 				requestEntity,
 			    HashMap.class);
-			Map<String, Object> result = response.getBody();			
+			Map<String, Object> result = (Map<String, Object>)response.getBody();			
 			
 			//result = restTemplate.getForObject(API_URL, String.class, vars);	
-			System.out.println(result.get("success") + " RESULT: " + result.get("result"));
+			ArrayList<String> refids= (ArrayList<String>)result.get("result");
+			log.info(result.get("success") + " RETRIEVED N: " + refids.toArray().length + " documents...");
+			
+			for (String s : refids){
+			    log.info("refid: " + s);
+			    response = restTemplate.exchange(
+			    		"http://www.dati.gov.it/catalog/api/3/action/package_show?id="+s,
+						HttpMethod.POST,
+						requestEntity,
+					    HashMap.class);
+				result = (Map<String, Object>)response.getBody();
+				LinkedHashMap<String,Object> doc = (LinkedHashMap <String,Object>)result.get("result");
+				
+				
+				log.info(" 		DOC =  {" /*+ doc.get("id") */+"	"+ doc.get("name") + "	" +  doc.get("title") + doc.get("license_title") + "	" + doc.get("url")  +"}");
+				
+				LinkedHashMap <String,Object> org = (LinkedHashMap <String,Object>)doc.get("organization");
+				log.info("			ORG = { " + org.get("id") +"	"+ org.get("descriotion")  + "}");
+				
+				for(LinkedHashMap<String, Object> tag : (ArrayList<LinkedHashMap <String,Object>>)doc.get("tags") )
+					log.info("			TAG = { " + tag.get("name") + "	" + tag.get("display_name") + "	" + tag.get("id") + " }");		
+				/*for (String field : doc.keySet() ){
+					log.info("  		key-field: " + field);
+				}*/
+			}
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
