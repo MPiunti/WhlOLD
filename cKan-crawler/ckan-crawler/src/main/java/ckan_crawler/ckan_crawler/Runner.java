@@ -1,12 +1,15 @@
 package ckan_crawler.ckan_crawler;
 
 import ckan_crawler.ckan_crawler.logger.Logger;
+import ckan_crawler.csv.management.CsvWriter;
+import ckan_crawler.csv.management.RowProcessors;
+
 import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.core.env.Environment;
 
 
+import java.io.FileWriter;
 import java.io.StringReader;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -34,32 +37,17 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 
-
-import java.io.StringReader;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
-
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
+
+import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.CsvListWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.io.ICsvListWriter;
+import org.supercsv.prefs.CsvPreference;
 
 
 /**
@@ -148,8 +136,10 @@ public class Runner implements IRunner {
 			log.info(result.get("success") + " RETRIEVED N: " + refids.toArray().length + " documents...");
 			
 			int i = 0, tot=refids.size();
-			for (String s : refids){			
-			    log.info("refid ( " + i++ + "/" + tot +"): " + s);
+			for (String s : refids){
+				if(i++ > 10)
+					break;
+			    log.info("refid ( " + i + "/" + tot +"): " + s);
 			    response = restTemplate.exchange(
 			    		"http://www.dati.gov.it/catalog/api/3/action/package_show?id="+s,
 						HttpMethod.POST,
@@ -160,12 +150,23 @@ public class Runner implements IRunner {
 				
 				parseResult(doc);
 			} // end of DOCUMENTS
+
 			
+			log.info("\n\n");
 			log.info("==================================================================");
+			log.info(" END OF IMPORT ");
+			log.info("==================================================================");
+			CsvWriter.writeDocNodes(docNodes);
 			log.info(" Document Nodes : " + docNodes.size());
+			
+			CsvWriter.writeOrgNodes(orgNodes);
 			log.info(" Organization Nodes : " + orgNodes.size());
+			
+			CsvWriter.writeTagNodes(tagNodes);
 			log.info(" Tag Nodes : " + tagNodes.size());
+			CsvWriter.writeLicNodes(licenseNodes);
 			log.info(" License Nodes : " + licenseNodes.size());
+			CsvWriter.writeRelationships(relationships);
 			log.info(" RELATIIONSHIPS : " + relationships.size());
 			log.info("==================================================================");
 			
