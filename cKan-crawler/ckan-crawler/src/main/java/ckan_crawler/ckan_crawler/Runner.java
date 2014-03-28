@@ -187,7 +187,7 @@ public class Runner implements IRunner {
     
     
     public void parseResult(LinkedHashMap<String,Object> doc){
-    	log.info(" 		DOC =  {" /*+ doc.get("id") */+"	"+ doc.get("name") + "	" +  doc.get("title") + "	" +  doc.get("author") +"	" +  doc.get("author_email")  + "	" + doc.get("url")  +"}");
+    	//log.info(" 		DOC =  {" /*+ doc.get("id") */+"	"+ doc.get("name") + "	" +  doc.get("title") + "	" +  doc.get("author") +"	" +  doc.get("author_email")  + "	" + doc.get("url")  +"}");
 	    	LinkedList<String> docNode = new LinkedList<String>();
     		docNode.add(doc.get("name")+""); 
 	    	docNode.add(doc.get("title")+"");
@@ -197,7 +197,7 @@ public class Runner implements IRunner {
 	    	docNodes.put(doc.get("name")+"",docNode);
 	    	
 	    	
-		log.info("			LICENSE = { " +  doc.get("license_id") +"	" + doc.get("license_title") + "}" );
+		//log.info("			LICENSE = { " +  doc.get("license_id") +"	" + doc.get("license_title") + "}" );
 			LinkedList<String> licenseNode = new LinkedList<String>();
 			licenseNode.add(doc.get("license_id")+""); 
 			licenseNode.add(doc.get("license_title")+"");
@@ -210,7 +210,7 @@ public class Runner implements IRunner {
 		
 		
 		LinkedHashMap <String,Object> org = (LinkedHashMap <String,Object>)doc.get("organization");
-		log.info("			ORG = { " + org.get("id") +"	"+ org.get("description")  + "}");
+		//log.info("			ORG = { " + org.get("id") +"	"+ org.get("description")  + "}");
 			LinkedList<String> orgNode = new LinkedList<String>();
 			orgNode.add(org.get("id")+""); 
 			orgNode.add(org.get("description")+"");
@@ -222,7 +222,7 @@ public class Runner implements IRunner {
 			relationships.put(doc.get("name")+""+org.get("id")+"", orgRel);
 			
 		for(LinkedHashMap<String, Object> tag : (ArrayList<LinkedHashMap <String,Object>>)doc.get("tags") ){
-			log.info("			TAG = { "+ tag.get("id") + "	"  + tag.get("name") + "	" + tag.get("display_name") + "	" + tag.get("id") + " }");
+			//log.info("			TAG = { "+ tag.get("id") + "	"  + tag.get("name") + "	" + tag.get("display_name") + "	" + tag.get("id") + " }");
 				LinkedList<String> tagNode = new LinkedList<String>();
 				tagNode.add(tag.get("id")+""); 
 				tagNode.add(tag.get("name")+"");
