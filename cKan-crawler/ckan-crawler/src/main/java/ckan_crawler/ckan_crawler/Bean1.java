@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class Bean1 implements IBean1 {
 
-    private String baseUrl, packagelistUrl, grouplistUrl, taglistUrl;
+    private String baseUrl, packagelistUrl, grouplistUrl, taglistUrl, packageshowUrl;
 
 	@Override
     public String hello(String name) {
@@ -58,6 +58,17 @@ public class Bean1 implements IBean1 {
 	@Override
 	public void setTaglistUrl(String url) {
 		this.taglistUrl = url;		
+	}
+
+    @Override
+	public String getPackageshowUrl() {
+		return packageshowUrl;
+	}
+
+    @Override
+    @Value("${ckan.packageshow.url}")
+	public void setPackageshowUrl(String packageshowUrl) {
+		this.packageshowUrl = packageshowUrl;
 	}
     
 }

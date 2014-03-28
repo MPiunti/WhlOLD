@@ -116,7 +116,8 @@ public class Runner implements IRunner {
 		messageConverters.add(new MappingJacksonHttpMessageConverter());
 		restTemplate.setMessageConverters(messageConverters);		
 		
-		String API_URL = bean1.getBaseUrl() + bean1.getPackagelistUrl();	
+		final String API_LISTURL = bean1.getBaseUrl() + bean1.getPackagelistUrl();	
+		final String API_DOCURL = bean1.getBaseUrl() + bean1.getPackageshowUrl();
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.add("Accept","application/json ");
 		HttpEntity requestEntity = new HttpEntity(null, requestHeaders);
@@ -125,7 +126,7 @@ public class Runner implements IRunner {
 		try {
 
 			ResponseEntity<HashMap> response = restTemplate.exchange(
-			    API_URL,
+			    API_LISTURL,
 				HttpMethod.POST,
 				requestEntity,
 			    HashMap.class);
@@ -134,27 +135,33 @@ public class Runner implements IRunner {
 			//result = restTemplate.getForObject(API_URL, String.class, vars);	
 			ArrayList<String> refids= (ArrayList<String>)result.get("result");
 			log.info(result.get("success") + " RETRIEVED N: " + refids.toArray().length + " documents...");
-			
+			long start = System.currentTimeMillis();
 			int i = 0, tot=refids.size();
 			for (String s : refids){
-				if(i++ > 10)
-					break;
+				i++;
+				//if(i > 80)
+					//break;
 			    log.info("refid ( " + i + "/" + tot +"): " + s);
-			    response = restTemplate.exchange(
-			    		"http://www.dati.gov.it/catalog/api/3/action/package_show?id="+s,
+			    try{
+			    	response = restTemplate.exchange(
+			    		API_DOCURL+s,
 						HttpMethod.POST,
 						requestEntity,
 					    HashMap.class);
-				result = (Map<String, Object>)response.getBody();
-				LinkedHashMap<String,Object> doc = (LinkedHashMap <String,Object>)result.get("result");
-				
-				parseResult(doc);
+			    	result = (Map<String, Object>)response.getBody();
+			    	LinkedHashMap<String,Object> doc = (LinkedHashMap <String,Object>)result.get("result");
+			    	parseResult(doc);
+			    }catch(Exception e){
+			    	log.error(e.getMessage() + " at: " + s);	
+			    }
+	
 			} // end of DOCUMENTS
 
 			
 			log.info("\n\n");
 			log.info("==================================================================");
 			log.info(" END OF IMPORT ");
+			log.info(" processed in " + (System.currentTimeMillis() - start)/60000 + " hours");
 			log.info("==================================================================");
 			CsvWriter.writeDocNodes(docNodes);
 			log.info(" Document Nodes : " + docNodes.size());
@@ -166,6 +173,8 @@ public class Runner implements IRunner {
 			log.info(" Tag Nodes : " + tagNodes.size());
 			CsvWriter.writeLicNodes(licenseNodes);
 			log.info(" License Nodes : " + licenseNodes.size());
+			
+			
 			CsvWriter.writeRelationships(relationships);
 			log.info(" RELATIIONSHIPS : " + relationships.size());
 			log.info("==================================================================");
