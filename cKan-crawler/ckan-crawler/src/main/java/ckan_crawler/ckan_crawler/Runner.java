@@ -141,13 +141,13 @@ public class Runner implements IRunner {
 				LinkedHashMap<String,Object> doc = (LinkedHashMap <String,Object>)result.get("result");
 				
 				
-				log.info(" 		DOC =  {" /*+ doc.get("id") */+"	"+ doc.get("name") + "	" +  doc.get("title") + doc.get("license_title") + "	" + doc.get("url")  +"}");
+				log.info(" 		DOC =  {" /*+ doc.get("id") */+"	"+ doc.get("name") + "	" +  doc.get("title") + "	" + doc.get("license_title") + "	" + doc.get("url")  +"}");
 				
 				LinkedHashMap <String,Object> org = (LinkedHashMap <String,Object>)doc.get("organization");
 				log.info("			ORG = { " + org.get("id") +"	"+ org.get("descriotion")  + "}");
 				
 				for(LinkedHashMap<String, Object> tag : (ArrayList<LinkedHashMap <String,Object>>)doc.get("tags") )
-					log.info("			TAG = { " + tag.get("name") + "	" + tag.get("display_name") + "	" + tag.get("id") + " }");		
+					log.info("			TAG = { "+ tag.get("id") + "	"  + tag.get("name") + "	" + tag.get("display_name") + "	" + tag.get("id") + " }");		
 				/*for (String field : doc.keySet() ){
 					log.info("  		key-field: " + field);
 				}*/
