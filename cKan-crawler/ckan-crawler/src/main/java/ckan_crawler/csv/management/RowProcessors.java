@@ -14,6 +14,7 @@ public class RowProcessors {
 	public static CellProcessor[] getDocProcessors() {
 		final CellProcessor[] processors = new CellProcessor[] { 
 	                new UniqueHashCode(), // name (id)(must be unique)
+	                new NotNull(), // label type
 	                new NotNull(), // title 
 	                new Optional(), // author
 	                new Optional(), // author_email
@@ -21,7 +22,7 @@ public class RowProcessors {
 		};
 	    return processors;
 	}
-	final public static String[] docHeader = new String[] { "name", "title", "author", "author_email", "url" };
+	final public static String[] docHeader = new String[] { "name",  "type", "title", "author", "author_email", "url" };
 	
 	
 	/**
@@ -31,11 +32,13 @@ public class RowProcessors {
 	public static CellProcessor[] getOrgProcessors() {
 		final CellProcessor[] processors = new CellProcessor[] { 
                 new UniqueHashCode(), // org_id (must be unique)
-                new NotNull() // description
+                new NotNull(), // label type
+                new NotNull(), // name
+                new Optional()  // title
         };
 		return processors;
     }
-	final public static String[] orgHeader = new String[] { "org_id", "description"};
+	final public static String[] orgHeader = new String[] { "org_id", "type", "name", "title"};
 	
 	
 	/**
@@ -45,11 +48,12 @@ public class RowProcessors {
 	public static CellProcessor[] getLicProcessors() {
 		final CellProcessor[] processors = new CellProcessor[] { 
                 new UniqueHashCode(), // name (must be unique)
+                new NotNull(), // label type
                 new NotNull() // license_title
         };
 		return processors;
     }
-	final public static String[] licHeader = new String[] { "license_id", "license_title"};
+	final public static String[] licHeader = new String[] { "license_id",  "type", "license_title"};
 	
 	
 	/**
@@ -59,12 +63,13 @@ public class RowProcessors {
 	public static CellProcessor[] getTagProcessors() {
 		final CellProcessor[] processors = new CellProcessor[] { 
                 new UniqueHashCode(), // tag_id (must be unique)
+                new NotNull(), // label type
                 new NotNull(), // name
                 new Optional()  // display_name
         };
 		return processors;
     }
-	final public static String[] tagHeader = new String[] { "tag_id", "name", "display_name"};
+	final public static String[] tagHeader = new String[] { "tag_id", "type", "name", "display_name"};
 	
 	/**
 	 * Tags

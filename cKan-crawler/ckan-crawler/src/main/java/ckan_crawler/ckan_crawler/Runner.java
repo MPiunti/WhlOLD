@@ -173,8 +173,7 @@ public class Runner implements IRunner {
 			log.info(" Tag Nodes : " + tagNodes.size());
 			CsvWriter.writeLicNodes(licenseNodes);
 			log.info(" License Nodes : " + licenseNodes.size());
-			
-			
+
 			CsvWriter.writeRelationships(relationships);
 			log.info(" RELATIIONSHIPS : " + relationships.size());
 			log.info("==================================================================");
@@ -199,7 +198,8 @@ public class Runner implements IRunner {
     public void parseResult(LinkedHashMap<String,Object> doc){
     	//log.info(" 		DOC =  {" /*+ doc.get("id") */+"	"+ doc.get("name") + "	" +  doc.get("title") + "	" +  doc.get("author") +"	" +  doc.get("author_email")  + "	" + doc.get("url")  +"}");
 	    	LinkedList<String> docNode = new LinkedList<String>();
-    		docNode.add(doc.get("name")+""); 
+    		docNode.add(doc.get("name")+"");
+    		docNode.add("document");
 	    	docNode.add(doc.get("title")+"");
 	    	docNode.add(doc.get("author")+"");
 	    	docNode.add(doc.get("author_email")+"");
@@ -210,6 +210,7 @@ public class Runner implements IRunner {
 		//log.info("			LICENSE = { " +  doc.get("license_id") +"	" + doc.get("license_title") + "}" );
 			LinkedList<String> licenseNode = new LinkedList<String>();
 			licenseNode.add(doc.get("license_id")+""); 
+			licenseNode.add("license"); 
 			licenseNode.add(doc.get("license_title")+"");
 			licenseNodes.put(doc.get("license_id")+"", licenseNode);
 			LinkedList<String> relLic = new LinkedList<String>();
@@ -223,7 +224,9 @@ public class Runner implements IRunner {
 		//log.info("			ORG = { " + org.get("id") +"	"+ org.get("description")  + "}");
 			LinkedList<String> orgNode = new LinkedList<String>();
 			orgNode.add(org.get("id")+""); 
-			orgNode.add(org.get("description")+"");
+			orgNode.add("organization"); 
+			orgNode.add(org.get("name")+"");
+			orgNode.add(org.get("title")+"");
 			orgNodes.put(org.get("id")+"", orgNode);
 			LinkedList<String> orgRel = new LinkedList<String>();
 			orgRel.add(doc.get("name")+"");
@@ -235,6 +238,7 @@ public class Runner implements IRunner {
 			//log.info("			TAG = { "+ tag.get("id") + "	"  + tag.get("name") + "	" + tag.get("display_name") + "	" + tag.get("id") + " }");
 				LinkedList<String> tagNode = new LinkedList<String>();
 				tagNode.add(tag.get("id")+""); 
+				tagNode.add("tag");
 				tagNode.add(tag.get("name")+"");
 				tagNode.add(tag.get("display_name")+"");
 				tagNodes.put(tag.get("id")+"", tagNode);
