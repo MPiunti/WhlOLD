@@ -161,7 +161,7 @@ public class Runner implements IRunner {
 			log.info("\n\n");
 			log.info("==================================================================");
 			log.info(" END OF IMPORT ");
-			log.info(" processed in " + (System.currentTimeMillis() - start)/60000 + " hours");
+			log.info(" processed in " + (System.currentTimeMillis() - start)/60000 + " minutes");
 			log.info("==================================================================");
 			CsvWriter.writeDocNodes(docNodes);
 			log.info(" Document Nodes : " + docNodes.size());
