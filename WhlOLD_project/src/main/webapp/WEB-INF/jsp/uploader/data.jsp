@@ -10,15 +10,20 @@
         <!--<link rel='stylesheet' type='text/css' media='screen' href='<c:url value="/resources/css/style.css"/>'/>
 		 Bootstrap -->
 		<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet" media="screen">
-		<!-- <link href="<c:url value='/resources/css/jasny-bootstrap.min.css'/>" rel="stylesheet" media="screen"> -->
-		<link href="<c:url value='/resources/css/bootstrap-fileupload.min.css'/>" rel="stylesheet" media="screen">
 
-        <!-- Bootstrap -->
+		<link href="<c:url value='/resources/css/bootstrap-fileupload.min.css'/>" rel="stylesheet" media="screen">
+		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
+	    
+		<!-- Bootstrap --> 
 	    <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
-	   <!--  <script src="<c:url value='/resources/js/jasny-bootstrap.min.js'/>"></script> -->
-	    <script src="<c:url value='/resources/js/bootstrap-fileupload.min.js'/>"></script>
-	    <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.10.1.min.js"/>'></script>
-		<script type='text/javascript' src='<c:url value="/resources/js/custom_home.js"/>'></script>
+		<script type='text/javascript' src='<c:url value="/resources/js/jquery-1.10.1.min.js"/>'></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>		
+		<script src="<c:url value='/resources/js/bootstrap-fileupload.min.js'/>"></script>
+	
+
         <title>Open Data - Upload</title>
     </head>
     <body>    	
@@ -48,10 +53,16 @@
 		<br/>
     	
         <div>
-           <h2>Upload Document:</h2>
+           <h3>Data Ingestion</h3>
         </div>
+        
+        
+        <div class="container">
+			<br/>
+			<br/>
+			<div class="form-actions">	
     
-        <form:form modelAttribute="uploadItem" method="post" enctype="multipart/form-data" >
+       		<form:form modelAttribute="uploadItem" method="post" enctype="multipart/form-data" >
             
                 <legend>Upload Fields</legend>
  
@@ -66,8 +77,8 @@
 						<option value="1">Private</option>
 				   </form:select>
         
-                  <!--  <form:label for="fileData" path="fileData">File</form:label>
-                   <form:input path="fileData" type="file"/>-->
+                  <%--   <form:label for="fileData" path="fileData">File</form:label>
+                   <form:input path="fileData" type="file"/> --%>
                    
                    <div class="fileupload fileupload-new" data-provides="fileupload">
 				     <div class="input-append">
@@ -84,10 +95,10 @@
 				   </div>
 				   
 				   <input type="submit" value="Load Document" class="btn btn-primary btn-large" />
-        </form:form>
-        <!-- Bootstrap -->
-	    <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
-	    <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
-		<script type='text/javascript' src='<c:url value="/resources/js/custom_home.js"/>'></script>
+        		</form:form>
+        	</div>
+        </div>
+        
+ 
     </body>
 </html>
