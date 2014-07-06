@@ -231,14 +231,17 @@ public class OpenNodeService {
 	 * @param doc_uk
 	 * @return
 	 */
-	public void getGeoCode(String doc_uk, Integer ...col_id){
+	public void getGeoCode(String doc_uk, Integer ...col_ids){
 		Map<String,String> ret; 
-		String address="";
+		String address;
 		List<OpenNode> records = getRecords(doc_uk);
 		for(OpenNode node:records){
+			address="";
 			try{
-				address=node.getRow().get(col_id[0]); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
-				ret = googleGeoCodeClient.geoCode(address /*.replace(" ", "+")*/);
+				for(Integer i : col_ids){
+					address+=node.getRow().get(i)+" "; //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
+				}
+				ret = googleGeoCodeClient.geoCode(address.trim());
 				
 				String LON = ret.get("LON");
 				String LAT =  ret.get("LAT");
