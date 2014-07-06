@@ -33,13 +33,13 @@
     <script type='text/javascript' src='<c:url value="/resources/js/jquery-1.10.1.min.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/custom_open.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/bootstrap-modal.js"/>'></script>
-	
+
 	<script type='text/javascript' src="<c:url value='/resources/js/graph/jquery.address-1.4.min.js'/>"></script>
 	<script type='text/javascript' src="<c:url value='/resources/js/graph/arbor.js '/>"></script>
 	<script type='text/javascript' src="<c:url value='/resources/js/graph/arbor-tween.js '/>"></script>
 	<script type='text/javascript' src="<c:url value='/resources/js/graph/arbor-graphics.js '/>"></script>
 	<script type='text/javascript' src="<c:url value='/resources/js/graph/arbor_engine.js '/>"></script>
-	
+
 	<%-- GOOGLE MAPS API 
     Include the maps javascript with sensor=true because this code is using a
     sensor (a GPS locator) to determine the user's location.
@@ -47,9 +47,9 @@
     --%>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
 	<script type='text/javascript' src="<c:url value='/resources/js/map/google_map_v3_client.js '/>"></script>
-	
+
 	<title>Open Data Records</title>
-	
+
 	<script type='text/javascript'>
 	$(function() {		
 		// init
@@ -60,20 +60,20 @@
 		urlHolder.dbpedia = '${dbpediaUrl}';	
 		urlHolder.alchemy = '${alchemyUrl}';
 		urlHolder.deezer= '${deezerUrl}';
-		
+
 		urlHolder.add = '${addUrl}';
 		urlHolder.edit = '${editUrl}';
 		urlHolder.del = '${deleteUrl}';
 		urlHolder.quit = '${quitUrl}';
-		
+
 		// fill-it!
 		loadTable();
-		
+
 		$('#newBtn').click(function() { 
 			toggleForms('new');
 			toggleCrudButtons('hide');
 		});
-		
+
 		$('#editBtn').click(function() { 
 			if (hasSelected()) {
 				toggleForms('edit');
@@ -81,7 +81,7 @@
 				fillEditForm();
 			}
 		});
-		
+
 		$('#reloadBtn').click(function() { 
 			loadTable();
 		});
@@ -95,12 +95,12 @@
 		$('#quitBtn').click(function() {			
 			quitAllRecord();
 		});
-		
+
 		$('#newForm').submit(function() {
 			event.preventDefault();
 			submitNewRecord();
 		});
-		
+
 		$('#editForm').submit(function() {
 			event.preventDefault();
 			submitUpdateRecord();
@@ -110,37 +110,37 @@
 			toggleForms('hide'); 
 			toggleCrudButtons('show');
 		});
-		
+
 		$('#closeEditForm').click(function() { 
 			toggleForms('hide'); 
 			toggleCrudButtons('show');
 		});
-		
+
 		$('#geoBtn').click( function() {	
 			//$(this).button('loading');
 			geo();
 		});
-		
+
 		$('#dbpediaBtn').click( function() {	
 			//$(this).button('loading');
 			dbpedia();
 		});
-		
+
 		$('#alchemyBtn').click( function() {	
 			//$(this).button('loading');
 			alchemy();
 		});
-		
+
 		$('#deezerBtn').click( function() {	
 			//$(this).button('loading');
 			deezer();
 		});
-		
+
 		$('a.graph').click( function() {	
 			console.log('click graph!');
 			plot();
 		});
-		
+
 
 	});
 	</script>
@@ -158,7 +158,7 @@
       }
     </style>
 
-	
+
     
 </head>
 
@@ -189,20 +189,20 @@
 	<div class="container">
 	    <h3>${doc.name}</h3>
 		<h5>Open Data Records</h5>
-		
-		
-	
+
+
+
 		<table id='tableOpenData' class="table table-hover">
 			<thead></thead>
 			<tbody></tbody>
 		</table>
-		
-	
+
+
 		<div id='controlBar'>
 			<!-- <input type='button' value='New' id='newBtn' />
 			<input type='button' value='Edit' id='editBtn' />
 			<input type='button' value='Reload' id='reloadBtn' />-->
-			
+
 			<a class="btn btn btn-primary" id='geoBtn'>
 				<i class="icon-map-marker"></i>
 				Geo
@@ -219,7 +219,7 @@
 				<i class="icon-play"></i>
 				Deezer
 			</a>
-			
+
 			<!-- <button type='button' id='geoBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> Geo </button> 
 			<button type='button' id='dbpediaBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> DBPedia </button> 
 			<button type='button' id='alchemyBtn' class="btn btn-primary" data-loading-text="<i class='icon-upload icon-white'></i>"> Alchemy Disambiguation </button>
@@ -227,7 +227,7 @@
 			<input type='button' value='Delete' id='deleteBtn' class="btn" data-loading-text="<i class='icon-upload icon-white'></i>"/>		
 			<input type='button' value='Quit All' id='quitBtn' class="btn" data-loading-text="<i class='icon-upload icon-white'></i>" />
 		</div>
-		
+
 		<div id='newForm'>
 			<form>
 	  			<fieldset>
@@ -246,7 +246,7 @@
 				<input type='submit' value='Submit'/>
 			</form>
 		</div>
-		
+
 		<div id='editForm'>
 			<form>
 	  			<fieldset>
@@ -264,14 +264,14 @@
 				<input type='submit' value='Submit'/>
 			</form>
 		</div>
-		
+
 		<br/>
 		<br/>
 		<a class="btn btn-large btn-info graph" data-toggle="modal" href="#myModal">
 			<i class="icon-bullseye"></i>
 			Graph it
 		</a>
-		
+
 		<div class="modal hide" id="myModal"><!-- note the use of "hide" class -->
 		  <div class="modal-header">
 		    <button class="close" data-dismiss="modal">x</button>

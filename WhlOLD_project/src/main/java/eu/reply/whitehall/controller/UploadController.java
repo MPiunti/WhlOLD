@@ -136,4 +136,14 @@ public class UploadController {
  
     return model;
   }
+  
+  
+  // -----------------------------------------------
+  // PLUGIN  BLUEIMP
+  
+  @RequestMapping(value="/fileuploader", method = RequestMethod.GET)
+  public String fileUploaderm(Model model) {
+    model.addAttribute(new UploadItem());
+    return "uploader/fileuploader";
+  }  
 }

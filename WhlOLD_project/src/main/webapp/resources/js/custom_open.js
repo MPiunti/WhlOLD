@@ -64,7 +64,7 @@ function loadTable() {
 					$('#dbpedia').html("Track");
 				} else if (response.openNodes[i].dBPediaLinks[0].uri != null || response.openNodes[i].dBPediaLinks[0].description != null) {
 	 				row += '<td><a href=\''+response.openNodes[i].dBPediaLinks[0].uri+'\'';
-	 				row +=    'title=\''+response.openNodes[i].dBPediaLinks[0].description+'\'>';
+	 				row +=    'title=\''+response.openNodes[i].dBPediaLinks[0].description+'\' target=\'_blank\'>';
 	 				row += '<span class="label label-info">'+response.openNodes[i].dBPediaLinks[0].type+'</span></a>';
 		 			//  graph nodes and links
 						theUI.nodes[response.openNodes[i].dBPediaLinks[0].uri] = {color:CLR.code, alpha:0, link:response.openNodes[i].dBPediaLinks[0].uri};

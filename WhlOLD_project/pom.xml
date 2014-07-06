@@ -19,7 +19,7 @@
 	<neo4j.cypher.version>1.6</neo4j.cypher.version>
 	<neo4j.cypher.dsl.version>1.6</neo4j.cypher.dsl.version>
 	<neo4j.rest.version>2.0.2.RELEASE</neo4j.rest.version>
-	
+
     <hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
     <scala.library.version>2.9.0-1</scala.library.version>
     
@@ -93,7 +93,7 @@
 		<type>jar</type>
 		<scope>compile</scope>
 	</dependency>
-	
+
 	<!--  Spring Security -->
 	<dependency>
 		<groupId>org.springframework.security</groupId>
@@ -118,13 +118,13 @@
 		    <artifactId>aspectjrt</artifactId>
 		    <version>${aspectj.version}</version>
 	</dependency>
-	
+
 	<dependency>
 		<groupId>org.aspectj</groupId>
 		<artifactId>aspectjweaver</artifactId>
 		<version>${aspectj.version}</version>
 	</dependency>
-	
+
 	<!-- Cglib is a powerful, high performance and quality Code Generation Library, 
 	It is used to extend JAVA classes and implements interfaces at runtime.  -->
 	<dependency>
@@ -134,7 +134,7 @@
 		<type>jar</type>
 		<scope>compile</scope>
 	</dependency>
-	
+
 	<!-- The JavaServer Pages Standard Tag Library (JSTL) encapsulates, as simple tags, core 
 	functionality common to many JSP applications. -->
 	<dependency>
@@ -147,7 +147,7 @@
 		<artifactId>standard</artifactId>
 		<version>${javax.jstl-taglibs.version}</version>
 	</dependency>
-	
+
 	<!-- Data Mapper package is a high-performance data binding package built 
 		on Jackson JSON processor -->
 	<dependency>
@@ -166,7 +166,7 @@
 		<type>jar</type>
 		<scope>compile</scope>
 	</dependency>
-		
+
 	<!-- Logger -->
     <dependency>
     	<groupId>log4j</groupId>
@@ -182,13 +182,13 @@
 			<artifactId>commons-io</artifactId>
 		<version>2.1</version>
 	</dependency>
-	
+
 	<dependency>
 		<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 		<version>1.2.2</version>
 	</dependency>
-	
+
 	<!-- Java CSV -->
 	<dependency>
 		<groupId>net.sourceforge.javacsv</groupId>
@@ -222,7 +222,7 @@
     	<type>jar</type>
     	<scope>compile</scope>
     </dependency>
-	
+
 	<!-- Spring Data Neo4j -->
 	<dependency>
 		<groupId>org.springframework.data</groupId>
@@ -251,33 +251,33 @@
 	    <artifactId>neo4j-cypher</artifactId>
 	    <version>${neo4j.cypher.version}</version>
 	</dependency>
-	
+
 	<dependency>
 	    <groupId>org.neo4j</groupId>
 	    <artifactId>neo4j-cypher-dsl</artifactId>
 	    <version>${neo4j.cypher.dsl.version}</version>
 	</dependency>
-	
+
 	<dependency>
 		<groupId>org.springframework.data</groupId>
 		<artifactId>spring-data-neo4j-rest</artifactId>
 		<version>${neo4j.rest.version}</version>
 	</dependency>
             
-	
+
 	<dependency>
 	    <groupId>org.scala-lang</groupId>
 	    <artifactId>scala-library</artifactId>
 	    <version>${scala.library.version}</version>
 	</dependency>
-	
+
 	<!-- Hibernate Validator -->
 	<dependency>
 		<groupId>org.hibernate</groupId>
 		<artifactId>hibernate-validator</artifactId>
 		<version>${hibernate.validator.version}</version>
 	</dependency>
-	
+
 	<!-- Javax Servlet. This needs to be included for runtime only! -->
 	<dependency>
 		<groupId>javax.servlet</groupId>
@@ -328,7 +328,7 @@
   </build>
   
   <repositories>
-	
+
   	<!-- For main Spring releases 
 	<repository>
 		<id>org.springframework.maven.release</id>
@@ -337,7 +337,7 @@
 		<releases><enabled>true</enabled></releases>
 		<snapshots><enabled>false</enabled></snapshots>
 	</repository> -->
-	
+
 	<!-- For testing against latest Spring snapshots
 	<repository>
 		<id>org.springframework.maven.snapshot</id>
@@ -346,7 +346,7 @@
 		<releases><enabled>false</enabled></releases>
 		<snapshots><enabled>true</enabled></snapshots>
 	</repository> -->
-	
+
 	<!-- For developing against latest Spring milestones -->
 	<repository>
 		<id>org.springframework.maven.milestone</id>
@@ -361,7 +361,7 @@
 		<name>JBoss repository</name>
 		<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
 	</repository> 
-	
+
   </repositories>
   
   <pluginRepositories>
@@ -372,6 +372,6 @@
 		<name>Evgeny Goldin Repository</name>
 		<url>http://evgeny-goldin.org/artifactory/repo/</url>
 	</pluginRepository> -->
-	
+
   </pluginRepositories>
 </project>

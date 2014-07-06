@@ -238,7 +238,7 @@ public class OpenNodeService {
 		for(OpenNode node:records){
 			try{
 				address=node.getRow().get(col_id[0]); //+","+ node.getRow().get(1) +","+ node.getRow().get(2);
-				ret = googleGeoCodeClient.geoCode(address.replace(" ", "+"));
+				ret = googleGeoCodeClient.geoCode(address /*.replace(" ", "+")*/);
 				
 				String LON = ret.get("LON");
 				String LAT =  ret.get("LAT");
