@@ -18,6 +18,7 @@
 <c:url value="/home/u" var="homeUrl"/>
 <c:url value="/uploader/data" var="uploadUrl"/>
 <c:url value="/auth/logout" var="logoutUrl"/>
+<c:url value="http://localhost:3000/graph.html" var="linkuriousUrl"/>
 
 <html>
 <head>
@@ -171,12 +172,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
           </button>
           <a class="brand" href="${homeUrl}">Open Linked Data</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li><a href="${homeUrl}">Home</a></li>
               <li><a href="${uploadUrl}">Upload Data</a></li>
+              <li><a href="${linkuriousUrl}">Graph</a></li>
               <li><a href="${logoutUrl}">Logout</a></li>
             </ul>
           </div><!--/.nav-collapse -->

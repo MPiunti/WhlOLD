@@ -29,11 +29,13 @@
     <body>    	
     	<c:url value="/home/u" var="homeUrl"/>
     	<c:url value="/uploader/data" var="uploadUrl"/>
-    	<c:url value="/auth/logout" var="logoutUrl"/>    
+    	<c:url value="/auth/logout" var="logoutUrl"/>   
+    	<c:url value="http://localhost:3000/graph.html" var="linkuriousUrl"/> 
     
     	<div class="navbar navbar-inverse navbar-fixed-top">
 	      <div class="navbar-inner">
 	          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
@@ -43,6 +45,7 @@
 	            <ul class="nav">
 	              <li><a href="${homeUrl}">Home</a></li>
 	              <li class="active"><a href="${uploadUrl}">Upload Data</a></li>
+	              <li><a href="${linkuriousUrl}">Graph</a></li>
 	              <li><a href="${logoutUrl}">Logout</a></li>
 	            </ul>
 	          </div><!--/.nav-collapse -->
